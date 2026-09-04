@@ -2,6 +2,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { useTheme } from '../hooks/useTheme.js'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import { LANGUAGES } from '../i18n/translations.js'
+import DropdownMenu from './DropdownMenu.jsx'
 
 export default function Header() {
   const [theme, toggleTheme] = useTheme()
@@ -19,6 +20,13 @@ export default function Header() {
           <NavLink to="/holdings" className={({ isActive }) => (isActive ? 'active' : '')}>{t('navHoldings')}</NavLink>
           <NavLink to="/alerts" className={({ isActive }) => (isActive ? 'active' : '')}>{t('navAlerts')}</NavLink>
           <NavLink to="/stocks" className={({ isActive }) => (isActive ? 'active' : '')}>Stocks</NavLink>
+          <DropdownMenu
+            label="Tools ▾"
+            items={[
+              { label: '⇄ Purity converter', to: '/convert' },
+              { label: '☾ Zakat calculator', to: '/zakat' },
+            ]}
+          />
           <NavLink to="/faq" className={({ isActive }) => (isActive ? 'active' : '')}>{t('navFaq')}</NavLink>
           <select
             className="lang-select"

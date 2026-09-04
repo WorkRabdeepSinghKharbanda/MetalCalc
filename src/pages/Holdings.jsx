@@ -53,6 +53,14 @@ export default function Holdings() {
     return calculateValue(Number(item.weight) || 0, item.unit, prices[item.metal] * rate, item.purity)
   }
 
+  function breakEvenPricePerOz(item) {
+    const cost = Number(item.costBasis) || 0
+    if (cost <= 0) return null
+    const perUnitValue = calculateValue(Number(item.weight) || 0, item.unit, 1, item.purity)
+    if (perUnitValue <= 0) return null
+    return cost / perUnitValue
+  }
+
   const total = items.reduce((sum, it) => sum + (currentValue(it) ?? 0), 0)
   const totalCost = items.reduce((sum, it) => sum + (Number(it.costBasis) || 0), 0)
   const gain = total - totalCost
@@ -244,6 +252,12 @@ export default function Holdings() {
                       </span>
                       <span className={pnl == null ? 'muted' : pnl >= 0 ? 'arrow up' : 'arrow down'}>
                         {pnl == null ? '—' : `${pnl >= 0 ? '+' : ''}${currencySymbol}${pnl.toFixed(2)}`}
+                      </span>
+                      <span className="muted no-print break-even" title="Price per troy oz needed to break even">
+                        {(() => {
+                          const be = breakEvenPricePerOz(item)
+                          return be == null ? '—' : `BE: ${currencySymbol}${be.toFixed(2)}/oz`
+                        })()}
                       </span>
                       <button className="btn btn-ghost icon-btn no-print" onClick={() => removeItem(item.id)} aria-label="Remove holding">✕</button>
                     </div>

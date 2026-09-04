@@ -8,6 +8,8 @@ import Alerts from './pages/Alerts.jsx'
 import Holdings from './pages/Holdings.jsx'
 import CompareBatches from './pages/CompareBatches.jsx'
 import Stocks from './pages/Stocks.jsx'
+import Convert from './pages/Convert.jsx'
+import Zakat from './pages/Zakat.jsx'
 import Widget from './pages/Widget.jsx'
 import NotFound from './pages/NotFound.jsx'
 import OfflineBanner from './components/OfflineBanner.jsx'
@@ -36,6 +38,8 @@ export default function App() {
                   <Route path="/holdings" element={<Holdings />} />
                   <Route path="/compare" element={<CompareBatches />} />
                   <Route path="/stocks" element={<Stocks />} />
+                  <Route path="/convert" element={<Convert />} />
+                  <Route path="/zakat" element={<Zakat />} />
                   <Route path="/alerts" element={<Alerts />} />
                   <Route path="/faq" element={<Faq />} />
                   <Route path="*" element={<NotFound />} />

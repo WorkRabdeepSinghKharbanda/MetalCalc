@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 
 export default function DropdownMenu({ label, items }) {
   const [open, setOpen] = useState(false)
@@ -27,19 +28,25 @@ export default function DropdownMenu({ label, items }) {
       </button>
       {open && (
         <div className="dropdown-menu">
-          {items.map((item) => (
-            <button
-              key={item.label}
-              className="dropdown-item"
-              disabled={item.disabled}
-              onClick={() => {
-                item.onClick()
-                setOpen(false)
-              }}
-            >
-              {item.label}
-            </button>
-          ))}
+          {items.map((item) =>
+            item.to ? (
+              <NavLink key={item.label} to={item.to} className="dropdown-item" onClick={() => setOpen(false)}>
+                {item.label}
+              </NavLink>
+            ) : (
+              <button
+                key={item.label}
+                className="dropdown-item"
+                disabled={item.disabled}
+                onClick={() => {
+                  item.onClick()
+                  setOpen(false)
+                }}
+              >
+                {item.label}
+              </button>
+            )
+          )}
         </div>
       )}
     </div>

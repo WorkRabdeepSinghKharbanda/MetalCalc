@@ -34,6 +34,7 @@ function makeItem(overrides = {}) {
     unit: 'gram',
     purity: PURITIES.Gold[0].value,
     makingCharge: 0,
+    stoneWeight: 0,
     ...overrides,
     id: crypto.randomUUID(),
   }
@@ -111,10 +112,14 @@ export default function Batch() {
   const rate = rates[currency] ?? 1
   const currencySymbol = CURRENCY_SYMBOLS[currency] ?? ''
 
+  function netWeight(item) {
+    return Math.max(0, (Number(item.weight) || 0) - (Number(item.stoneWeight) || 0))
+  }
+
   function valueOf(item) {
     if (!prices || prices[item.metal] == null) return null
     return calculateValue(
-      Number(item.weight) || 0,
+      netWeight(item),
       item.unit,
       prices[item.metal] * rate,
       item.purity,
@@ -152,17 +157,18 @@ export default function Batch() {
   }
 
   function handleExportCsv() {
-    const headers = ['Name', 'Metal', 'Weight', 'Unit', 'Purity', 'Making %', `Value (${currency})`]
+    const headers = ['Name', 'Metal', 'Weight', 'Stone Wt', 'Unit', 'Purity', 'Making %', `Value (${currency})`]
     const rows = items.map((it) => [
       it.name || '',
       it.metal,
       it.weight,
+      it.stoneWeight || 0,
       it.unit,
       PURITIES[it.metal].find((p) => p.value === it.purity)?.label ?? it.purity,
       it.makingCharge || 0,
       (valueOf(it) ?? 0).toFixed(2),
     ])
-    rows.push(['', '', '', '', '', 'Total', total.toFixed(2)])
+    rows.push(['', '', '', '', '', '', 'Total', total.toFixed(2)])
     downloadCsv('metal-batch.csv', headers, rows)
     showToast('CSV downloaded')
   }

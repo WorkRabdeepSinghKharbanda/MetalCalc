@@ -473,7 +473,7 @@
 
 .batch-row {
   display: grid;
-  grid-template-columns: 1.2fr 0.9fr 0.7fr 0.8fr 1.1fr 0.7fr 0.9fr auto;
+  grid-template-columns: 1.2fr 0.9fr 0.7fr 0.6fr 0.8fr 1.1fr 0.7fr 0.9fr auto;
   gap: 0.6rem;
   align-items: center;
   padding: 0.85rem 1rem;
@@ -578,6 +578,7 @@
 
 .dropdown-item {
   text-align: left;
+  text-decoration: none;
   background: none;
   border: none;
   border-radius: 8px;
@@ -770,7 +771,7 @@
 
 .holding-row {
   display: grid;
-  grid-template-columns: 1.2fr 0.9fr 0.7fr 0.8fr 1.1fr 1fr 0.9fr 0.9fr auto;
+  grid-template-columns: 1.2fr 0.9fr 0.7fr 0.8fr 1.1fr 1fr 0.9fr 0.9fr 1fr auto;
   gap: 0.6rem;
   align-items: center;
   padding: 0.85rem 1rem;
@@ -1250,4 +1251,72 @@
     padding: 1rem 0;
     gap: 0.5rem;
   }
+}
+
+.convert-form,
+.zakat-form {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.convert-form input,
+.zakat-form input,
+.zakat-form select {
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 0.9rem;
+}
+
+.zakat-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.zakat-input-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.convert-results {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.convert-results .result-box {
+  flex: 1;
+  min-width: 160px;
+}
+
+.convert-common table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.convert-common th,
+.convert-common td {
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.zakat-due .result-value {
+  color: var(--gold);
+}
+
+.break-even {
+  font-size: 0.75rem;
+  text-align: right;
 }

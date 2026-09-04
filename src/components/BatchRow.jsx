@@ -50,6 +50,17 @@ export default function BatchRow({
         onChange={(e) => onChange({ weight: e.target.value })}
       />
 
+      <input
+        className="no-print"
+        type="number"
+        min="0"
+        step="0.1"
+        placeholder="Stone wt"
+        title="Stone/gem weight to deduct from gross weight"
+        value={item.stoneWeight ?? ''}
+        onChange={(e) => onChange({ stoneWeight: e.target.value })}
+      />
+
       <select value={item.unit} onChange={(e) => onChange({ unit: e.target.value })}>
         {Object.keys(UNITS).map((u) => (
           <option key={u} value={u}>{u}</option>
