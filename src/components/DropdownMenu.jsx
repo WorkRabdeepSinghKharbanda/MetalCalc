@@ -29,7 +29,9 @@ export default function DropdownMenu({ label, items }) {
       {open && (
         <div className="dropdown-menu">
           {items.map((item) =>
-            item.to ? (
+            item.heading ? (
+              <div key={item.heading} className="dropdown-heading">{item.heading}</div>
+            ) : item.to ? (
               <NavLink key={item.label} to={item.to} className="dropdown-item" onClick={() => setOpen(false)}>
                 {item.label}
               </NavLink>

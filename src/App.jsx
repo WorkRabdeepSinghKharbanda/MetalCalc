@@ -16,6 +16,9 @@ import SavingsGoal from './pages/SavingsGoal.jsx'
 import MeltCheck from './pages/MeltCheck.jsx'
 import RateCheck from './pages/RateCheck.jsx'
 import StorageCost from './pages/StorageCost.jsx'
+import AlloyMix from './pages/AlloyMix.jsx'
+import TaxReverse from './pages/TaxReverse.jsx'
+import BillBreakdown from './pages/BillBreakdown.jsx'
 import Widget from './pages/Widget.jsx'
 import NotFound from './pages/NotFound.jsx'
 import OfflineBanner from './components/OfflineBanner.jsx'
@@ -52,6 +55,9 @@ export default function App() {
                   <Route path="/melt-check" element={<MeltCheck />} />
                   <Route path="/rate-check" element={<RateCheck />} />
                   <Route path="/storage-cost" element={<StorageCost />} />
+                  <Route path="/alloy-mix" element={<AlloyMix />} />
+                  <Route path="/tax-reverse" element={<TaxReverse />} />
+                  <Route path="/bill-breakdown" element={<BillBreakdown />} />
                   <Route path="/alerts" element={<Alerts />} />
                   <Route path="/faq" element={<Faq />} />
                   <Route path="*" element={<NotFound />} />

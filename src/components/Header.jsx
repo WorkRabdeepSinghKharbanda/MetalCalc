@@ -23,14 +23,20 @@ export default function Header() {
           <DropdownMenu
             label="Tools ▾"
             items={[
+              { heading: 'Convert' },
               { label: '⇄ Purity converter', to: '/convert' },
               { label: '⚖ Weight converter', to: '/weight-converter' },
+              { label: '🧪 Alloy mixing', to: '/alloy-mix' },
+              { heading: 'Plan' },
               { label: '☾ Zakat calculator', to: '/zakat' },
               { label: '🏦 Loan against gold', to: '/loan-against-gold' },
               { label: '🎯 Savings goal', to: '/savings-goal' },
-              { label: '🏷 Melt vs retail', to: '/melt-check' },
-              { label: '💱 Rate margin check', to: '/rate-check' },
               { label: '🗄 Storage cost', to: '/storage-cost' },
+              { heading: 'Check a deal' },
+              { label: '🏷 Melt vs retail', to: '/melt-check' },
+              { label: '🧾 Bill breakdown', to: '/bill-breakdown' },
+              { label: '💱 Rate margin check', to: '/rate-check' },
+              { label: '➗ Tax reverse calc', to: '/tax-reverse' },
             ]}
           />
           <NavLink to="/faq" className={({ isActive }) => (isActive ? 'active' : '')}>{t('navFaq')}</NavLink>
