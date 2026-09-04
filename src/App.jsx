@@ -10,6 +10,9 @@ import CompareBatches from './pages/CompareBatches.jsx'
 import Stocks from './pages/Stocks.jsx'
 import Convert from './pages/Convert.jsx'
 import Zakat from './pages/Zakat.jsx'
+import WeightConverter from './pages/WeightConverter.jsx'
+import LoanAgainstGold from './pages/LoanAgainstGold.jsx'
+import SavingsGoal from './pages/SavingsGoal.jsx'
 import Widget from './pages/Widget.jsx'
 import NotFound from './pages/NotFound.jsx'
 import OfflineBanner from './components/OfflineBanner.jsx'
@@ -40,6 +43,9 @@ export default function App() {
                   <Route path="/stocks" element={<Stocks />} />
                   <Route path="/convert" element={<Convert />} />
                   <Route path="/zakat" element={<Zakat />} />
+                  <Route path="/weight-converter" element={<WeightConverter />} />
+                  <Route path="/loan-against-gold" element={<LoanAgainstGold />} />
+                  <Route path="/savings-goal" element={<SavingsGoal />} />
                   <Route path="/alerts" element={<Alerts />} />
                   <Route path="/faq" element={<Faq />} />
                   <Route path="*" element={<NotFound />} />

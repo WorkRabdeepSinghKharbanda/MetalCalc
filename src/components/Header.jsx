@@ -24,7 +24,10 @@ export default function Header() {
             label="Tools ▾"
             items={[
               { label: '⇄ Purity converter', to: '/convert' },
+              { label: '⚖ Weight converter', to: '/weight-converter' },
               { label: '☾ Zakat calculator', to: '/zakat' },
+              { label: '🏦 Loan against gold', to: '/loan-against-gold' },
+              { label: '🎯 Savings goal', to: '/savings-goal' },
             ]}
           />
           <NavLink to="/faq" className={({ isActive }) => (isActive ? 'active' : '')}>{t('navFaq')}</NavLink>
