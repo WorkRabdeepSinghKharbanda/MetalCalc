@@ -14,6 +14,8 @@ import { useToast } from '../context/ToastContext.jsx'
 import { downloadSummaryImage } from '../utils/exportImage.js'
 import { loadRecipes, saveRecipe, deleteRecipe } from '../utils/recipes.js'
 import Seo from '../components/Seo.jsx'
+import PrintHeader from '../components/PrintHeader.jsx'
+import PrintFooter from '../components/PrintFooter.jsx'
 import { Link } from 'react-router-dom'
 
 const PRESETS = [
@@ -183,6 +185,7 @@ export default function Batch() {
   return (
     <section className="batch-page">
       <Seo title="Batch Calculator — MetalCalc" description="Value multiple gold, silver and platinum items at once and get a combined total." />
+      <PrintHeader title="Batch Valuation" />
       <div className="container">
         <p className="eyebrow no-print">Batch mode</p>
         <h1>Value multiple items at once</h1>
@@ -281,6 +284,7 @@ export default function Batch() {
               <span className="result-label">Total ({currency})</span>
               <span className="result-value">{currencySymbol}{total.toFixed(2)}</span>
             </div>
+            <PrintFooter />
           </>
         )}
       </div>

@@ -11,6 +11,8 @@ import { parseCsv } from '../utils/parseCsv.js'
 import { useToast } from '../context/ToastContext.jsx'
 import { downloadSummaryImage } from '../utils/exportImage.js'
 import Seo from '../components/Seo.jsx'
+import PrintHeader from '../components/PrintHeader.jsx'
+import PrintFooter from '../components/PrintFooter.jsx'
 
 function makeHolding(overrides = {}) {
   return {
@@ -153,10 +155,11 @@ export default function Holdings() {
   return (
     <section className="holdings-page">
       <Seo title="My Holdings — MetalCalc" description="Track your gold, silver and platinum holdings with live value and gain/loss." />
+      <PrintHeader title="My Holdings" />
       <div className="container">
-        <p className="eyebrow">My Holdings</p>
+        <p className="eyebrow no-print">My Holdings</p>
         <h1>Track what you own, live</h1>
-        <p className="hero-sub" style={{ marginBottom: '2rem' }}>
+        <p className="hero-sub no-print" style={{ marginBottom: '2rem' }}>
           A persistent portfolio, saved automatically on this device. Add what you bought and what you paid to see live gain/loss.
         </p>
 
@@ -242,7 +245,7 @@ export default function Holdings() {
                       <span className={pnl == null ? 'muted' : pnl >= 0 ? 'arrow up' : 'arrow down'}>
                         {pnl == null ? '—' : `${pnl >= 0 ? '+' : ''}${currencySymbol}${pnl.toFixed(2)}`}
                       </span>
-                      <button className="btn btn-ghost icon-btn" onClick={() => removeItem(item.id)} aria-label="Remove holding">✕</button>
+                      <button className="btn btn-ghost icon-btn no-print" onClick={() => removeItem(item.id)} aria-label="Remove holding">✕</button>
                     </div>
                   )
                 })}
@@ -259,6 +262,7 @@ export default function Holdings() {
                   { label: '⬇ Export CSV', onClick: handleExportCsv, disabled: items.length === 0 },
                   { label: '⬆ Import CSV', onClick: handleImportClick },
                   { label: '🖼 Export image', onClick: handleExportImage, disabled: items.length === 0 },
+                  { label: '🖨 Print / Save PDF', onClick: () => window.print(), disabled: items.length === 0 },
                 ]}
               />
               <input
@@ -288,6 +292,7 @@ export default function Holdings() {
             </div>
 
             <PortfolioChart history={history} valueAtPrices={valueAtHistoryPoint} currencySymbol={currencySymbol} />
+            <PrintFooter />
           </>
         )}
       </div>

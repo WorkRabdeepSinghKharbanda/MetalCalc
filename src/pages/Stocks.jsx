@@ -3,8 +3,12 @@ import { hasApiKey } from '../finnhub/client.js'
 import { useSymbolSearch } from '../hooks/useSymbolSearch.js'
 import { useStockData } from '../hooks/useStockData.js'
 import { useQuotes } from '../hooks/useQuotes.js'
+import { useStockRankings } from '../hooks/useStockRankings.js'
 import { loadPortfolio, savePortfolio } from '../utils/stockPortfolio.js'
+import { rankByPeg } from '../utils/rankStocks.js'
 import StockPriceChart from '../components/StockPriceChart.jsx'
+import TechRankingsTable from '../components/TechRankingsTable.jsx'
+import WhatsAppAlerts from '../components/WhatsAppAlerts.jsx'
 import Seo from '../components/Seo.jsx'
 import { useToast } from '../context/ToastContext.jsx'
 
@@ -24,6 +28,8 @@ export default function Stocks() {
   const { data, loading, error } = useStockData(selected?.symbol)
   const symbols = portfolio.map((p) => p.symbol)
   const { quotes } = useQuotes(symbols)
+  const { rows: rankingRows, loading: rankingsLoading, error: rankingsError } = useStockRankings()
+  const topPick = rankByPeg(rankingRows).find((r) => r.peg != null) ?? null
 
   function selectResult(r) {
     setSelected({ symbol: r.symbol, name: r.description })
@@ -90,6 +96,10 @@ export default function Stocks() {
             </div>
           )}
         </div>
+
+        <TechRankingsTable rows={rankingRows} loading={rankingsLoading} error={rankingsError} />
+
+        <WhatsAppAlerts topPick={topPick} loading={rankingsLoading} />
 
         {selected && (
           <div className="card stock-detail">
