@@ -28,6 +28,9 @@ export default function Header() {
               { label: '☾ Zakat calculator', to: '/zakat' },
               { label: '🏦 Loan against gold', to: '/loan-against-gold' },
               { label: '🎯 Savings goal', to: '/savings-goal' },
+              { label: '🏷 Melt vs retail', to: '/melt-check' },
+              { label: '💱 Rate margin check', to: '/rate-check' },
+              { label: '🗄 Storage cost', to: '/storage-cost' },
             ]}
           />
           <NavLink to="/faq" className={({ isActive }) => (isActive ? 'active' : '')}>{t('navFaq')}</NavLink>

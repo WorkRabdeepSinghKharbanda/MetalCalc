@@ -13,6 +13,9 @@ import Zakat from './pages/Zakat.jsx'
 import WeightConverter from './pages/WeightConverter.jsx'
 import LoanAgainstGold from './pages/LoanAgainstGold.jsx'
 import SavingsGoal from './pages/SavingsGoal.jsx'
+import MeltCheck from './pages/MeltCheck.jsx'
+import RateCheck from './pages/RateCheck.jsx'
+import StorageCost from './pages/StorageCost.jsx'
 import Widget from './pages/Widget.jsx'
 import NotFound from './pages/NotFound.jsx'
 import OfflineBanner from './components/OfflineBanner.jsx'
@@ -46,6 +49,9 @@ export default function App() {
                   <Route path="/weight-converter" element={<WeightConverter />} />
                   <Route path="/loan-against-gold" element={<LoanAgainstGold />} />
                   <Route path="/savings-goal" element={<SavingsGoal />} />
+                  <Route path="/melt-check" element={<MeltCheck />} />
+                  <Route path="/rate-check" element={<RateCheck />} />
+                  <Route path="/storage-cost" element={<StorageCost />} />
                   <Route path="/alerts" element={<Alerts />} />
                   <Route path="/faq" element={<Faq />} />
                   <Route path="*" element={<NotFound />} />
