@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /widget
+
+Sitemap: https://metal-calc-two.vercel.app/sitemap.xml
