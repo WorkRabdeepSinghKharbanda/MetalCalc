@@ -22,6 +22,7 @@ function makeHolding(overrides = {}) {
     unit: 'gram',
     purity: PURITIES.Gold[0].value,
     costBasis: '',
+    description: '',
     ...overrides,
     id: crypto.randomUUID(),
   }
@@ -78,9 +79,10 @@ export default function Holdings() {
   }
 
   function handleExportCsv() {
-    const headers = ['Name', 'Metal', 'Weight', 'Unit', 'Purity', `Cost Paid (${currency})`, `Value (${currency})`]
+    const headers = ['Name', 'Description', 'Metal', 'Weight', 'Unit', 'Purity', `Cost Paid (${currency})`, `Value (${currency})`]
     const rows = items.map((it) => [
       it.name || '',
+      it.description || '',
       it.metal,
       it.weight,
       it.unit,
@@ -260,6 +262,16 @@ export default function Holdings() {
                         })()}
                       </span>
                       <button className="btn btn-ghost icon-btn no-print" onClick={() => removeItem(item.id)} aria-label="Remove holding">✕</button>
+                      <input
+                        className="holding-description no-print"
+                        type="text"
+                        placeholder="Description / serial number (optional, shown on printed reports)"
+                        value={item.description ?? ''}
+                        onChange={(e) => updateItem(item.id, { description: e.target.value })}
+                      />
+                      {item.description && (
+                        <span className="holding-description-print">{item.description}</span>
+                      )}
                     </div>
                   )
                 })}

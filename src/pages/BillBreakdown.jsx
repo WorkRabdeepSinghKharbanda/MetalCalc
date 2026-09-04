@@ -3,6 +3,8 @@ import { calculateValue, PURITIES, SYMBOLS, UNITS } from '../calc.js'
 import { useMarket } from '../context/MarketContext.jsx'
 import { CURRENCY_SYMBOLS } from '../utils/currency.js'
 import Seo from '../components/Seo.jsx'
+import PrintHeader from '../components/PrintHeader.jsx'
+import PrintFooter from '../components/PrintFooter.jsx'
 
 export default function BillBreakdown() {
   const { prices, rates, currency } = useMarket()
@@ -28,10 +30,11 @@ export default function BillBreakdown() {
         title="Jewelry Bill Breakdown Calculator — MetalCalc"
         description="Enter your total jewelry bill and item weight/purity to reveal the implied making charges and tax over pure metal value."
       />
+      <PrintHeader title="Jewelry Bill Breakdown" />
       <div className="container">
-        <p className="eyebrow">Bill breakdown</p>
+        <p className="eyebrow no-print">Bill breakdown</p>
         <h1>What's really in your jewelry bill?</h1>
-        <p className="hero-sub" style={{ marginBottom: '2rem' }}>
+        <p className="hero-sub no-print" style={{ marginBottom: '2rem' }}>
           Reveals the combined making charge + tax hidden in a lump-sum total, against today's melt value.
         </p>
 
@@ -39,7 +42,7 @@ export default function BillBreakdown() {
 
         {prices && (
           <>
-            <div className="card zakat-form">
+            <div className="card zakat-form no-print">
               <label>
                 Metal
                 <select
@@ -74,6 +77,11 @@ export default function BillBreakdown() {
               </label>
             </div>
 
+            <p className="print-only-summary" style={{ display: 'none' }}>
+              {weight}{unit} {metal} at {PURITIES[metal].find((p) => p.value === purity)?.label ?? purity},
+              total bill {symbol}{bill.toFixed(2)}
+            </p>
+
             <div className="convert-results">
               <div className="result-box">
                 <span className="result-label">Pure melt value</span>
@@ -88,6 +96,11 @@ export default function BillBreakdown() {
                 <span className="result-value">{extraPct == null ? '—' : `${extraPct.toFixed(1)}%`}</span>
               </div>
             </div>
+
+            <button className="btn btn-primary no-print" style={{ marginTop: '1.5rem' }} onClick={() => window.print()}>
+              🖨 Print / Save PDF
+            </button>
+            <PrintFooter />
           </>
         )}
       </div>

@@ -3,6 +3,8 @@ import { calculateValue, PURITIES, SYMBOLS, UNITS } from '../calc.js'
 import { useMarket } from '../context/MarketContext.jsx'
 import { CURRENCY_SYMBOLS } from '../utils/currency.js'
 import Seo from '../components/Seo.jsx'
+import PrintHeader from '../components/PrintHeader.jsx'
+import PrintFooter from '../components/PrintFooter.jsx'
 
 export default function StorageCost() {
   const { prices, rates, currency } = useMarket()
@@ -30,10 +32,11 @@ export default function StorageCost() {
         title="Storage & Insurance Cost Calculator — MetalCalc"
         description="Estimate the total storage or insurance cost of holding gold or silver over time, and the price appreciation needed to break even."
       />
+      <PrintHeader title="Storage & Insurance Cost Estimate" />
       <div className="container">
-        <p className="eyebrow">Storage cost</p>
+        <p className="eyebrow no-print">Storage cost</p>
         <h1>What does holding this actually cost?</h1>
-        <p className="hero-sub" style={{ marginBottom: '2rem' }}>
+        <p className="hero-sub no-print" style={{ marginBottom: '2rem' }}>
           Vault, safe-deposit or insurance fees quietly erode returns. Flat estimate — doesn't compound the fee or account for price changes over the period.
         </p>
 
@@ -41,7 +44,7 @@ export default function StorageCost() {
 
         {prices && (
           <>
-            <div className="card zakat-form">
+            <div className="card zakat-form no-print">
               <label>
                 Metal
                 <select
@@ -80,6 +83,11 @@ export default function StorageCost() {
               </label>
             </div>
 
+            <p className="print-only-summary" style={{ display: 'none' }}>
+              {weight}{unit} {metal} at {PURITIES[metal].find((p) => p.value === purity)?.label ?? purity},
+              {fee}% annual fee over {yrs} year{yrs === 1 ? '' : 's'}
+            </p>
+
             <div className="convert-results">
               <div className="result-box">
                 <span className="result-label">Current value ({currency})</span>
@@ -94,6 +102,11 @@ export default function StorageCost() {
                 <span className="result-value">{breakEvenAppreciationPct == null ? '—' : `${breakEvenAppreciationPct.toFixed(1)}%`}</span>
               </div>
             </div>
+
+            <button className="btn btn-primary no-print" style={{ marginTop: '1.5rem' }} onClick={() => window.print()}>
+              🖨 Print / Save PDF
+            </button>
+            <PrintFooter />
           </>
         )}
       </div>
