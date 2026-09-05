@@ -1,19 +1,7 @@
+import { sparklinePath } from '../utils/sparklinePath.js'
+
 const WIDTH = 600
 const HEIGHT = 160
-
-function pathFor(values) {
-  if (values.length < 2) return ''
-  const min = Math.min(...values)
-  const max = Math.max(...values)
-  const span = max - min || 1
-  return values
-    .map((v, i) => {
-      const x = (i / (values.length - 1)) * WIDTH
-      const y = HEIGHT - ((v - min) / span) * HEIGHT
-      return `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`
-    })
-    .join(' ')
-}
 
 export default function StockPriceChart({ candles, symbol }) {
   if (candles.length < 2) {
@@ -41,7 +29,7 @@ export default function StockPriceChart({ candles, symbol }) {
         role="img"
         aria-label={`${symbol} 1-year price trend, ${change >= 0 ? 'up' : 'down'} ${Math.abs(change).toFixed(1)}%`}
       >
-        <path d={pathFor(closes)} fill="none" stroke="var(--gold)" strokeWidth="2" />
+        <path d={sparklinePath(closes, WIDTH, HEIGHT)} fill="none" stroke="var(--gold)" strokeWidth="2" />
       </svg>
     </div>
   )

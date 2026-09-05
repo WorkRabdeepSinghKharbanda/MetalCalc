@@ -1518,3 +1518,32 @@
     display: none;
   }
 }
+
+.timeframe-signals {
+  margin-top: 1.5rem;
+}
+
+.timeframe-verdict {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.timeframe-verdict.buy {
+  border-color: #1a7f37;
+  background: rgba(26, 127, 55, 0.08);
+}
+
+.timeframe-verdict.sell {
+  border-color: #c0362c;
+  background: rgba(192, 54, 44, 0.08);
+}
+
+.timeframe-verdict-badge {
+  font-weight: 700;
+}

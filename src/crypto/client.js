@@ -17,6 +17,12 @@ export async function getTopMarkets(perPage = 50) {
   return res.json()
 }
 
+export async function getMarketChart(coinId, days) {
+  const res = await fetch(`${BASE}/coins/${coinId}/market_chart?vs_currency=usd&days=${days}`)
+  if (!res.ok) throw new Error('Failed to fetch price history')
+  return res.json()
+}
+
 export async function searchCoins(query) {
   const res = await fetch(`${BASE}/search?query=${encodeURIComponent(query)}`)
   if (!res.ok) throw new Error('Failed to search coins')

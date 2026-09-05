@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { hasApiKey } from '../finnhub/client.js'
 import { useSymbolSearch } from '../hooks/useSymbolSearch.js'
 import { useStockData } from '../hooks/useStockData.js'
@@ -180,6 +181,10 @@ export default function Stocks() {
         <TechRankingsTable rows={rankingRows} loading={rankingsLoading} progress={rankingsProgress} error={rankingsError} />
 
         <StockTradeSignalsSection rows={rankingRows} loading={rankingsLoading} />
+        <p className="muted small-note" style={{ marginTop: '-1.5rem', marginBottom: '2rem' }}>
+          Per-timeframe signals (15min–3month) aren't available for stocks — Finnhub's free tier blocks historical
+          candle data. Available on the <Link to="/crypto">Crypto</Link> page.
+        </p>
 
         <WhatsAppAlerts topPick={topPick} loading={rankingsLoading} />
 

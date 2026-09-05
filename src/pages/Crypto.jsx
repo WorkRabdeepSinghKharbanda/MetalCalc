@@ -11,6 +11,7 @@ import { parseCsv } from '../utils/parseCsv.js'
 import CryptoRankingsTable from '../components/CryptoRankingsTable.jsx'
 import TopCryptoTable from '../components/TopCryptoTable.jsx'
 import TradeSignalsSection from '../components/TradeSignalsSection.jsx'
+import TimeframeSignals from '../components/TimeframeSignals.jsx'
 import DropdownMenu from '../components/DropdownMenu.jsx'
 import Seo from '../components/Seo.jsx'
 import { useToast } from '../context/ToastContext.jsx'
@@ -195,6 +196,8 @@ export default function Crypto() {
                   <div className="stock-metric"><span className="stock-metric-label">Circulating supply</span><span>{fmt(data.circulating_supply, 0)}</span></div>
                   <div className="stock-metric"><span className="stock-metric-label">Fully diluted valuation</span><span>${fmt(data.fully_diluted_valuation / 1e9, 2)}B</span></div>
                 </div>
+
+                <TimeframeSignals coinId={selected.id} />
 
                 <div className="stock-add-form">
                   <label>
