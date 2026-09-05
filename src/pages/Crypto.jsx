@@ -25,7 +25,7 @@ export default function Crypto() {
 
   const { results } = useCoinSearch(query)
   const { data, loading, error } = useCryptoData(selected?.id)
-  const ids = portfolio.map((p) => p.id)
+  const ids = portfolio.map((p) => p.coinId)
   const quotes = useCryptoQuotes(ids)
   const { rows: rankingRows, loading: rankingsLoading, error: rankingsError } = useCryptoRankings()
   const { rows: topRows, loading: topLoading, error: topError } = useTopCrypto(50)
