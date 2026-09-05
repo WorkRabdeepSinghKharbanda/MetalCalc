@@ -29,6 +29,7 @@ export default function Header() {
               { label: '⚖ Weight converter', to: '/weight-converter' },
               { label: '🧪 Alloy mixing', to: '/alloy-mix' },
               { heading: 'Plan' },
+              { label: '💰 Net worth', to: '/net-worth' },
               { label: '☾ Zakat calculator', to: '/zakat' },
               { label: '🏦 Loan against gold', to: '/loan-against-gold' },
               { label: '🎯 Savings goal', to: '/savings-goal' },

@@ -5,9 +5,11 @@ import { useStockData } from '../hooks/useStockData.js'
 import { useQuotes } from '../hooks/useQuotes.js'
 import { useStockRankings } from '../hooks/useStockRankings.js'
 import { loadPortfolio, savePortfolio } from '../utils/stockPortfolio.js'
+import { loadWatchlist, saveWatchlist } from '../utils/stockWatchlist.js'
 import { rankByPeg } from '../utils/rankStocks.js'
 import StockPriceChart from '../components/StockPriceChart.jsx'
 import TechRankingsTable from '../components/TechRankingsTable.jsx'
+import StockTradeSignalsSection from '../components/StockTradeSignalsSection.jsx'
 import WhatsAppAlerts from '../components/WhatsAppAlerts.jsx'
 import Seo from '../components/Seo.jsx'
 import { useToast } from '../context/ToastContext.jsx'
@@ -23,10 +25,11 @@ export default function Stocks() {
   const [qty, setQty] = useState(1)
   const [avgBuy, setAvgBuy] = useState('')
   const [portfolio, setPortfolio] = useState(() => loadPortfolio())
+  const [watchlist, setWatchlist] = useState(() => loadWatchlist())
 
   const { results } = useSymbolSearch(query)
   const { data, loading, error } = useStockData(selected?.symbol)
-  const symbols = portfolio.map((p) => p.symbol)
+  const symbols = [...new Set([...portfolio.map((p) => p.symbol), ...watchlist.map((w) => w.symbol)])]
   const { quotes } = useQuotes(symbols)
   const { rows: rankingRows, loading: rankingsLoading, error: rankingsError } = useStockRankings()
   const topPick = rankByPeg(rankingRows).find((r) => r.peg != null) ?? null
@@ -50,6 +53,22 @@ export default function Stocks() {
 
   function removeFromPortfolio(id) {
     setPortfolio(savePortfolio(portfolio.filter((p) => p.id !== id)))
+  }
+
+  const isWatched = selected && watchlist.some((w) => w.symbol === selected.symbol)
+
+  function toggleWatch() {
+    if (!selected) return
+    if (isWatched) {
+      setWatchlist(saveWatchlist(watchlist.filter((w) => w.symbol !== selected.symbol)))
+    } else {
+      setWatchlist(saveWatchlist([...watchlist, { symbol: selected.symbol, name: selected.name }]))
+      showToast(`Watching ${selected.symbol}`)
+    }
+  }
+
+  function removeFromWatchlist(symbol) {
+    setWatchlist(saveWatchlist(watchlist.filter((w) => w.symbol !== symbol)))
   }
 
   const totalPresent = portfolio.reduce((sum, p) => sum + (quotes[p.symbol]?.c ?? p.avgBuy) * p.qty, 0)
@@ -98,6 +117,8 @@ export default function Stocks() {
         </div>
 
         <TechRankingsTable rows={rankingRows} loading={rankingsLoading} error={rankingsError} />
+
+        <StockTradeSignalsSection rows={rankingRows} loading={rankingsLoading} />
 
         <WhatsAppAlerts topPick={topPick} loading={rankingsLoading} />
 
@@ -177,10 +198,48 @@ export default function Stocks() {
                     <input type="number" min="0" value={avgBuy} onChange={(e) => setAvgBuy(e.target.value)} />
                   </label>
                   <button className="btn btn-primary" onClick={addToPortfolio}>+ Add to portfolio</button>
+                  <button className="btn btn-ghost" onClick={toggleWatch}>{isWatched ? '★ Watching' : '☆ Watch'}</button>
                 </div>
               </>
             )}
           </div>
+        )}
+
+        {watchlist.length > 0 && (
+          <>
+            <h2 className="section-title" style={{ marginTop: '3rem' }}>Watchlist</h2>
+            <div className="table-scroll">
+              <table className="stock-table">
+                <thead>
+                  <tr>
+                    <th>Symbol</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Chg %</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {watchlist.map((w) => {
+                    const q = quotes[w.symbol]
+                    return (
+                      <tr key={w.symbol}>
+                        <td><strong>{w.symbol}</strong></td>
+                        <td>{w.name}</td>
+                        <td>{q?.c != null ? `$${fmt(q.c)}` : '—'}</td>
+                        <td className={q?.dp >= 0 ? 'arrow up' : q?.dp < 0 ? 'arrow down' : ''}>
+                          {q?.dp != null ? `${q.dp >= 0 ? '+' : ''}${fmt(q.dp)}%` : '—'}
+                        </td>
+                        <td>
+                          <button className="btn btn-ghost icon-btn" onClick={() => removeFromWatchlist(w.symbol)} aria-label={`Remove ${w.symbol}`}>✕</button>
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
 
         <h2 className="section-title" style={{ marginTop: '3rem' }}>My Portfolio</h2>

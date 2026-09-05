@@ -5,6 +5,7 @@ import { useCryptoQuotes } from '../hooks/useCryptoQuotes.js'
 import { useCryptoRankings } from '../hooks/useCryptoRankings.js'
 import { useTopCrypto } from '../hooks/useTopCrypto.js'
 import { loadCryptoPortfolio, saveCryptoPortfolio } from '../utils/cryptoPortfolio.js'
+import { loadCryptoWatchlist, saveCryptoWatchlist } from '../utils/cryptoWatchlist.js'
 import CryptoRankingsTable from '../components/CryptoRankingsTable.jsx'
 import TopCryptoTable from '../components/TopCryptoTable.jsx'
 import TradeSignalsSection from '../components/TradeSignalsSection.jsx'
@@ -22,10 +23,11 @@ export default function Crypto() {
   const [qty, setQty] = useState(1)
   const [avgBuy, setAvgBuy] = useState('')
   const [portfolio, setPortfolio] = useState(() => loadCryptoPortfolio())
+  const [watchlist, setWatchlist] = useState(() => loadCryptoWatchlist())
 
   const { results } = useCoinSearch(query)
   const { data, loading, error } = useCryptoData(selected?.id)
-  const ids = portfolio.map((p) => p.coinId)
+  const ids = [...new Set([...portfolio.map((p) => p.coinId), ...watchlist.map((w) => w.coinId)])]
   const quotes = useCryptoQuotes(ids)
   const { rows: rankingRows, loading: rankingsLoading, error: rankingsError } = useCryptoRankings()
   const { rows: topRows, loading: topLoading, error: topError } = useTopCrypto(50)
@@ -49,6 +51,22 @@ export default function Crypto() {
 
   function removeFromPortfolio(id) {
     setPortfolio(saveCryptoPortfolio(portfolio.filter((p) => p.id !== id)))
+  }
+
+  const isWatched = selected && watchlist.some((w) => w.coinId === selected.id)
+
+  function toggleWatch() {
+    if (!selected) return
+    if (isWatched) {
+      setWatchlist(saveCryptoWatchlist(watchlist.filter((w) => w.coinId !== selected.id)))
+    } else {
+      setWatchlist(saveCryptoWatchlist([...watchlist, { coinId: selected.id, symbol: selected.symbol, name: selected.name }]))
+      showToast(`Watching ${selected.symbol}`)
+    }
+  }
+
+  function removeFromWatchlist(coinId) {
+    setWatchlist(saveCryptoWatchlist(watchlist.filter((w) => w.coinId !== coinId)))
   }
 
   const totalPresent = portfolio.reduce((sum, p) => sum + (quotes[p.coinId] ?? p.avgBuy) * p.qty, 0)
@@ -125,10 +143,44 @@ export default function Crypto() {
                     <input type="number" min="0" value={avgBuy} onChange={(e) => setAvgBuy(e.target.value)} />
                   </label>
                   <button className="btn btn-primary" onClick={addToPortfolio}>+ Add to portfolio</button>
+                  <button className="btn btn-ghost" onClick={toggleWatch}>{isWatched ? '★ Watching' : '☆ Watch'}</button>
                 </div>
               </>
             )}
           </div>
+        )}
+
+        {watchlist.length > 0 && (
+          <>
+            <h2 className="section-title" style={{ marginTop: '3rem' }}>Watchlist</h2>
+            <div className="table-scroll">
+              <table className="stock-table">
+                <thead>
+                  <tr>
+                    <th>Symbol</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {watchlist.map((w) => {
+                    const price = quotes[w.coinId]
+                    return (
+                      <tr key={w.coinId}>
+                        <td><strong>{w.symbol}</strong></td>
+                        <td>{w.name}</td>
+                        <td>{price != null ? `$${fmt(price)}` : '—'}</td>
+                        <td>
+                          <button className="btn btn-ghost icon-btn" onClick={() => removeFromWatchlist(w.coinId)} aria-label={`Remove ${w.symbol}`}>✕</button>
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
 
         <h2 className="section-title" style={{ marginTop: '3rem' }}>My Crypto Portfolio</h2>
