@@ -22,9 +22,11 @@ import StorageCost from './pages/StorageCost.jsx'
 import AlloyMix from './pages/AlloyMix.jsx'
 import TaxReverse from './pages/TaxReverse.jsx'
 import BillBreakdown from './pages/BillBreakdown.jsx'
+import Backup from './pages/Backup.jsx'
 import Widget from './pages/Widget.jsx'
 import NotFound from './pages/NotFound.jsx'
 import OfflineBanner from './components/OfflineBanner.jsx'
+import CommandPalette from './components/CommandPalette.jsx'
 import { MarketProvider } from './context/MarketContext.jsx'
 import { LanguageProvider } from './context/LanguageContext.jsx'
 import { ToastProvider } from './context/ToastContext.jsx'
@@ -42,6 +44,7 @@ export default function App() {
           ) : (
             <>
               <OfflineBanner />
+              <CommandPalette />
               <Header />
               <main>
                 <Routes>
@@ -64,6 +67,7 @@ export default function App() {
                   <Route path="/alloy-mix" element={<AlloyMix />} />
                   <Route path="/tax-reverse" element={<TaxReverse />} />
                   <Route path="/bill-breakdown" element={<BillBreakdown />} />
+                  <Route path="/backup" element={<Backup />} />
                   <Route path="/alerts" element={<Alerts />} />
                   <Route path="/faq" element={<Faq />} />
                   <Route path="*" element={<NotFound />} />

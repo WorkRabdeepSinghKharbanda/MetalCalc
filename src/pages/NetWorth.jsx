@@ -7,6 +7,8 @@ import { loadCryptoPortfolio } from '../utils/cryptoPortfolio.js'
 import { useQuotes } from '../hooks/useQuotes.js'
 import { useCryptoQuotes } from '../hooks/useCryptoQuotes.js'
 import Seo from '../components/Seo.jsx'
+import PrintHeader from '../components/PrintHeader.jsx'
+import PrintFooter from '../components/PrintFooter.jsx'
 
 function fmt(n) {
   return n == null || Number.isNaN(n) ? '—' : n.toLocaleString(undefined, { maximumFractionDigits: 2 })
@@ -54,10 +56,11 @@ export default function NetWorth() {
         title="Net Worth Dashboard — MetalCalc"
         description="See your combined net worth across precious metals, stocks and crypto in one place, using your saved Holdings and portfolios."
       />
+      <PrintHeader title="Net Worth Summary" />
       <div className="container">
-        <p className="eyebrow">Net worth</p>
+        <p className="eyebrow no-print">Net worth</p>
         <h1>Everything you own, in one number</h1>
-        <p className="hero-sub" style={{ marginBottom: '2rem' }}>
+        <p className="hero-sub no-print" style={{ marginBottom: '2rem' }}>
           Pulls from your saved Holdings, Stock portfolio and Crypto portfolio — nothing new to enter here.
         </p>
 
@@ -85,6 +88,11 @@ export default function NetWorth() {
             Add items to Holdings, the Stocks portfolio, or the Crypto portfolio to see them combined here.
           </p>
         )}
+
+        <button className="btn btn-primary no-print" style={{ marginTop: '1.5rem' }} onClick={() => window.print()}>
+          🖨 Print / Save PDF
+        </button>
+        <PrintFooter />
       </div>
     </section>
   )

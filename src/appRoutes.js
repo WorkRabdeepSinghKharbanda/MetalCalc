@@ -1,0 +1,26 @@
+// Single source of truth for "jump anywhere" navigation (command palette).
+// Kept separate from App.jsx's <Routes> so it can be searched without importing every page component.
+export const APP_ROUTES = [
+  { label: 'Home', path: '/', group: 'Metals' },
+  { label: 'Batch Calculator', path: '/batch', group: 'Metals' },
+  { label: 'My Holdings', path: '/holdings', group: 'Metals' },
+  { label: 'Compare Batches', path: '/compare', group: 'Metals' },
+  { label: 'Price Alerts', path: '/alerts', group: 'Metals' },
+  { label: 'US Stocks', path: '/stocks', group: 'Markets' },
+  { label: 'Crypto', path: '/crypto', group: 'Markets' },
+  { label: 'Net Worth', path: '/net-worth', group: 'Markets' },
+  { label: 'Position Sizing', path: '/position-size', group: 'Markets' },
+  { label: 'Purity Converter', path: '/convert', group: 'Tools' },
+  { label: 'Weight Converter', path: '/weight-converter', group: 'Tools' },
+  { label: 'Alloy Mixing', path: '/alloy-mix', group: 'Tools' },
+  { label: 'Zakat Calculator', path: '/zakat', group: 'Tools' },
+  { label: 'Loan Against Gold', path: '/loan-against-gold', group: 'Tools' },
+  { label: 'Savings Goal', path: '/savings-goal', group: 'Tools' },
+  { label: 'Storage Cost', path: '/storage-cost', group: 'Tools' },
+  { label: 'Melt vs Retail', path: '/melt-check', group: 'Tools' },
+  { label: 'Bill Breakdown', path: '/bill-breakdown', group: 'Tools' },
+  { label: 'Rate Margin Check', path: '/rate-check', group: 'Tools' },
+  { label: 'Tax Reverse Calc', path: '/tax-reverse', group: 'Tools' },
+  { label: 'Backup & Restore', path: '/backup', group: 'Tools' },
+  { label: 'FAQ', path: '/faq', group: 'Other' },
+]

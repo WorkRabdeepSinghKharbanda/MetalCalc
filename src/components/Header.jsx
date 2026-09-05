@@ -40,6 +40,8 @@ export default function Header() {
               { label: '🧾 Bill breakdown', to: '/bill-breakdown' },
               { label: '💱 Rate margin check', to: '/rate-check' },
               { label: '➗ Tax reverse calc', to: '/tax-reverse' },
+              { heading: 'Data' },
+              { label: '💾 Backup & restore', to: '/backup' },
             ]}
           />
           <NavLink to="/faq" className={({ isActive }) => (isActive ? 'active' : '')}>{t('navFaq')}</NavLink>
@@ -55,6 +57,13 @@ export default function Header() {
           </select>
           <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle dark mode">
             {theme === 'light' ? '🌙' : '☀️'}
+          </button>
+          <button
+            className="btn btn-ghost command-palette-trigger"
+            onClick={() => window.dispatchEvent(new Event('open-command-palette'))}
+            title="Jump to any page (⌘K / Ctrl+K)"
+          >
+            🔍 <kbd>⌘K</kbd>
           </button>
         </nav>
       </div>
