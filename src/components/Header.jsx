@@ -20,6 +20,7 @@ export default function Header() {
           <NavLink to="/holdings" className={({ isActive }) => (isActive ? 'active' : '')}>{t('navHoldings')}</NavLink>
           <NavLink to="/alerts" className={({ isActive }) => (isActive ? 'active' : '')}>{t('navAlerts')}</NavLink>
           <NavLink to="/stocks" className={({ isActive }) => (isActive ? 'active' : '')}>Stocks</NavLink>
+          <NavLink to="/crypto" className={({ isActive }) => (isActive ? 'active' : '')}>Crypto</NavLink>
           <DropdownMenu
             label="Tools ▾"
             items={[

@@ -8,6 +8,7 @@ import Alerts from './pages/Alerts.jsx'
 import Holdings from './pages/Holdings.jsx'
 import CompareBatches from './pages/CompareBatches.jsx'
 import Stocks from './pages/Stocks.jsx'
+import Crypto from './pages/Crypto.jsx'
 import Convert from './pages/Convert.jsx'
 import Zakat from './pages/Zakat.jsx'
 import WeightConverter from './pages/WeightConverter.jsx'
@@ -47,6 +48,7 @@ export default function App() {
                   <Route path="/holdings" element={<Holdings />} />
                   <Route path="/compare" element={<CompareBatches />} />
                   <Route path="/stocks" element={<Stocks />} />
+                  <Route path="/crypto" element={<Crypto />} />
                   <Route path="/convert" element={<Convert />} />
                   <Route path="/zakat" element={<Zakat />} />
                   <Route path="/weight-converter" element={<WeightConverter />} />
