@@ -7,6 +7,24 @@
   font-weight: 600;
 }
 
+.install-prompt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--border);
+  padding: 0.6rem 1.25rem;
+  font-size: 0.85rem;
+}
+
+.install-prompt-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 /* Header */
 .site-header {
   border-bottom: 1px solid var(--border);

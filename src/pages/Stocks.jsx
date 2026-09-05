@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { hasApiKey } from '../finnhub/client.js'
 import { useSymbolSearch } from '../hooks/useSymbolSearch.js'
 import { useStockData } from '../hooks/useStockData.js'
@@ -7,10 +7,13 @@ import { useStockRankings } from '../hooks/useStockRankings.js'
 import { loadPortfolio, savePortfolio } from '../utils/stockPortfolio.js'
 import { loadWatchlist, saveWatchlist } from '../utils/stockWatchlist.js'
 import { rankByPeg } from '../utils/rankStocks.js'
+import { downloadCsv } from '../utils/downloadCsv.js'
+import { parseCsv } from '../utils/parseCsv.js'
 import StockPriceChart from '../components/StockPriceChart.jsx'
 import TechRankingsTable from '../components/TechRankingsTable.jsx'
 import StockTradeSignalsSection from '../components/StockTradeSignalsSection.jsx'
 import WhatsAppAlerts from '../components/WhatsAppAlerts.jsx'
+import DropdownMenu from '../components/DropdownMenu.jsx'
 import Seo from '../components/Seo.jsx'
 import { useToast } from '../context/ToastContext.jsx'
 
@@ -26,6 +29,7 @@ export default function Stocks() {
   const [avgBuy, setAvgBuy] = useState('')
   const [portfolio, setPortfolio] = useState(() => loadPortfolio())
   const [watchlist, setWatchlist] = useState(() => loadWatchlist())
+  const fileInputRef = useRef(null)
 
   const { results } = useSymbolSearch(query)
   const { data, loading, error } = useStockData(selected?.symbol)
@@ -73,6 +77,59 @@ export default function Stocks() {
 
   function removeFromWatchlist(symbol) {
     setWatchlist(saveWatchlist(watchlist.filter((w) => w.symbol !== symbol)))
+  }
+
+  function handleExportCsv() {
+    const headers = ['Symbol', 'Name', 'Qty', 'Avg Buy', 'Target %']
+    const rows = portfolio.map((p) => [p.symbol, p.name, p.qty, p.avgBuy, p.targetPct ?? ''])
+    downloadCsv('my-stock-portfolio.csv', headers, rows)
+    showToast('CSV downloaded')
+  }
+
+  function handleImportClick() {
+    fileInputRef.current?.click()
+  }
+
+  function findColumn(header, keyword) {
+    return header.findIndex((h) => h.toLowerCase().includes(keyword))
+  }
+
+  function handleImportFile(e) {
+    const file = e.target.files[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => {
+      const rows = parseCsv(String(reader.result))
+      const [header, ...dataRows] = rows
+      const symbolIdx = findColumn(header, 'symbol')
+      if (symbolIdx === -1) {
+        showToast('CSV needs a "Symbol" column — see the exported format for reference')
+        return
+      }
+      const nameIdx = findColumn(header, 'name')
+      const qtyIdx = findColumn(header, 'qty')
+      const avgBuyIdx = findColumn(header, 'avg buy')
+      const targetIdx = findColumn(header, 'target')
+
+      const imported = dataRows
+        .filter((row) => row[symbolIdx])
+        .map((row) => ({
+          id: crypto.randomUUID(),
+          symbol: row[symbolIdx].toUpperCase(),
+          name: nameIdx >= 0 ? row[nameIdx] || '' : '',
+          qty: qtyIdx >= 0 ? Number(row[qtyIdx]) || 0 : 0,
+          avgBuy: avgBuyIdx >= 0 ? Number(row[avgBuyIdx]) || 0 : 0,
+          ...(targetIdx >= 0 && row[targetIdx] ? { targetPct: Number(row[targetIdx]) || 0 } : {}),
+        }))
+      if (imported.length === 0) {
+        showToast('No valid rows found in that file')
+        return
+      }
+      setPortfolio(savePortfolio([...portfolio, ...imported]))
+      showToast(`Imported ${imported.length} holding${imported.length > 1 ? 's' : ''}`)
+    }
+    reader.readAsText(file)
+    e.target.value = ''
   }
 
   const totalPresent = portfolio.reduce((sum, p) => sum + (quotes[p.symbol]?.c ?? p.avgBuy) * p.qty, 0)
@@ -257,7 +314,17 @@ export default function Stocks() {
           </>
         )}
 
-        <h2 className="section-title" style={{ marginTop: '3rem' }}>My Portfolio</h2>
+        <div className="batch-actions" style={{ marginTop: '3rem', alignItems: 'center' }}>
+          <h2 className="section-title" style={{ margin: 0 }}>My Portfolio</h2>
+          <DropdownMenu
+            label="⋯ More"
+            items={[
+              { label: '⬇ Export CSV', onClick: handleExportCsv, disabled: portfolio.length === 0 },
+              { label: '⬆ Import CSV', onClick: handleImportClick },
+            ]}
+          />
+          <input ref={fileInputRef} type="file" accept=".csv,text/csv" hidden onChange={handleImportFile} />
+        </div>
         {portfolio.length === 0 ? (
           <div className="card empty-state">
             <p>Search a stock above and add it to your portfolio.</p>

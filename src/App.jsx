@@ -27,6 +27,7 @@ import Widget from './pages/Widget.jsx'
 import NotFound from './pages/NotFound.jsx'
 import OfflineBanner from './components/OfflineBanner.jsx'
 import CommandPalette from './components/CommandPalette.jsx'
+import InstallPrompt from './components/InstallPrompt.jsx'
 import { MarketProvider } from './context/MarketContext.jsx'
 import { LanguageProvider } from './context/LanguageContext.jsx'
 import { ToastProvider } from './context/ToastContext.jsx'
@@ -44,6 +45,7 @@ export default function App() {
           ) : (
             <>
               <OfflineBanner />
+              <InstallPrompt />
               <CommandPalette />
               <Header />
               <main>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useCoinSearch } from '../hooks/useCoinSearch.js'
 import { useCryptoData } from '../hooks/useCryptoData.js'
 import { useCryptoQuotes } from '../hooks/useCryptoQuotes.js'
@@ -6,9 +6,12 @@ import { useCryptoRankings } from '../hooks/useCryptoRankings.js'
 import { useTopCrypto } from '../hooks/useTopCrypto.js'
 import { loadCryptoPortfolio, saveCryptoPortfolio } from '../utils/cryptoPortfolio.js'
 import { loadCryptoWatchlist, saveCryptoWatchlist } from '../utils/cryptoWatchlist.js'
+import { downloadCsv } from '../utils/downloadCsv.js'
+import { parseCsv } from '../utils/parseCsv.js'
 import CryptoRankingsTable from '../components/CryptoRankingsTable.jsx'
 import TopCryptoTable from '../components/TopCryptoTable.jsx'
 import TradeSignalsSection from '../components/TradeSignalsSection.jsx'
+import DropdownMenu from '../components/DropdownMenu.jsx'
 import Seo from '../components/Seo.jsx'
 import { useToast } from '../context/ToastContext.jsx'
 
@@ -24,6 +27,7 @@ export default function Crypto() {
   const [avgBuy, setAvgBuy] = useState('')
   const [portfolio, setPortfolio] = useState(() => loadCryptoPortfolio())
   const [watchlist, setWatchlist] = useState(() => loadCryptoWatchlist())
+  const fileInputRef = useRef(null)
 
   const { results } = useCoinSearch(query)
   const { data, loading, error } = useCryptoData(selected?.id)
@@ -71,6 +75,61 @@ export default function Crypto() {
 
   function removeFromWatchlist(coinId) {
     setWatchlist(saveCryptoWatchlist(watchlist.filter((w) => w.coinId !== coinId)))
+  }
+
+  function handleExportCsv() {
+    const headers = ['Coin Id', 'Symbol', 'Name', 'Qty', 'Avg Buy', 'Target %']
+    const rows = portfolio.map((p) => [p.coinId, p.symbol, p.name, p.qty, p.avgBuy, p.targetPct ?? ''])
+    downloadCsv('my-crypto-portfolio.csv', headers, rows)
+    showToast('CSV downloaded')
+  }
+
+  function handleImportClick() {
+    fileInputRef.current?.click()
+  }
+
+  function findColumn(header, keyword) {
+    return header.findIndex((h) => h.toLowerCase().includes(keyword))
+  }
+
+  function handleImportFile(e) {
+    const file = e.target.files[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => {
+      const rows = parseCsv(String(reader.result))
+      const [header, ...dataRows] = rows
+      const coinIdIdx = findColumn(header, 'coin id')
+      if (coinIdIdx === -1) {
+        showToast('CSV needs a "Coin Id" column (from CoinGecko) — see the exported format for reference')
+        return
+      }
+      const symbolIdx = findColumn(header, 'symbol')
+      const nameIdx = findColumn(header, 'name')
+      const qtyIdx = findColumn(header, 'qty')
+      const avgBuyIdx = findColumn(header, 'avg buy')
+      const targetIdx = findColumn(header, 'target')
+
+      const imported = dataRows
+        .filter((row) => row[coinIdIdx])
+        .map((row) => ({
+          id: `${row[coinIdIdx]}-${crypto.randomUUID()}`,
+          coinId: row[coinIdIdx],
+          symbol: symbolIdx >= 0 ? row[symbolIdx].toUpperCase() : row[coinIdIdx].toUpperCase(),
+          name: nameIdx >= 0 ? row[nameIdx] || '' : '',
+          qty: qtyIdx >= 0 ? Number(row[qtyIdx]) || 0 : 0,
+          avgBuy: avgBuyIdx >= 0 ? Number(row[avgBuyIdx]) || 0 : 0,
+          ...(targetIdx >= 0 && row[targetIdx] ? { targetPct: Number(row[targetIdx]) || 0 } : {}),
+        }))
+      if (imported.length === 0) {
+        showToast('No valid rows found in that file')
+        return
+      }
+      setPortfolio(saveCryptoPortfolio([...portfolio, ...imported]))
+      showToast(`Imported ${imported.length} holding${imported.length > 1 ? 's' : ''}`)
+    }
+    reader.readAsText(file)
+    e.target.value = ''
   }
 
   const totalPresent = portfolio.reduce((sum, p) => sum + (quotes[p.coinId] ?? p.avgBuy) * p.qty, 0)
@@ -187,7 +246,17 @@ export default function Crypto() {
           </>
         )}
 
-        <h2 className="section-title" style={{ marginTop: '3rem' }}>My Crypto Portfolio</h2>
+        <div className="batch-actions" style={{ marginTop: '3rem', alignItems: 'center' }}>
+          <h2 className="section-title" style={{ margin: 0 }}>My Crypto Portfolio</h2>
+          <DropdownMenu
+            label="⋯ More"
+            items={[
+              { label: '⬇ Export CSV', onClick: handleExportCsv, disabled: portfolio.length === 0 },
+              { label: '⬆ Import CSV', onClick: handleImportClick },
+            ]}
+          />
+          <input ref={fileInputRef} type="file" accept=".csv,text/csv" hidden onChange={handleImportFile} />
+        </div>
         {portfolio.length === 0 ? (
           <div className="card empty-state">
             <p>Search a coin above and add it to your portfolio.</p>
