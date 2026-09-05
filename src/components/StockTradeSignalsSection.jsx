@@ -6,19 +6,20 @@ function fmt(n, decimals = 2) {
 
 export default function StockTradeSignalsSection({ rows, loading }) {
   const signaled = rows.map((r) => ({ ...r, ...computeStockSignal(r) }))
-  const buys = signaled.filter((r) => r.signal === 'buy').slice(0, 5)
-  const sells = signaled.filter((r) => r.signal === 'sell').slice(0, 5)
+  const buys = signaled.filter((r) => r.signal === 'buy').sort((a, b) => b.score - a.score).slice(0, 5)
+  const sells = signaled.filter((r) => r.signal === 'sell').sort((a, b) => a.score - b.score).slice(0, 5)
 
   return (
     <div className="rankings-section">
       <h2 className="section-title" style={{ margin: 0 }}>Trade Signals</h2>
       <p className="muted small-note" style={{ marginBottom: '1rem' }}>
-        A simple rule-based heuristic from 52-week range position and PEG — not a prediction, not financial advice.
+        A weighted composite score across PEG, EPS/revenue growth YoY, 52-week range position and today's momentum —
+        not a prediction, not financial advice.
       </p>
 
-      {loading && <p className="muted">Loading signals…</p>}
+      {loading && rows.length === 0 && <p className="muted">Loading signals…</p>}
 
-      {!loading && (
+      {rows.length > 0 && (
         <div className="signal-columns">
           <div>
             <h3 className="signal-heading buy">🟢 Consider buying</h3>

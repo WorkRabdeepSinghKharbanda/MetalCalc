@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import { RANKING_CATEGORIES } from '../finnhub/rankingList.js'
+import { RANKING_CATEGORIES, RANKING_STOCKS } from '../finnhub/rankingList.js'
 import { rankByPeg } from '../utils/rankStocks.js'
+
+const RANKING_STOCKS_COUNT = RANKING_STOCKS.length
 
 function fmt(n, decimals = 2) {
   return n == null || Number.isNaN(n) ? '—' : n.toLocaleString(undefined, { maximumFractionDigits: decimals })
@@ -21,7 +23,7 @@ function rangeLabel(pct) {
   return 'mid-range'
 }
 
-export default function TechRankingsTable({ rows, loading, error }) {
+export default function TechRankingsTable({ rows, loading, progress, error }) {
   const [category, setCategory] = useState('All')
 
   const filtered = rows.filter((r) => category === 'All' || r.category === category)
@@ -42,13 +44,17 @@ export default function TechRankingsTable({ rows, loading, error }) {
       <p className="muted small-note" style={{ marginBottom: '1rem' }}>
         Ranked ascending by PEG (lower = more growth per dollar of valuation). "52w Zone" is a demand/supply proxy from
         52-week high/low — real supply/demand zones need OHLC price-action history, unavailable on this Finnhub plan.
-        Today's snapshot, not investment advice.
+        {RANKING_STOCKS_COUNT} stocks, fetched in throttled batches to respect Finnhub's free-tier rate limit — the
+        table fills in gradually. Today's snapshot, not investment advice.
       </p>
 
-      {loading && <p className="muted">Loading rankings…</p>}
+      {loading && sorted.length === 0 && <p className="muted">Loading rankings…</p>}
+      {loading && progress && sorted.length > 0 && (
+        <p className="muted small-note">Loading more… {progress.done}/{progress.total}</p>
+      )}
       {error && <p className="error">{error}</p>}
 
-      {!loading && sorted.length > 0 && (
+      {sorted.length > 0 && (
         <div className="table-scroll">
           <table className="stock-table">
             <thead>

@@ -35,7 +35,7 @@ export default function Stocks() {
   const { data, loading, error } = useStockData(selected?.symbol)
   const symbols = [...new Set([...portfolio.map((p) => p.symbol), ...watchlist.map((w) => w.symbol)])]
   const { quotes } = useQuotes(symbols)
-  const { rows: rankingRows, loading: rankingsLoading, error: rankingsError } = useStockRankings()
+  const { rows: rankingRows, loading: rankingsLoading, progress: rankingsProgress, error: rankingsError } = useStockRankings()
   const topPick = rankByPeg(rankingRows).find((r) => r.peg != null) ?? null
 
   function selectResult(r) {
@@ -177,7 +177,7 @@ export default function Stocks() {
           )}
         </div>
 
-        <TechRankingsTable rows={rankingRows} loading={rankingsLoading} error={rankingsError} />
+        <TechRankingsTable rows={rankingRows} loading={rankingsLoading} progress={rankingsProgress} error={rankingsError} />
 
         <StockTradeSignalsSection rows={rankingRows} loading={rankingsLoading} />
 
