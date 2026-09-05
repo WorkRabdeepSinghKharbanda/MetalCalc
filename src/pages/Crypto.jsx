@@ -3,8 +3,11 @@ import { useCoinSearch } from '../hooks/useCoinSearch.js'
 import { useCryptoData } from '../hooks/useCryptoData.js'
 import { useCryptoQuotes } from '../hooks/useCryptoQuotes.js'
 import { useCryptoRankings } from '../hooks/useCryptoRankings.js'
+import { useTopCrypto } from '../hooks/useTopCrypto.js'
 import { loadCryptoPortfolio, saveCryptoPortfolio } from '../utils/cryptoPortfolio.js'
 import CryptoRankingsTable from '../components/CryptoRankingsTable.jsx'
+import TopCryptoTable from '../components/TopCryptoTable.jsx'
+import TradeSignalsSection from '../components/TradeSignalsSection.jsx'
 import Seo from '../components/Seo.jsx'
 import { useToast } from '../context/ToastContext.jsx'
 
@@ -25,6 +28,7 @@ export default function Crypto() {
   const ids = portfolio.map((p) => p.id)
   const quotes = useCryptoQuotes(ids)
   const { rows: rankingRows, loading: rankingsLoading, error: rankingsError } = useCryptoRankings()
+  const { rows: topRows, loading: topLoading, error: topError } = useTopCrypto(50)
 
   function selectResult(c) {
     setSelected({ id: c.id, symbol: c.symbol.toUpperCase(), name: c.name })
@@ -73,6 +77,10 @@ export default function Crypto() {
             </div>
           )}
         </div>
+
+        <TopCryptoTable rows={topRows} loading={topLoading} error={topError} />
+
+        <TradeSignalsSection rows={topRows} loading={topLoading} />
 
         <CryptoRankingsTable rows={rankingRows} loading={rankingsLoading} error={rankingsError} />
 

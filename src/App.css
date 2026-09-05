@@ -1068,6 +1068,61 @@
   margin-bottom: 0.5rem;
 }
 
+.signal-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 700px) {
+  .signal-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+.signal-heading {
+  font-size: 1rem;
+  margin: 0 0 0.75rem;
+}
+
+.signal-heading.buy {
+  color: #1a7f37;
+}
+
+.signal-heading.sell {
+  color: #c0362c;
+}
+
+.signal-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.signal-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-alt);
+}
+
+.signal-price {
+  font-weight: 700;
+}
+
+.signal-reason {
+  font-size: 0.8rem;
+  color: var(--muted);
+  width: 100%;
+}
+
 .stock-table tr.top-pick {
   background: var(--gold-soft);
 }
