@@ -55,6 +55,10 @@ export default function Stocks() {
     setPortfolio(savePortfolio(portfolio.filter((p) => p.id !== id)))
   }
 
+  function updateTargetPct(id, targetPct) {
+    setPortfolio(savePortfolio(portfolio.map((p) => (p.id === id ? { ...p, targetPct } : p))))
+  }
+
   const isWatched = selected && watchlist.some((w) => w.symbol === selected.symbol)
 
   function toggleWatch() {
@@ -156,6 +160,17 @@ export default function Stocks() {
                   <div className="stock-metric"><span className="stock-metric-label">Market cap</span><span>${fmt(data.metrics.marketCap, 0)}M</span></div>
                   <div className="stock-metric"><span className="stock-metric-label">52w range</span><span>{fmt(data.metrics.week52Low)} – {fmt(data.metrics.week52High)}</span></div>
                 </div>
+
+                {data.metrics.dividendYield > 0 && (
+                  <div className="stock-forward">
+                    <h3>Dividend income estimate</h3>
+                    <p>
+                      At {fmt(data.metrics.dividendYield)}% yield and ${fmt(data.quote?.c)}/share,{' '}
+                      {qty || 0} share{Number(qty) === 1 ? '' : 's'} would pay an estimated{' '}
+                      <strong>${fmt((data.quote?.c ?? 0) * (data.metrics.dividendYield / 100) * (Number(qty) || 0))}/year</strong>.
+                    </p>
+                  </div>
+                )}
 
                 <div className="stock-forward">
                   <h3>Forward view</h3>
@@ -261,6 +276,8 @@ export default function Stocks() {
                   <th>Present Value</th>
                   <th>P&amp;L</th>
                   <th>Allocation</th>
+                  <th title="Set a target % to see rebalancing suggestions">Target %</th>
+                  <th>Rebalance</th>
                   <th></th>
                 </tr>
               </thead>
@@ -272,6 +289,9 @@ export default function Stocks() {
                   const pnl = presentValue - buyValue
                   const pnlPct = buyValue > 0 ? (pnl / buyValue) * 100 : 0
                   const allocation = totalPresent > 0 ? (presentValue / totalPresent) * 100 : 0
+                  const targetPct = Number(p.targetPct) || 0
+                  const targetValue = (targetPct / 100) * totalPresent
+                  const delta = targetPct > 0 ? targetValue - presentValue : null
                   return (
                     <tr key={p.id}>
                       <td><strong>{p.symbol}</strong></td>
@@ -285,6 +305,20 @@ export default function Stocks() {
                         {pnl >= 0 ? '+' : ''}${fmt(pnl)} ({pnlPct >= 0 ? '+' : ''}{fmt(pnlPct)}%)
                       </td>
                       <td>{fmt(allocation)}%</td>
+                      <td>
+                        <input
+                          type="number"
+                          min="0"
+                          max="100"
+                          className="rebalance-target-input"
+                          placeholder="—"
+                          value={p.targetPct ?? ''}
+                          onChange={(e) => updateTargetPct(p.id, e.target.value)}
+                        />
+                      </td>
+                      <td className={delta == null ? 'muted' : delta > 0 ? 'arrow up' : delta < 0 ? 'arrow down' : ''}>
+                        {delta == null ? '—' : `${delta >= 0 ? 'Buy ' : 'Sell '}$${fmt(Math.abs(delta))}`}
+                      </td>
                       <td>
                         <button className="btn btn-ghost icon-btn" onClick={() => removeFromPortfolio(p.id)} aria-label={`Remove ${p.symbol}`}>✕</button>
                       </td>

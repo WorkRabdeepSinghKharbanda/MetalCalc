@@ -30,6 +30,7 @@ export default function Header() {
               { label: '🧪 Alloy mixing', to: '/alloy-mix' },
               { heading: 'Plan' },
               { label: '💰 Net worth', to: '/net-worth' },
+              { label: '🎯 Position sizing', to: '/position-size' },
               { label: '☾ Zakat calculator', to: '/zakat' },
               { label: '🏦 Loan against gold', to: '/loan-against-gold' },
               { label: '🎯 Savings goal', to: '/savings-goal' },
