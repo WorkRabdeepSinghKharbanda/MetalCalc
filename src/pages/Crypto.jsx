@@ -15,6 +15,7 @@ import TradeSignalsSection from '../components/TradeSignalsSection.jsx'
 import TimeframeSignals from '../components/TimeframeSignals.jsx'
 import DropdownMenu from '../components/DropdownMenu.jsx'
 import SortableTh from '../components/SortableTh.jsx'
+import Tabs from '../components/Tabs.jsx'
 import Seo from '../components/Seo.jsx'
 import { useToast } from '../context/ToastContext.jsx'
 
@@ -180,12 +181,6 @@ export default function Crypto() {
           )}
         </div>
 
-        <TopCryptoTable rows={topRows} loading={topLoading} error={topError} />
-
-        <TradeSignalsSection rows={topRows} loading={topLoading} />
-
-        <CryptoRankingsTable rows={rankingRows} loading={rankingsLoading} error={rankingsError} />
-
         {selected && (
           <div className="card stock-detail">
             {loading && <p className="muted">Loading {selected.symbol}…</p>}
@@ -236,107 +231,136 @@ export default function Crypto() {
           </div>
         )}
 
-        {watchlist.length > 0 && (
-          <>
-            <h2 className="section-title" style={{ marginTop: '3rem' }}>Watchlist</h2>
-            <div className="table-scroll">
-              <table className="stock-table">
-                <thead>
-                  <tr>
-                    <SortableTh label="Symbol" sortKey="symbol" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
-                    <SortableTh label="Name" sortKey="name" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
-                    <SortableTh label="Price" sortKey="price" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sortedWatchlist.map((w) => (
-                    <tr key={w.coinId}>
-                      <td><strong>{w.symbol}</strong></td>
-                      <td>{w.name}</td>
-                      <td>{w.price != null ? `$${fmt(w.price)}` : '—'}</td>
-                      <td>
-                        <button className="btn btn-ghost icon-btn" onClick={() => removeFromWatchlist(w.coinId)} aria-label={`Remove ${w.symbol}`}>✕</button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </>
-        )}
-
-        <div className="batch-actions" style={{ marginTop: '3rem', alignItems: 'center' }}>
-          <h2 className="section-title" style={{ margin: 0 }}>My Crypto Portfolio</h2>
-          <DropdownMenu
-            label="⋯ More"
-            items={[
-              { label: '⬇ Export CSV', onClick: handleExportCsv, disabled: portfolio.length === 0 },
-              { label: '⬆ Import CSV', onClick: handleImportClick },
-            ]}
-          />
-          <input ref={fileInputRef} type="file" accept=".csv,text/csv" hidden onChange={handleImportFile} />
-        </div>
-        {portfolio.length === 0 ? (
-          <div className="card empty-state">
-            <p>Search a coin above and add it to your portfolio.</p>
-          </div>
-        ) : (
-          <div className="table-scroll">
-            <table className="stock-table">
-              <thead>
-                <tr>
-                  <SortableTh label="Symbol" sortKey="symbol" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
-                  <SortableTh label="Name" sortKey="name" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
-                  <SortableTh label="Qty" sortKey="qty" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
-                  <SortableTh label="Avg Buy" sortKey="avgBuy" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
-                  <SortableTh label="LTP" sortKey="ltp" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
-                  <SortableTh label="Buy Value" sortKey="buyValue" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
-                  <SortableTh label="Present Value" sortKey="presentValue" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
-                  <SortableTh label="P&L" sortKey="pnl" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
-                  <SortableTh label="Allocation" sortKey="allocation" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
-                  <th title="Set a target % to see rebalancing suggestions">Target %</th>
-                  <SortableTh label="Rebalance" sortKey="delta" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {sortedPortfolio.map((p) => (
-                  <tr key={p.id}>
-                    <td><strong>{p.symbol}</strong></td>
-                    <td>{p.name}</td>
-                    <td>{p.qty}</td>
-                    <td>${fmt(p.avgBuy)}</td>
-                    <td>{p.ltp != null ? `$${fmt(p.ltp)}` : '—'}</td>
-                    <td>${fmt(p.buyValue)}</td>
-                    <td>${fmt(p.presentValue)}</td>
-                    <td className={p.pnl >= 0 ? 'arrow up' : 'arrow down'}>
-                      {p.pnl >= 0 ? '+' : ''}${fmt(p.pnl)} ({p.pnlPct >= 0 ? '+' : ''}{fmt(p.pnlPct)}%)
-                    </td>
-                    <td>{fmt(p.allocation)}%</td>
-                    <td>
-                      <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        className="rebalance-target-input"
-                        placeholder="—"
-                        value={p.targetPct ?? ''}
-                        onChange={(e) => updateTargetPct(p.id, e.target.value)}
-                      />
-                    </td>
-                    <td className={p.delta == null ? 'muted' : p.delta > 0 ? 'arrow up' : p.delta < 0 ? 'arrow down' : ''}>
-                      {p.delta == null ? '—' : `${p.delta >= 0 ? 'Buy ' : 'Sell '}$${fmt(Math.abs(p.delta))}`}
-                    </td>
-                    <td>
-                      <button className="btn btn-ghost icon-btn" onClick={() => removeFromPortfolio(p.id)} aria-label={`Remove ${p.symbol}`}>✕</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+        <Tabs
+          defaultKey="markets"
+          tabs={[
+            {
+              key: 'markets',
+              label: 'Markets',
+              content: (
+                <>
+                  <TopCryptoTable rows={topRows} loading={topLoading} error={topError} />
+                  <TradeSignalsSection rows={topRows} loading={topLoading} />
+                  <CryptoRankingsTable rows={rankingRows} loading={rankingsLoading} error={rankingsError} />
+                </>
+              ),
+            },
+            {
+              key: 'watchlist',
+              label: `Watchlist${watchlist.length > 0 ? ` (${watchlist.length})` : ''}`,
+              content:
+                watchlist.length === 0 ? (
+                  <div className="card empty-state">
+                    <p>Search a coin above and tap "☆ Watch" to add it here.</p>
+                  </div>
+                ) : (
+                  <div className="table-scroll">
+                    <table className="stock-table">
+                      <thead>
+                        <tr>
+                          <SortableTh label="Symbol" sortKey="symbol" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
+                          <SortableTh label="Name" sortKey="name" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
+                          <SortableTh label="Price" sortKey="price" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {sortedWatchlist.map((w) => (
+                          <tr key={w.coinId}>
+                            <td><strong>{w.symbol}</strong></td>
+                            <td>{w.name}</td>
+                            <td>{w.price != null ? `$${fmt(w.price)}` : '—'}</td>
+                            <td>
+                              <button className="btn btn-ghost icon-btn" onClick={() => removeFromWatchlist(w.coinId)} aria-label={`Remove ${w.symbol}`}>✕</button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ),
+            },
+            {
+              key: 'portfolio',
+              label: `Portfolio${portfolio.length > 0 ? ` (${portfolio.length})` : ''}`,
+              content: (
+                <>
+                  <div className="batch-actions" style={{ alignItems: 'center' }}>
+                    <h2 className="section-title" style={{ margin: 0 }}>My Crypto Portfolio</h2>
+                    <DropdownMenu
+                      label="⋯ More"
+                      items={[
+                        { label: '⬇ Export CSV', onClick: handleExportCsv, disabled: portfolio.length === 0 },
+                        { label: '⬆ Import CSV', onClick: handleImportClick },
+                      ]}
+                    />
+                    <input ref={fileInputRef} type="file" accept=".csv,text/csv" hidden onChange={handleImportFile} />
+                  </div>
+                  {portfolio.length === 0 ? (
+                    <div className="card empty-state">
+                      <p>Search a coin above and add it to your portfolio.</p>
+                    </div>
+                  ) : (
+                    <div className="table-scroll">
+                      <table className="stock-table">
+                        <thead>
+                          <tr>
+                            <SortableTh label="Symbol" sortKey="symbol" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                            <SortableTh label="Name" sortKey="name" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                            <SortableTh label="Qty" sortKey="qty" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                            <SortableTh label="Avg Buy" sortKey="avgBuy" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                            <SortableTh label="LTP" sortKey="ltp" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                            <SortableTh label="Buy Value" sortKey="buyValue" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                            <SortableTh label="Present Value" sortKey="presentValue" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                            <SortableTh label="P&L" sortKey="pnl" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                            <SortableTh label="Allocation" sortKey="allocation" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                            <th title="Set a target % to see rebalancing suggestions">Target %</th>
+                            <SortableTh label="Rebalance" sortKey="delta" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {sortedPortfolio.map((p) => (
+                            <tr key={p.id}>
+                              <td><strong>{p.symbol}</strong></td>
+                              <td>{p.name}</td>
+                              <td>{p.qty}</td>
+                              <td>${fmt(p.avgBuy)}</td>
+                              <td>{p.ltp != null ? `$${fmt(p.ltp)}` : '—'}</td>
+                              <td>${fmt(p.buyValue)}</td>
+                              <td>${fmt(p.presentValue)}</td>
+                              <td className={p.pnl >= 0 ? 'arrow up' : 'arrow down'}>
+                                {p.pnl >= 0 ? '+' : ''}${fmt(p.pnl)} ({p.pnlPct >= 0 ? '+' : ''}{fmt(p.pnlPct)}%)
+                              </td>
+                              <td>{fmt(p.allocation)}%</td>
+                              <td>
+                                <input
+                                  type="number"
+                                  min="0"
+                                  max="100"
+                                  className="rebalance-target-input"
+                                  placeholder="—"
+                                  value={p.targetPct ?? ''}
+                                  onChange={(e) => updateTargetPct(p.id, e.target.value)}
+                                />
+                              </td>
+                              <td className={p.delta == null ? 'muted' : p.delta > 0 ? 'arrow up' : p.delta < 0 ? 'arrow down' : ''}>
+                                {p.delta == null ? '—' : `${p.delta >= 0 ? 'Buy ' : 'Sell '}$${fmt(Math.abs(p.delta))}`}
+                              </td>
+                              <td>
+                                <button className="btn btn-ghost icon-btn" onClick={() => removeFromPortfolio(p.id)} aria-label={`Remove ${p.symbol}`}>✕</button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </>
+              ),
+            },
+          ]}
+        />
       </div>
     </section>
   )

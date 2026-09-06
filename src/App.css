@@ -1623,3 +1623,42 @@
 .timeframe-verdict-badge {
   font-weight: 700;
 }
+
+.tabs {
+  margin: 2rem 0 3rem;
+}
+
+.tabs-strip {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+
+.tabs-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.85rem 1.1rem;
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.tabs-tab:hover {
+  color: var(--ink);
+}
+
+.tabs-tab.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+.tabs-panel > *:not(:last-child) {
+  margin-bottom: 2rem;
+}
