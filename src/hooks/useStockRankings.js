@@ -17,7 +17,7 @@ const BATCH_DELAY_MS = 20_000
 function readCache() {
   try {
     const cached = JSON.parse(sessionStorage.getItem(CACHE_KEY))
-    if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) return cached.rows
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) return cached
   } catch {
     // ignore malformed cache
   }
@@ -70,10 +70,12 @@ function sleep(ms) {
 }
 
 export function useStockRankings() {
-  const [rows, setRows] = useState(() => readCache() ?? [])
-  const [loading, setLoading] = useState(() => readCache() == null)
+  const initialCache = readCache()
+  const [rows, setRows] = useState(() => initialCache?.rows ?? [])
+  const [loading, setLoading] = useState(() => initialCache == null)
   const [progress, setProgress] = useState(null)
   const [error, setError] = useState(null)
+  const [updatedAt, setUpdatedAt] = useState(() => initialCache?.timestamp ?? null)
   const cancelledRef = useRef(false)
 
   useEffect(() => {
@@ -92,6 +94,7 @@ export function useStockRankings() {
         collected.push(...batchRows)
         if (cancelledRef.current) return
         setRows([...collected])
+        setUpdatedAt(Date.now())
         if (i + BATCH_SIZE < RANKING_STOCKS.length) await sleep(BATCH_DELAY_MS)
       }
       if (cancelledRef.current) return
@@ -112,5 +115,5 @@ export function useStockRankings() {
     }
   }, [])
 
-  return { rows, loading, progress, error }
+  return { rows, loading, progress, error, updatedAt }
 }

@@ -6,6 +6,7 @@ import { getQuote } from '../finnhub/client.js'
 export function useQuotes(symbols) {
   const [quotes, setQuotes] = useState({})
   const [loading, setLoading] = useState(false)
+  const [updatedAt, setUpdatedAt] = useState(null)
   const key = symbols.join(',')
 
   useEffect(() => {
@@ -14,7 +15,9 @@ export function useQuotes(symbols) {
     setLoading(true)
     Promise.all(symbols.map((s) => getQuote(s).then((q) => [s, q]).catch(() => [s, null])))
       .then((entries) => {
-        if (!cancelled) setQuotes(Object.fromEntries(entries))
+        if (cancelled) return
+        setQuotes(Object.fromEntries(entries))
+        setUpdatedAt(Date.now())
       })
       .finally(() => !cancelled && setLoading(false))
     return () => {
@@ -23,5 +26,5 @@ export function useQuotes(symbols) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key])
 
-  return { quotes, loading }
+  return { quotes, loading, updatedAt }
 }

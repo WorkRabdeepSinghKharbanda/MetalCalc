@@ -19,6 +19,7 @@ export default function Home() {
     currency,
     setCurrency,
     history,
+    updatedAt,
   } = useMarket()
 
   return (
@@ -36,6 +37,7 @@ export default function Home() {
         autoRefresh={autoRefresh}
         onAutoRefreshChange={setAutoRefresh}
         history={history}
+        updatedAt={updatedAt}
       />
       <Calculator
         prices={prices}

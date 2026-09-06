@@ -4,6 +4,7 @@ import Skeleton from './Skeleton.jsx'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import { CURRENCIES, CURRENCY_SYMBOLS } from '../utils/currency.js'
 import { useToast } from '../context/ToastContext.jsx'
+import LastUpdated from './LastUpdated.jsx'
 
 function changeArrow(current, prev) {
   if (prev == null || current === prev) return null
@@ -19,6 +20,7 @@ export default function Hero({
   autoRefresh,
   onAutoRefreshChange,
   history,
+  updatedAt,
 }) {
   const { t } = useLanguage()
   const showToast = useToast()
@@ -87,6 +89,8 @@ export default function Hero({
                 {autoRefresh ? '● Auto-refresh on (30s)' : '○ Auto-refresh off'}
               </button>
             </div>
+
+            <LastUpdated timestamp={updatedAt} />
 
             <div className="ticker">
               {Object.entries(prices).map(([m, p]) => {

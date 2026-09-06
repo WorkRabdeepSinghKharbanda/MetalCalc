@@ -4,6 +4,7 @@ import { getMarkets } from '../crypto/client.js'
 // Lightweight live-price fetch for a list of coin ids (portfolio table rows).
 export function useCryptoQuotes(ids) {
   const [quotes, setQuotes] = useState({})
+  const [updatedAt, setUpdatedAt] = useState(null)
   const key = ids.join(',')
 
   useEffect(() => {
@@ -11,7 +12,9 @@ export function useCryptoQuotes(ids) {
     let cancelled = false
     getMarkets(ids)
       .then((data) => {
-        if (!cancelled) setQuotes(Object.fromEntries(data.map((d) => [d.id, d.current_price])))
+        if (cancelled) return
+        setQuotes(Object.fromEntries(data.map((d) => [d.id, d.current_price])))
+        setUpdatedAt(Date.now())
       })
       .catch(() => {})
     return () => {
@@ -20,5 +23,5 @@ export function useCryptoQuotes(ids) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key])
 
-  return quotes
+  return { quotes, updatedAt }
 }

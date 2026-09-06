@@ -9,13 +9,14 @@ import { useCryptoQuotes } from '../hooks/useCryptoQuotes.js'
 import Seo from '../components/Seo.jsx'
 import PrintHeader from '../components/PrintHeader.jsx'
 import PrintFooter from '../components/PrintFooter.jsx'
+import LastUpdated from '../components/LastUpdated.jsx'
 
 function fmt(n) {
   return n == null || Number.isNaN(n) ? '—' : n.toLocaleString(undefined, { maximumFractionDigits: 2 })
 }
 
 export default function NetWorth() {
-  const { prices, rates, currency } = useMarket()
+  const { prices, rates, currency, updatedAt: metalsUpdatedAt } = useMarket()
   const symbol = CURRENCY_SYMBOLS[currency] ?? ''
   const rate = rates[currency] ?? 1
 
@@ -23,8 +24,8 @@ export default function NetWorth() {
   const stockPortfolio = loadPortfolio()
   const cryptoPortfolio = loadCryptoPortfolio()
 
-  const { quotes: stockQuotes } = useQuotes(stockPortfolio.map((p) => p.symbol))
-  const cryptoQuotes = useCryptoQuotes(cryptoPortfolio.map((p) => p.coinId))
+  const { quotes: stockQuotes, updatedAt: stocksUpdatedAt } = useQuotes(stockPortfolio.map((p) => p.symbol))
+  const { quotes: cryptoQuotes, updatedAt: cryptoUpdatedAt } = useCryptoQuotes(cryptoPortfolio.map((p) => p.coinId))
 
   const metalsValue = prices
     ? holdings.reduce((sum, it) => {
@@ -45,9 +46,9 @@ export default function NetWorth() {
 
   const total = metalsValue + stocksValue + cryptoValue
   const rows = [
-    { label: 'Precious metals', value: metalsValue, empty: holdings.length === 0 },
-    { label: 'Stocks', value: stocksValue, empty: stockPortfolio.length === 0 },
-    { label: 'Crypto', value: cryptoValue, empty: cryptoPortfolio.length === 0 },
+    { label: 'Precious metals', value: metalsValue, empty: holdings.length === 0, updatedAt: metalsUpdatedAt },
+    { label: 'Stocks', value: stocksValue, empty: stockPortfolio.length === 0, updatedAt: stocksUpdatedAt },
+    { label: 'Crypto', value: cryptoValue, empty: cryptoPortfolio.length === 0, updatedAt: cryptoUpdatedAt },
   ]
 
   return (
@@ -79,6 +80,7 @@ export default function NetWorth() {
               {!r.empty && total > 0 && (
                 <span className="muted small-note">{((r.value / total) * 100).toFixed(1)}% of total</span>
               )}
+              {!r.empty && <LastUpdated timestamp={r.updatedAt} />}
             </div>
           ))}
         </div>

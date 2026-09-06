@@ -8,6 +8,7 @@ export function useCryptoRankings() {
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [updatedAt, setUpdatedAt] = useState(null)
 
   useEffect(() => {
     let cancelled = false
@@ -17,6 +18,7 @@ export function useCryptoRankings() {
     getMarkets(RANKING_COINS.map((c) => c.id))
       .then((data) => {
         if (cancelled) return
+        setUpdatedAt(Date.now())
         const byId = Object.fromEntries(data.map((d) => [d.id, d]))
         setRows(
           RANKING_COINS.map((c) => {
@@ -41,5 +43,5 @@ export function useCryptoRankings() {
     }
   }, [])
 
-  return { rows, loading, error }
+  return { rows, loading, error, updatedAt }
 }

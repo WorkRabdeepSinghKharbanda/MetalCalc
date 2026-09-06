@@ -1662,3 +1662,8 @@
 .tabs-panel > *:not(:last-child) {
   margin-bottom: 2rem;
 }
+
+.last-updated {
+  display: block;
+  margin: 0.35rem 0 0.75rem;
+}

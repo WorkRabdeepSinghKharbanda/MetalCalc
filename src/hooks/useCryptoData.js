@@ -5,6 +5,7 @@ export function useCryptoData(id) {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [updatedAt, setUpdatedAt] = useState(null)
 
   useEffect(() => {
     if (!id) {
@@ -16,7 +17,9 @@ export function useCryptoData(id) {
     setError(null)
     getMarkets([id])
       .then((rows) => {
-        if (!cancelled) setData(rows[0] ?? null)
+        if (cancelled) return
+        setData(rows[0] ?? null)
+        setUpdatedAt(Date.now())
       })
       .catch((e) => !cancelled && setError(e.message))
       .finally(() => !cancelled && setLoading(false))
@@ -25,5 +28,5 @@ export function useCryptoData(id) {
     }
   }, [id])
 
-  return { data, loading, error }
+  return { data, loading, error, updatedAt }
 }

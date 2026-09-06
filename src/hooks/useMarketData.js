@@ -29,6 +29,7 @@ export function useMarketData() {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
   const [autoRefresh, setAutoRefresh] = useState(false)
+  const [updatedAt, setUpdatedAt] = useState(null)
   const pricesRef = useRef(null)
 
   function load() {
@@ -40,6 +41,7 @@ export function useMarketData() {
         pricesRef.current = nextPrices
         setPrices(nextPrices)
         setRates(nextRates)
+        setUpdatedAt(Date.now())
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false))
@@ -62,5 +64,6 @@ export function useMarketData() {
     refresh: load,
     autoRefresh,
     setAutoRefresh,
+    updatedAt,
   }
 }

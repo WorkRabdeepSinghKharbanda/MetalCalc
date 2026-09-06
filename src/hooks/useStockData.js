@@ -22,6 +22,7 @@ export function useStockData(symbol) {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [updatedAt, setUpdatedAt] = useState(null)
 
   useEffect(() => {
     if (!symbol) {
@@ -61,6 +62,7 @@ export function useStockData(symbol) {
               ? candles.t.map((t, i) => ({ t, c: candles.c[i] }))
               : [],
         })
+        setUpdatedAt(Date.now())
       })
       .catch((e) => !cancelled && setError(e.message))
       .finally(() => !cancelled && setLoading(false))
@@ -70,5 +72,5 @@ export function useStockData(symbol) {
     }
   }, [symbol])
 
-  return { data, loading, error }
+  return { data, loading, error, updatedAt }
 }

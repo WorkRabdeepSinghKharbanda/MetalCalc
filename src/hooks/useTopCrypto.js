@@ -5,6 +5,7 @@ export function useTopCrypto(perPage = 50) {
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [updatedAt, setUpdatedAt] = useState(null)
 
   useEffect(() => {
     let cancelled = false
@@ -13,6 +14,7 @@ export function useTopCrypto(perPage = 50) {
     getTopMarkets(perPage)
       .then((data) => {
         if (cancelled) return
+        setUpdatedAt(Date.now())
         setRows(
           data.map((d) => ({
             id: d.id,
@@ -35,5 +37,5 @@ export function useTopCrypto(perPage = 50) {
     }
   }, [perPage])
 
-  return { rows, loading, error }
+  return { rows, loading, error, updatedAt }
 }

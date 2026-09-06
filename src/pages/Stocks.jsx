@@ -18,6 +18,7 @@ import WhatsAppAlerts from '../components/WhatsAppAlerts.jsx'
 import DropdownMenu from '../components/DropdownMenu.jsx'
 import SortableTh from '../components/SortableTh.jsx'
 import Tabs from '../components/Tabs.jsx'
+import LastUpdated from '../components/LastUpdated.jsx'
 import Seo from '../components/Seo.jsx'
 import { useToast } from '../context/ToastContext.jsx'
 
@@ -36,10 +37,10 @@ export default function Stocks() {
   const fileInputRef = useRef(null)
 
   const { results } = useSymbolSearch(query)
-  const { data, loading, error } = useStockData(selected?.symbol)
+  const { data, loading, error, updatedAt: dataUpdatedAt } = useStockData(selected?.symbol)
   const symbols = [...new Set([...portfolio.map((p) => p.symbol), ...watchlist.map((w) => w.symbol)])]
-  const { quotes } = useQuotes(symbols)
-  const { rows: rankingRows, loading: rankingsLoading, progress: rankingsProgress, error: rankingsError } = useStockRankings()
+  const { quotes, updatedAt: quotesUpdatedAt } = useQuotes(symbols)
+  const { rows: rankingRows, loading: rankingsLoading, progress: rankingsProgress, error: rankingsError, updatedAt: rankingsUpdatedAt } = useStockRankings()
   const topPick = rankByPeg(rankingRows).find((r) => r.peg != null) ?? null
 
   function selectResult(r) {
@@ -222,6 +223,7 @@ export default function Stocks() {
                         {data.quote.dp >= 0 ? '▲' : '▼'} {fmt(Math.abs(data.quote.dp))}%
                       </span>
                     )}
+                    <LastUpdated timestamp={dataUpdatedAt} />
                   </div>
                 </div>
 
@@ -305,6 +307,7 @@ export default function Stocks() {
               label: 'Markets',
               content: (
                 <>
+                  <LastUpdated timestamp={rankingsUpdatedAt} />
                   <TechRankingsTable rows={rankingRows} loading={rankingsLoading} progress={rankingsProgress} error={rankingsError} />
                   <StockTradeSignalsSection rows={rankingRows} loading={rankingsLoading} />
                   <p className="muted small-note">
@@ -324,34 +327,37 @@ export default function Stocks() {
                     <p>Search a stock above and tap "☆ Watch" to add it here.</p>
                   </div>
                 ) : (
-                  <div className="table-scroll">
-                    <table className="stock-table">
-                      <thead>
-                        <tr>
-                          <SortableTh label="Symbol" sortKey="symbol" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
-                          <SortableTh label="Name" sortKey="name" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
-                          <SortableTh label="Price" sortKey="price" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
-                          <SortableTh label="Chg %" sortKey="changePct" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {sortedWatchlist.map((w) => (
-                          <tr key={w.symbol}>
-                            <td><strong>{w.symbol}</strong></td>
-                            <td>{w.name}</td>
-                            <td>{w.price != null ? `$${fmt(w.price)}` : '—'}</td>
-                            <td className={w.changePct >= 0 ? 'arrow up' : w.changePct < 0 ? 'arrow down' : ''}>
-                              {w.changePct != null ? `${w.changePct >= 0 ? '+' : ''}${fmt(w.changePct)}%` : '—'}
-                            </td>
-                            <td>
-                              <button className="btn btn-ghost icon-btn" onClick={() => removeFromWatchlist(w.symbol)} aria-label={`Remove ${w.symbol}`}>✕</button>
-                            </td>
+                  <>
+                    <LastUpdated timestamp={quotesUpdatedAt} />
+                    <div className="table-scroll">
+                      <table className="stock-table">
+                        <thead>
+                          <tr>
+                            <SortableTh label="Symbol" sortKey="symbol" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
+                            <SortableTh label="Name" sortKey="name" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
+                            <SortableTh label="Price" sortKey="price" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
+                            <SortableTh label="Chg %" sortKey="changePct" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
+                            <th></th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                        </thead>
+                        <tbody>
+                          {sortedWatchlist.map((w) => (
+                            <tr key={w.symbol}>
+                              <td><strong>{w.symbol}</strong></td>
+                              <td>{w.name}</td>
+                              <td>{w.price != null ? `$${fmt(w.price)}` : '—'}</td>
+                              <td className={w.changePct >= 0 ? 'arrow up' : w.changePct < 0 ? 'arrow down' : ''}>
+                                {w.changePct != null ? `${w.changePct >= 0 ? '+' : ''}${fmt(w.changePct)}%` : '—'}
+                              </td>
+                              <td>
+                                <button className="btn btn-ghost icon-btn" onClick={() => removeFromWatchlist(w.symbol)} aria-label={`Remove ${w.symbol}`}>✕</button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </>
                 ),
             },
             {
@@ -375,6 +381,8 @@ export default function Stocks() {
                       <p>Search a stock above and add it to your portfolio.</p>
                     </div>
                   ) : (
+                    <>
+                    <LastUpdated timestamp={quotesUpdatedAt} />
                     <div className="table-scroll">
                       <table className="stock-table">
                         <thead>
@@ -429,6 +437,7 @@ export default function Stocks() {
                         </tbody>
                       </table>
                     </div>
+                    </>
                   )}
                 </>
               ),

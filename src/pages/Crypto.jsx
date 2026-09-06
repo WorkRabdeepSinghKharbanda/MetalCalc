@@ -16,6 +16,7 @@ import TimeframeSignals from '../components/TimeframeSignals.jsx'
 import DropdownMenu from '../components/DropdownMenu.jsx'
 import SortableTh from '../components/SortableTh.jsx'
 import Tabs from '../components/Tabs.jsx'
+import LastUpdated from '../components/LastUpdated.jsx'
 import Seo from '../components/Seo.jsx'
 import { useToast } from '../context/ToastContext.jsx'
 
@@ -34,11 +35,11 @@ export default function Crypto() {
   const fileInputRef = useRef(null)
 
   const { results } = useCoinSearch(query)
-  const { data, loading, error } = useCryptoData(selected?.id)
+  const { data, loading, error, updatedAt: dataUpdatedAt } = useCryptoData(selected?.id)
   const ids = [...new Set([...portfolio.map((p) => p.coinId), ...watchlist.map((w) => w.coinId)])]
-  const quotes = useCryptoQuotes(ids)
-  const { rows: rankingRows, loading: rankingsLoading, error: rankingsError } = useCryptoRankings()
-  const { rows: topRows, loading: topLoading, error: topError } = useTopCrypto(50)
+  const { quotes, updatedAt: quotesUpdatedAt } = useCryptoQuotes(ids)
+  const { rows: rankingRows, loading: rankingsLoading, error: rankingsError, updatedAt: rankingsUpdatedAt } = useCryptoRankings()
+  const { rows: topRows, loading: topLoading, error: topError, updatedAt: topUpdatedAt } = useTopCrypto(50)
 
   function selectResult(c) {
     setSelected({ id: c.id, symbol: c.symbol.toUpperCase(), name: c.name })
@@ -200,6 +201,7 @@ export default function Crypto() {
                         {data.price_change_percentage_24h >= 0 ? '▲' : '▼'} {fmt(Math.abs(data.price_change_percentage_24h))}%
                       </span>
                     )}
+                    <LastUpdated timestamp={dataUpdatedAt} />
                   </div>
                 </div>
 
@@ -239,8 +241,10 @@ export default function Crypto() {
               label: 'Markets',
               content: (
                 <>
+                  <LastUpdated timestamp={topUpdatedAt} />
                   <TopCryptoTable rows={topRows} loading={topLoading} error={topError} />
                   <TradeSignalsSection rows={topRows} loading={topLoading} />
+                  <LastUpdated timestamp={rankingsUpdatedAt} />
                   <CryptoRankingsTable rows={rankingRows} loading={rankingsLoading} error={rankingsError} />
                 </>
               ),
@@ -254,29 +258,32 @@ export default function Crypto() {
                     <p>Search a coin above and tap "☆ Watch" to add it here.</p>
                   </div>
                 ) : (
-                  <div className="table-scroll">
-                    <table className="stock-table">
-                      <thead>
-                        <tr>
-                          <SortableTh label="Symbol" sortKey="symbol" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
-                          <SortableTh label="Name" sortKey="name" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
-                          <SortableTh label="Price" sortKey="price" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {sortedWatchlist.map((w) => (
-                          <tr key={w.coinId}>
-                            <td><strong>{w.symbol}</strong></td>
-                            <td>{w.name}</td>
-                            <td>{w.price != null ? `$${fmt(w.price)}` : '—'}</td>
-                            <td>
-                              <button className="btn btn-ghost icon-btn" onClick={() => removeFromWatchlist(w.coinId)} aria-label={`Remove ${w.symbol}`}>✕</button>
-                            </td>
+                  <div>
+                    <LastUpdated timestamp={quotesUpdatedAt} />
+                    <div className="table-scroll">
+                      <table className="stock-table">
+                        <thead>
+                          <tr>
+                            <SortableTh label="Symbol" sortKey="symbol" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
+                            <SortableTh label="Name" sortKey="name" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
+                            <SortableTh label="Price" sortKey="price" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
+                            <th></th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {sortedWatchlist.map((w) => (
+                            <tr key={w.coinId}>
+                              <td><strong>{w.symbol}</strong></td>
+                              <td>{w.name}</td>
+                              <td>{w.price != null ? `$${fmt(w.price)}` : '—'}</td>
+                              <td>
+                                <button className="btn btn-ghost icon-btn" onClick={() => removeFromWatchlist(w.coinId)} aria-label={`Remove ${w.symbol}`}>✕</button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 ),
             },
@@ -301,7 +308,9 @@ export default function Crypto() {
                       <p>Search a coin above and add it to your portfolio.</p>
                     </div>
                   ) : (
-                    <div className="table-scroll">
+                    <>
+                      <LastUpdated timestamp={quotesUpdatedAt} />
+                      <div className="table-scroll">
                       <table className="stock-table">
                         <thead>
                           <tr>
@@ -354,7 +363,8 @@ export default function Crypto() {
                           ))}
                         </tbody>
                       </table>
-                    </div>
+                      </div>
+                    </>
                   )}
                 </>
               ),
