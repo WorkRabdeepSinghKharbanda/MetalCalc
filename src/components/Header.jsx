@@ -1,4 +1,5 @@
-import { Link, NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useTheme } from '../hooks/useTheme.js'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import { LANGUAGES } from '../i18n/translations.js'
@@ -7,6 +8,12 @@ import DropdownMenu from './DropdownMenu.jsx'
 export default function Header() {
   const [theme, toggleTheme] = useTheme()
   const { lang, setLang, t } = useLanguage()
+  const [navOpen, setNavOpen] = useState(false)
+  const location = useLocation()
+
+  useEffect(() => {
+    setNavOpen(false)
+  }, [location.pathname])
 
   return (
     <header className="site-header">
@@ -14,7 +21,15 @@ export default function Header() {
         <Link to="/" className="brand">
           <span className="brand-mark">◆</span> MetalCalc
         </Link>
-        <nav className="nav">
+        <button
+          className="nav-toggle"
+          onClick={() => setNavOpen((o) => !o)}
+          aria-expanded={navOpen}
+          aria-label="Toggle navigation menu"
+        >
+          {navOpen ? '✕' : '☰'}
+        </button>
+        <nav className={`nav ${navOpen ? 'nav-open' : ''}`}>
           <Link to="/#calculator">{t('navCalculator')}</Link>
           <NavLink to="/batch" className={({ isActive }) => (isActive ? 'active' : '')}>{t('navBatch')}</NavLink>
           <NavLink to="/holdings" className={({ isActive }) => (isActive ? 'active' : '')}>{t('navHoldings')}</NavLink>

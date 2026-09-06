@@ -1349,11 +1349,72 @@
   .feature-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+@media (max-width: 860px) {
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .header-inner {
+    position: relative;
+  }
+
+  .nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
     flex-direction: column;
-    height: auto;
-    padding: 1rem 0;
-    gap: 0.5rem;
+    align-items: stretch;
+    gap: 0;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 0.5rem 1.25rem 1rem;
+    max-height: calc(100vh - 72px);
+    overflow-y: auto;
+    z-index: 100;
+  }
+
+  .nav.nav-open {
+    display: flex;
+  }
+
+  .nav a,
+  .nav .dropdown > .btn {
+    padding: 0.75rem 0.25rem;
+    width: 100%;
+    text-align: left;
+  }
+
+  .nav .dropdown-menu {
+    position: static;
+    box-shadow: none;
+    border: none;
+    width: 100%;
+    padding-left: 0.75rem;
+  }
+
+  .nav .lang-select,
+  .nav .theme-toggle,
+  .nav .command-palette-trigger {
+    margin-top: 0.5rem;
   }
 }
 
