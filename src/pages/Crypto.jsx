@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { Fragment, useRef, useState } from 'react'
 import { useCoinSearch } from '../hooks/useCoinSearch.js'
 import { useCryptoData } from '../hooks/useCryptoData.js'
 import { useCryptoQuotes } from '../hooks/useCryptoQuotes.js'
@@ -22,6 +22,10 @@ import Seo from '../components/Seo.jsx'
 import { useToast } from '../context/ToastContext.jsx'
 import { useMarket } from '../context/MarketContext.jsx'
 import { CURRENCY_SYMBOLS } from '../utils/currency.js'
+import { sellLot } from '../utils/costBasis.js'
+import { loadCryptoRealizedGains, saveCryptoRealizedGains } from '../utils/cryptoRealizedGains.js'
+import RealizedGainsSection from '../components/RealizedGainsSection.jsx'
+import DcaSimulator from '../components/DcaSimulator.jsx'
 
 function fmt(n, decimals = 2) {
   return n == null || Number.isNaN(n) ? '—' : n.toLocaleString(undefined, { maximumFractionDigits: decimals })
@@ -40,6 +44,10 @@ export default function Crypto() {
   const [avgBuy, setAvgBuy] = useState('')
   const [portfolio, setPortfolio] = useState(() => loadCryptoPortfolio())
   const [watchlist, setWatchlist] = useState(() => loadCryptoWatchlist())
+  const [realizedGains, setRealizedGains] = useState(() => loadCryptoRealizedGains())
+  const [sellingId, setSellingId] = useState(null)
+  const [sellQty, setSellQty] = useState('')
+  const [sellPrice, setSellPrice] = useState('')
   const fileInputRef = useRef(null)
 
   const { results } = useCoinSearch(query)
@@ -72,6 +80,37 @@ export default function Crypto() {
 
   function updateTargetPct(id, targetPct) {
     setPortfolio(saveCryptoPortfolio(portfolio.map((p) => (p.id === id ? { ...p, targetPct } : p))))
+  }
+
+  function startSell(p) {
+    setSellingId(p.id)
+    setSellQty(String(p.qty))
+    setSellPrice(p.ltp != null ? String(p.ltp) : '')
+  }
+
+  function cancelSell() {
+    setSellingId(null)
+  }
+
+  function confirmSell(p) {
+    const result = sellLot(p, sellQty, sellPrice)
+    if (!result) {
+      showToast('Enter a valid qty and sell price')
+      return
+    }
+    const { remainingLot, gainEntry } = result
+    const nextPortfolio = remainingLot
+      ? portfolio.map((x) => (x.id === p.id ? remainingLot : x))
+      : portfolio.filter((x) => x.id !== p.id)
+    setPortfolio(saveCryptoPortfolio(nextPortfolio))
+    const nextGains = [{ ...gainEntry, symbol: p.symbol }, ...realizedGains]
+    setRealizedGains(saveCryptoRealizedGains(nextGains))
+    showToast(`Sold ${gainEntry.qty} ${p.symbol} — ${gainEntry.gain >= 0 ? '+' : ''}${fmtC(gainEntry.gain)} realized`)
+    setSellingId(null)
+  }
+
+  function deleteGain(id) {
+    setRealizedGains(saveCryptoRealizedGains(realizedGains.filter((g) => g.id !== id)))
   }
 
   const isWatched = selected && watchlist.some((w) => w.coinId === selected.id)
@@ -223,6 +262,7 @@ export default function Crypto() {
                 </div>
 
                 <TimeframeSignals coinId={selected.id} />
+                <DcaSimulator coinId={selected.id} />
 
                 <div className="stock-add-form">
                   <label>
@@ -339,42 +379,64 @@ export default function Crypto() {
                         </thead>
                         <tbody>
                           {sortedPortfolio.map((p) => (
-                            <tr key={p.id}>
-                              <td><strong>{p.symbol}</strong></td>
-                              <td>{p.name}</td>
-                              <td>{p.qty}</td>
-                              <td>{fmtC(p.avgBuy)}</td>
-                              <td>{p.ltp != null ? fmtC(p.ltp) : '—'}</td>
-                              <td>{fmtC(p.buyValue)}</td>
-                              <td>{fmtC(p.presentValue)}</td>
-                              <td className={p.pnl >= 0 ? 'arrow up' : 'arrow down'}>
-                                {p.pnl >= 0 ? '+' : ''}{fmtC(p.pnl)} ({p.pnlPct >= 0 ? '+' : ''}{fmt(p.pnlPct)}%)
-                              </td>
-                              <td>{fmt(p.allocation)}%</td>
-                              <td>
-                                <input
-                                  type="number"
-                                  min="0"
-                                  max="100"
-                                  className="rebalance-target-input"
-                                  placeholder="—"
-                                  value={p.targetPct ?? ''}
-                                  onChange={(e) => updateTargetPct(p.id, e.target.value)}
-                                />
-                              </td>
-                              <td className={p.delta == null ? 'muted' : p.delta > 0 ? 'arrow up' : p.delta < 0 ? 'arrow down' : ''}>
-                                {p.delta == null ? '—' : `${p.delta >= 0 ? 'Buy ' : 'Sell '}${fmtC(Math.abs(p.delta))}`}
-                              </td>
-                              <td>
-                                <button className="btn btn-ghost icon-btn" onClick={() => removeFromPortfolio(p.id)} aria-label={`Remove ${p.symbol}`}>✕</button>
-                              </td>
-                            </tr>
+                            <Fragment key={p.id}>
+                              <tr>
+                                <td><strong>{p.symbol}</strong></td>
+                                <td>{p.name}</td>
+                                <td>{p.qty}</td>
+                                <td>{fmtC(p.avgBuy)}</td>
+                                <td>{p.ltp != null ? fmtC(p.ltp) : '—'}</td>
+                                <td>{fmtC(p.buyValue)}</td>
+                                <td>{fmtC(p.presentValue)}</td>
+                                <td className={p.pnl >= 0 ? 'arrow up' : 'arrow down'}>
+                                  {p.pnl >= 0 ? '+' : ''}{fmtC(p.pnl)} ({p.pnlPct >= 0 ? '+' : ''}{fmt(p.pnlPct)}%)
+                                </td>
+                                <td>{fmt(p.allocation)}%</td>
+                                <td>
+                                  <input
+                                    type="number"
+                                    min="0"
+                                    max="100"
+                                    className="rebalance-target-input"
+                                    placeholder="—"
+                                    value={p.targetPct ?? ''}
+                                    onChange={(e) => updateTargetPct(p.id, e.target.value)}
+                                  />
+                                </td>
+                                <td className={p.delta == null ? 'muted' : p.delta > 0 ? 'arrow up' : p.delta < 0 ? 'arrow down' : ''}>
+                                  {p.delta == null ? '—' : `${p.delta >= 0 ? 'Buy ' : 'Sell '}${fmtC(Math.abs(p.delta))}`}
+                                </td>
+                                <td>
+                                  <button className="btn btn-ghost icon-btn" onClick={() => startSell(p)} aria-label={`Sell ${p.symbol}`} title="Record a sale">$</button>
+                                  <button className="btn btn-ghost icon-btn" onClick={() => removeFromPortfolio(p.id)} aria-label={`Remove ${p.symbol}`}>✕</button>
+                                </td>
+                              </tr>
+                              {sellingId === p.id && (
+                                <tr>
+                                  <td colSpan={11}>
+                                    <div className="stock-add-form" style={{ margin: 0 }}>
+                                      <label>
+                                        Qty to sell (max {p.qty})
+                                        <input type="number" min="0" max={p.qty} step="any" value={sellQty} onChange={(e) => setSellQty(e.target.value)} />
+                                      </label>
+                                      <label>
+                                        Sell price ($)
+                                        <input type="number" min="0" value={sellPrice} onChange={(e) => setSellPrice(e.target.value)} />
+                                      </label>
+                                      <button className="btn btn-primary" onClick={() => confirmSell(p)}>Confirm sale</button>
+                                      <button className="btn btn-ghost" onClick={cancelSell}>Cancel</button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              )}
+                            </Fragment>
                           ))}
                         </tbody>
                       </table>
                       </div>
                     </>
                   )}
+                  <RealizedGainsSection gains={realizedGains} fmtC={fmtC} onDelete={deleteGain} />
                 </>
               ),
             },
