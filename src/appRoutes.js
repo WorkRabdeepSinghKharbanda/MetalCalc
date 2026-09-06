@@ -23,4 +23,5 @@ export const APP_ROUTES = [
   { label: 'Tax Reverse Calc', path: '/tax-reverse', group: 'Tools' },
   { label: 'Backup & Restore', path: '/backup', group: 'Tools' },
   { label: 'FAQ', path: '/faq', group: 'Other' },
+  { label: 'Privacy Policy', path: '/privacy-policy', group: 'Other' },
 ]

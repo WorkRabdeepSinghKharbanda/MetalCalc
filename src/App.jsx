@@ -23,11 +23,13 @@ import AlloyMix from './pages/AlloyMix.jsx'
 import TaxReverse from './pages/TaxReverse.jsx'
 import BillBreakdown from './pages/BillBreakdown.jsx'
 import Backup from './pages/Backup.jsx'
+import PrivacyPolicy from './pages/PrivacyPolicy.jsx'
 import Widget from './pages/Widget.jsx'
 import NotFound from './pages/NotFound.jsx'
 import OfflineBanner from './components/OfflineBanner.jsx'
 import CommandPalette from './components/CommandPalette.jsx'
 import InstallPrompt from './components/InstallPrompt.jsx'
+import CookieConsentBanner from './components/CookieConsentBanner.jsx'
 import { MarketProvider } from './context/MarketContext.jsx'
 import { LanguageProvider } from './context/LanguageContext.jsx'
 import { ToastProvider } from './context/ToastContext.jsx'
@@ -47,6 +49,7 @@ export default function App() {
               <OfflineBanner />
               <InstallPrompt />
               <CommandPalette />
+              <CookieConsentBanner />
               <Header />
               <main>
                 <Routes>
@@ -70,6 +73,7 @@ export default function App() {
                   <Route path="/tax-reverse" element={<TaxReverse />} />
                   <Route path="/bill-breakdown" element={<BillBreakdown />} />
                   <Route path="/backup" element={<Backup />} />
+                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                   <Route path="/alerts" element={<Alerts />} />
                   <Route path="/faq" element={<Faq />} />
                   <Route path="*" element={<NotFound />} />

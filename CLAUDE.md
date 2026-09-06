@@ -3,9 +3,11 @@
 Read before touching code, in order:
 
 1. [README.md](README.md) — setup, dev/build/deploy commands.
-2. This file — architecture + control flow, per feature.
-3. [src/calc.js](src/calc.js) — pure metal pricing math (source of truth for units/purity).
-4. Whichever feature section below matches the task.
+2. [.claude/brain/feature/000-index.md](.claude/brain/feature/000-index.md) — full feature/route inventory, one file per tool. Source of truth is `src/appRoutes.js` + `src/App.jsx`'s `<Routes>` — regenerate the brain from those if they disagree with what's listed there.
+3. This file — architecture + control flow, per feature.
+4. [src/calc.js](src/calc.js) — pure metal pricing math (source of truth for units/purity).
+5. Whichever feature section below matches the task.
+6. [.claude/rules/branching.md](.claude/rules/branching.md) — this is a solo repo: push straight to master, no branches/PRs, and always run the deploy CLI after pushing.
 
 ## What this is
 
