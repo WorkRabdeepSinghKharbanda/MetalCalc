@@ -1,6 +1,4 @@
-// Placeholder until a real AdSense account exists — swap this for the real
-// ca-pub-... id from adsense.google.com, and public/ads.txt's pub-... to match.
-export const ADSENSE_CLIENT_ID = 'ca-pub-0000000000000000'
+export const ADSENSE_CLIENT_ID = 'ca-pub-5852027898822024'
 
 export function isAdsConfigured() {
   return ADSENSE_CLIENT_ID !== 'ca-pub-0000000000000000'
