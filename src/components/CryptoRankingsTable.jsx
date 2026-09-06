@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { RANKING_CATEGORIES } from '../crypto/rankingList.js'
-import { rankByAthDiscount } from '../utils/rankCrypto.js'
+import { useSortableTable } from '../hooks/useSortableTable.js'
+import SortableTh from './SortableTh.jsx'
 
 function fmt(n, decimals = 2) {
   return n == null || Number.isNaN(n) ? '—' : n.toLocaleString(undefined, { maximumFractionDigits: decimals })
@@ -18,8 +19,11 @@ function rangePosition(price, low, high) {
 export default function CryptoRankingsTable({ rows, loading, error }) {
   const [category, setCategory] = useState('All')
 
-  const filtered = rows.filter((r) => category === 'All' || r.category === category)
-  const sorted = rankByAthDiscount(filtered)
+  const filtered = rows
+    .filter((r) => category === 'All' || r.category === category)
+    .map((r) => ({ ...r, rangePos: rangePosition(r.price, r.low24h, r.high24h) }))
+
+  const { sorted, sortKey, sortDir, toggleSort } = useSortableTable(filtered, 'athChangePct', 'asc')
 
   return (
     <div className="rankings-section">
@@ -34,8 +38,8 @@ export default function CryptoRankingsTable({ rows, loading, error }) {
         </div>
       </div>
       <p className="muted small-note" style={{ marginBottom: '1rem' }}>
-        Ranked ascending by discount from all-time-high (biggest dip from peak first). "24h Zone" shows where today's
-        price sits in its 24h range. Today's snapshot, not investment advice.
+        Click any column header to sort. "24h Zone" shows where today's price sits in its 24h range. Today's
+        snapshot, not investment advice.
       </p>
 
       {loading && <p className="muted">Loading rankings…</p>}
@@ -47,43 +51,40 @@ export default function CryptoRankingsTable({ rows, loading, error }) {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Symbol</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>24h %</th>
-                <th>Market Cap</th>
-                <th>From ATH</th>
-                <th title="Position in today's 24h range">24h Zone</th>
+                <SortableTh label="Symbol" sortKey="symbol" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="Name" sortKey="name" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="Category" sortKey="category" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="Price" sortKey="price" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="24h %" sortKey="changePct" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="Market Cap" sortKey="marketCap" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="From ATH" sortKey="athChangePct" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="24h Zone" sortKey="rangePos" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} title="Position in today's 24h range" />
               </tr>
             </thead>
             <tbody>
-              {sorted.map((r, i) => {
-                const pos = rangePosition(r.price, r.low24h, r.high24h)
-                return (
-                  <tr key={r.id} className={i === 0 && r.athChangePct != null ? 'top-pick' : ''}>
-                    <td>{i === 0 && r.athChangePct != null ? '🏆' : i + 1}</td>
-                    <td><strong>{r.symbol}</strong></td>
-                    <td>{r.name}</td>
-                    <td>{r.category}</td>
-                    <td>{r.price != null ? `$${fmt(r.price)}` : '—'}</td>
-                    <td className={r.changePct >= 0 ? 'arrow up' : r.changePct < 0 ? 'arrow down' : ''}>
-                      {r.changePct != null ? `${r.changePct >= 0 ? '+' : ''}${fmt(r.changePct)}%` : '—'}
-                    </td>
-                    <td>{r.marketCap != null ? `$${fmt(r.marketCap / 1e9, 1)}B` : '—'}</td>
-                    <td className={r.athChangePct != null && r.athChangePct >= -10 ? 'arrow up' : ''}>
-                      {r.athChangePct != null ? `${fmt(r.athChangePct)}%` : '—'}
-                    </td>
-                    <td>
-                      {pos != null ? (
-                        <span className={pos <= 20 ? 'arrow up' : pos >= 80 ? 'arrow down' : 'muted'}>
-                          {fmt(pos, 0)}%
-                        </span>
-                      ) : '—'}
-                    </td>
-                  </tr>
-                )
-              })}
+              {sorted.map((r, i) => (
+                <tr key={r.id} className={i === 0 && sortKey === 'athChangePct' && sortDir === 'asc' && r.athChangePct != null ? 'top-pick' : ''}>
+                  <td>{i === 0 && sortKey === 'athChangePct' && sortDir === 'asc' && r.athChangePct != null ? '🏆' : i + 1}</td>
+                  <td><strong>{r.symbol}</strong></td>
+                  <td>{r.name}</td>
+                  <td>{r.category}</td>
+                  <td>{r.price != null ? `$${fmt(r.price)}` : '—'}</td>
+                  <td className={r.changePct >= 0 ? 'arrow up' : r.changePct < 0 ? 'arrow down' : ''}>
+                    {r.changePct != null ? `${r.changePct >= 0 ? '+' : ''}${fmt(r.changePct)}%` : '—'}
+                  </td>
+                  <td>{r.marketCap != null ? `$${fmt(r.marketCap / 1e9, 1)}B` : '—'}</td>
+                  <td className={r.athChangePct != null && r.athChangePct >= -10 ? 'arrow up' : ''}>
+                    {r.athChangePct != null ? `${fmt(r.athChangePct)}%` : '—'}
+                  </td>
+                  <td>
+                    {r.rangePos != null ? (
+                      <span className={r.rangePos <= 20 ? 'arrow up' : r.rangePos >= 80 ? 'arrow down' : 'muted'}>
+                        {fmt(r.rangePos, 0)}%
+                      </span>
+                    ) : '—'}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

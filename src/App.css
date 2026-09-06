@@ -1162,6 +1162,21 @@
   color: var(--ink-soft);
 }
 
+.sortable-th {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.sortable-th:hover {
+  color: var(--ink);
+}
+
+.sort-arrow {
+  color: var(--gold);
+  font-size: 0.65rem;
+}
+
 /* Compare batches page */
 .compare-page {
   padding: 4rem 0 5rem;

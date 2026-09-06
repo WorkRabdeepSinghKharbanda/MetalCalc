@@ -10,11 +10,13 @@ import { loadWatchlist, saveWatchlist } from '../utils/stockWatchlist.js'
 import { rankByPeg } from '../utils/rankStocks.js'
 import { downloadCsv } from '../utils/downloadCsv.js'
 import { parseCsv } from '../utils/parseCsv.js'
+import { useSortableTable } from '../hooks/useSortableTable.js'
 import StockPriceChart from '../components/StockPriceChart.jsx'
 import TechRankingsTable from '../components/TechRankingsTable.jsx'
 import StockTradeSignalsSection from '../components/StockTradeSignalsSection.jsx'
 import WhatsAppAlerts from '../components/WhatsAppAlerts.jsx'
 import DropdownMenu from '../components/DropdownMenu.jsx'
+import SortableTh from '../components/SortableTh.jsx'
 import Seo from '../components/Seo.jsx'
 import { useToast } from '../context/ToastContext.jsx'
 
@@ -134,6 +136,28 @@ export default function Stocks() {
   }
 
   const totalPresent = portfolio.reduce((sum, p) => sum + (quotes[p.symbol]?.c ?? p.avgBuy) * p.qty, 0)
+
+  const watchlistRows = watchlist.map((w) => ({
+    ...w,
+    price: quotes[w.symbol]?.c ?? null,
+    changePct: quotes[w.symbol]?.dp ?? null,
+  }))
+  const { sorted: sortedWatchlist, sortKey: watchSortKey, sortDir: watchSortDir, toggleSort: toggleWatchSort } =
+    useSortableTable(watchlistRows, 'symbol', 'asc')
+
+  const portfolioRows = portfolio.map((p) => {
+    const ltp = quotes[p.symbol]?.c ?? null
+    const buyValue = p.qty * p.avgBuy
+    const presentValue = p.qty * (ltp ?? p.avgBuy)
+    const pnl = presentValue - buyValue
+    const pnlPct = buyValue > 0 ? (pnl / buyValue) * 100 : 0
+    const allocation = totalPresent > 0 ? (presentValue / totalPresent) * 100 : 0
+    const targetPct = Number(p.targetPct) || 0
+    const delta = targetPct > 0 ? (targetPct / 100) * totalPresent - presentValue : null
+    return { ...p, ltp, buyValue, presentValue, pnl, pnlPct, allocation, delta }
+  })
+  const { sorted: sortedPortfolio, sortKey: portSortKey, sortDir: portSortDir, toggleSort: togglePortSort } =
+    useSortableTable(portfolioRows, 'symbol', 'asc')
 
   if (!hasApiKey) {
     return (
@@ -289,30 +313,27 @@ export default function Stocks() {
               <table className="stock-table">
                 <thead>
                   <tr>
-                    <th>Symbol</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Chg %</th>
+                    <SortableTh label="Symbol" sortKey="symbol" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
+                    <SortableTh label="Name" sortKey="name" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
+                    <SortableTh label="Price" sortKey="price" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
+                    <SortableTh label="Chg %" sortKey="changePct" currentKey={watchSortKey} currentDir={watchSortDir} onSort={toggleWatchSort} />
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {watchlist.map((w) => {
-                    const q = quotes[w.symbol]
-                    return (
-                      <tr key={w.symbol}>
-                        <td><strong>{w.symbol}</strong></td>
-                        <td>{w.name}</td>
-                        <td>{q?.c != null ? `$${fmt(q.c)}` : '—'}</td>
-                        <td className={q?.dp >= 0 ? 'arrow up' : q?.dp < 0 ? 'arrow down' : ''}>
-                          {q?.dp != null ? `${q.dp >= 0 ? '+' : ''}${fmt(q.dp)}%` : '—'}
-                        </td>
-                        <td>
-                          <button className="btn btn-ghost icon-btn" onClick={() => removeFromWatchlist(w.symbol)} aria-label={`Remove ${w.symbol}`}>✕</button>
-                        </td>
-                      </tr>
-                    )
-                  })}
+                  {sortedWatchlist.map((w) => (
+                    <tr key={w.symbol}>
+                      <td><strong>{w.symbol}</strong></td>
+                      <td>{w.name}</td>
+                      <td>{w.price != null ? `$${fmt(w.price)}` : '—'}</td>
+                      <td className={w.changePct >= 0 ? 'arrow up' : w.changePct < 0 ? 'arrow down' : ''}>
+                        {w.changePct != null ? `${w.changePct >= 0 ? '+' : ''}${fmt(w.changePct)}%` : '—'}
+                      </td>
+                      <td>
+                        <button className="btn btn-ghost icon-btn" onClick={() => removeFromWatchlist(w.symbol)} aria-label={`Remove ${w.symbol}`}>✕</button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -339,64 +360,53 @@ export default function Stocks() {
             <table className="stock-table">
               <thead>
                 <tr>
-                  <th>Symbol</th>
-                  <th>Name</th>
-                  <th>Qty</th>
-                  <th>Avg Buy</th>
-                  <th>LTP</th>
-                  <th>Buy Value</th>
-                  <th>Present Value</th>
-                  <th>P&amp;L</th>
-                  <th>Allocation</th>
+                  <SortableTh label="Symbol" sortKey="symbol" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                  <SortableTh label="Name" sortKey="name" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                  <SortableTh label="Qty" sortKey="qty" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                  <SortableTh label="Avg Buy" sortKey="avgBuy" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                  <SortableTh label="LTP" sortKey="ltp" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                  <SortableTh label="Buy Value" sortKey="buyValue" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                  <SortableTh label="Present Value" sortKey="presentValue" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                  <SortableTh label="P&L" sortKey="pnl" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
+                  <SortableTh label="Allocation" sortKey="allocation" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
                   <th title="Set a target % to see rebalancing suggestions">Target %</th>
-                  <th>Rebalance</th>
+                  <SortableTh label="Rebalance" sortKey="delta" currentKey={portSortKey} currentDir={portSortDir} onSort={togglePortSort} />
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                {portfolio.map((p) => {
-                  const ltp = quotes[p.symbol]?.c
-                  const buyValue = p.qty * p.avgBuy
-                  const presentValue = p.qty * (ltp ?? p.avgBuy)
-                  const pnl = presentValue - buyValue
-                  const pnlPct = buyValue > 0 ? (pnl / buyValue) * 100 : 0
-                  const allocation = totalPresent > 0 ? (presentValue / totalPresent) * 100 : 0
-                  const targetPct = Number(p.targetPct) || 0
-                  const targetValue = (targetPct / 100) * totalPresent
-                  const delta = targetPct > 0 ? targetValue - presentValue : null
-                  return (
-                    <tr key={p.id}>
-                      <td><strong>{p.symbol}</strong></td>
-                      <td>{p.name}</td>
-                      <td>{p.qty}</td>
-                      <td>${fmt(p.avgBuy)}</td>
-                      <td>{ltp != null ? `$${fmt(ltp)}` : '—'}</td>
-                      <td>${fmt(buyValue)}</td>
-                      <td>${fmt(presentValue)}</td>
-                      <td className={pnl >= 0 ? 'arrow up' : 'arrow down'}>
-                        {pnl >= 0 ? '+' : ''}${fmt(pnl)} ({pnlPct >= 0 ? '+' : ''}{fmt(pnlPct)}%)
-                      </td>
-                      <td>{fmt(allocation)}%</td>
-                      <td>
-                        <input
-                          type="number"
-                          min="0"
-                          max="100"
-                          className="rebalance-target-input"
-                          placeholder="—"
-                          value={p.targetPct ?? ''}
-                          onChange={(e) => updateTargetPct(p.id, e.target.value)}
-                        />
-                      </td>
-                      <td className={delta == null ? 'muted' : delta > 0 ? 'arrow up' : delta < 0 ? 'arrow down' : ''}>
-                        {delta == null ? '—' : `${delta >= 0 ? 'Buy ' : 'Sell '}$${fmt(Math.abs(delta))}`}
-                      </td>
-                      <td>
-                        <button className="btn btn-ghost icon-btn" onClick={() => removeFromPortfolio(p.id)} aria-label={`Remove ${p.symbol}`}>✕</button>
-                      </td>
-                    </tr>
-                  )
-                })}
+                {sortedPortfolio.map((p) => (
+                  <tr key={p.id}>
+                    <td><strong>{p.symbol}</strong></td>
+                    <td>{p.name}</td>
+                    <td>{p.qty}</td>
+                    <td>${fmt(p.avgBuy)}</td>
+                    <td>{p.ltp != null ? `$${fmt(p.ltp)}` : '—'}</td>
+                    <td>${fmt(p.buyValue)}</td>
+                    <td>${fmt(p.presentValue)}</td>
+                    <td className={p.pnl >= 0 ? 'arrow up' : 'arrow down'}>
+                      {p.pnl >= 0 ? '+' : ''}${fmt(p.pnl)} ({p.pnlPct >= 0 ? '+' : ''}{fmt(p.pnlPct)}%)
+                    </td>
+                    <td>{fmt(p.allocation)}%</td>
+                    <td>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        className="rebalance-target-input"
+                        placeholder="—"
+                        value={p.targetPct ?? ''}
+                        onChange={(e) => updateTargetPct(p.id, e.target.value)}
+                      />
+                    </td>
+                    <td className={p.delta == null ? 'muted' : p.delta > 0 ? 'arrow up' : p.delta < 0 ? 'arrow down' : ''}>
+                      {p.delta == null ? '—' : `${p.delta >= 0 ? 'Buy ' : 'Sell '}$${fmt(Math.abs(p.delta))}`}
+                    </td>
+                    <td>
+                      <button className="btn btn-ghost icon-btn" onClick={() => removeFromPortfolio(p.id)} aria-label={`Remove ${p.symbol}`}>✕</button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

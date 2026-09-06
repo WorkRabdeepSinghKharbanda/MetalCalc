@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useSortableTable } from '../hooks/useSortableTable.js'
+import SortableTh from './SortableTh.jsx'
 
 function fmt(n, decimals = 2) {
   return n == null || Number.isNaN(n) ? '—' : n.toLocaleString(undefined, { maximumFractionDigits: decimals })
@@ -14,6 +16,7 @@ export default function TopCryptoTable({ rows, loading, error }) {
   const [tier, setTier] = useState(10)
 
   const filtered = rows.filter((r) => r.rank == null || r.rank <= tier)
+  const { sorted, sortKey, sortDir, toggleSort } = useSortableTable(filtered, 'rank', 'asc')
 
   return (
     <div className="rankings-section">
@@ -27,26 +30,27 @@ export default function TopCryptoTable({ rows, loading, error }) {
           ))}
         </div>
       </div>
+      <p className="muted small-note" style={{ marginBottom: '1rem' }}>Click any column header to sort.</p>
 
       {loading && <p className="muted">Loading top coins…</p>}
       {error && <p className="error">{error}</p>}
 
-      {!loading && filtered.length > 0 && (
+      {!loading && sorted.length > 0 && (
         <div className="table-scroll">
           <table className="stock-table">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Symbol</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>24h %</th>
-                <th>Market Cap</th>
-                <th>From ATH</th>
+                <SortableTh label="#" sortKey="rank" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="Symbol" sortKey="symbol" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="Name" sortKey="name" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="Price" sortKey="price" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="24h %" sortKey="changePct" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="Market Cap" sortKey="marketCap" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="From ATH" sortKey="athChangePct" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
               </tr>
             </thead>
             <tbody>
-              {filtered.map((r) => (
+              {sorted.map((r) => (
                 <tr key={r.id}>
                   <td>{r.rank ?? '—'}</td>
                   <td><strong>{r.symbol}</strong></td>

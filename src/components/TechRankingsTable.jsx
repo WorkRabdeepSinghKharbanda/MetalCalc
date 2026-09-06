@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { RANKING_CATEGORIES, RANKING_STOCKS } from '../finnhub/rankingList.js'
-import { rankByPeg } from '../utils/rankStocks.js'
+import { useSortableTable } from '../hooks/useSortableTable.js'
+import SortableTh from './SortableTh.jsx'
 
 const RANKING_STOCKS_COUNT = RANKING_STOCKS.length
 
@@ -26,8 +27,11 @@ function rangeLabel(pct) {
 export default function TechRankingsTable({ rows, loading, progress, error }) {
   const [category, setCategory] = useState('All')
 
-  const filtered = rows.filter((r) => category === 'All' || r.category === category)
-  const sorted = rankByPeg(filtered)
+  const filtered = rows
+    .filter((r) => category === 'All' || r.category === category)
+    .map((r) => ({ ...r, rangePos: rangePosition(r.price, r.week52Low, r.week52High) }))
+
+  const { sorted, sortKey, sortDir, toggleSort } = useSortableTable(filtered, 'peg', 'asc')
 
   return (
     <div className="rankings-section">
@@ -42,10 +46,8 @@ export default function TechRankingsTable({ rows, loading, progress, error }) {
         </div>
       </div>
       <p className="muted small-note" style={{ marginBottom: '1rem' }}>
-        Ranked ascending by PEG (lower = more growth per dollar of valuation). "52w Zone" is a demand/supply proxy from
-        52-week high/low — real supply/demand zones need OHLC price-action history, unavailable on this Finnhub plan.
-        {RANKING_STOCKS_COUNT} stocks, fetched in throttled batches to respect Finnhub's free-tier rate limit — the
-        table fills in gradually. Today's snapshot, not investment advice.
+        Click any column header to sort. {RANKING_STOCKS_COUNT} stocks, fetched in throttled batches to respect
+        Finnhub's free-tier rate limit — the table fills in gradually. Today's snapshot, not investment advice.
       </p>
 
       {loading && sorted.length === 0 && <p className="muted">Loading rankings…</p>}
@@ -60,47 +62,49 @@ export default function TechRankingsTable({ rows, loading, progress, error }) {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Symbol</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Chg %</th>
-                <th>P/E</th>
-                <th>PEG</th>
-                <th>EPS Gr. YoY</th>
-                <th>Rev Gr. YoY</th>
-                <th title="Position in 52-week range — a proxy for demand/supply zones. Real zones need OHLC price-action history, unavailable on this Finnhub plan.">
-                  52w Zone
-                </th>
+                <SortableTh label="Symbol" sortKey="symbol" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="Name" sortKey="name" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="Category" sortKey="category" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="Price" sortKey="price" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="Chg %" sortKey="changePct" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="P/E" sortKey="peTTM" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="PEG" sortKey="peg" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="EPS Gr. YoY" sortKey="epsGrowthYoy" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh label="Rev Gr. YoY" sortKey="revenueGrowthYoy" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                <SortableTh
+                  label="52w Zone"
+                  sortKey="rangePos"
+                  currentKey={sortKey}
+                  currentDir={sortDir}
+                  onSort={toggleSort}
+                  title="Position in 52-week range — a proxy for demand/supply zones. Real zones need OHLC price-action history, unavailable on this Finnhub plan."
+                />
               </tr>
             </thead>
             <tbody>
-              {sorted.map((r, i) => {
-                const pos = rangePosition(r.price, r.week52Low, r.week52High)
-                return (
-                  <tr key={r.symbol} className={i === 0 && r.peg != null ? 'top-pick' : ''}>
-                    <td>{i === 0 && r.peg != null ? '🏆' : i + 1}</td>
-                    <td><strong>{r.symbol}</strong></td>
-                    <td>{r.name}</td>
-                    <td>{r.category}</td>
-                    <td>{r.price != null ? `$${fmt(r.price)}` : '—'}</td>
-                    <td className={r.changePct >= 0 ? 'arrow up' : r.changePct < 0 ? 'arrow down' : ''}>
-                      {r.changePct != null ? `${r.changePct >= 0 ? '+' : ''}${fmt(r.changePct)}%` : '—'}
-                    </td>
-                    <td>{fmt(r.peTTM)}</td>
-                    <td>{fmt(r.peg)}</td>
-                    <td>{r.epsGrowthYoy != null ? `${fmt(r.epsGrowthYoy)}%` : '—'}</td>
-                    <td>{r.revenueGrowthYoy != null ? `${fmt(r.revenueGrowthYoy)}%` : '—'}</td>
-                    <td>
-                      {pos != null ? (
-                        <span className={pos <= 20 ? 'arrow up' : pos >= 80 ? 'arrow down' : 'muted'}>
-                          {rangeLabel(pos)} ({fmt(pos, 0)}%)
-                        </span>
-                      ) : '—'}
-                    </td>
-                  </tr>
-                )
-              })}
+              {sorted.map((r, i) => (
+                <tr key={r.symbol} className={i === 0 && sortKey === 'peg' && sortDir === 'asc' && r.peg != null ? 'top-pick' : ''}>
+                  <td>{i === 0 && sortKey === 'peg' && sortDir === 'asc' && r.peg != null ? '🏆' : i + 1}</td>
+                  <td><strong>{r.symbol}</strong></td>
+                  <td>{r.name}</td>
+                  <td>{r.category}</td>
+                  <td>{r.price != null ? `$${fmt(r.price)}` : '—'}</td>
+                  <td className={r.changePct >= 0 ? 'arrow up' : r.changePct < 0 ? 'arrow down' : ''}>
+                    {r.changePct != null ? `${r.changePct >= 0 ? '+' : ''}${fmt(r.changePct)}%` : '—'}
+                  </td>
+                  <td>{fmt(r.peTTM)}</td>
+                  <td>{fmt(r.peg)}</td>
+                  <td>{r.epsGrowthYoy != null ? `${fmt(r.epsGrowthYoy)}%` : '—'}</td>
+                  <td>{r.revenueGrowthYoy != null ? `${fmt(r.revenueGrowthYoy)}%` : '—'}</td>
+                  <td>
+                    {r.rangePos != null ? (
+                      <span className={r.rangePos <= 20 ? 'arrow up' : r.rangePos >= 80 ? 'arrow down' : 'muted'}>
+                        {rangeLabel(r.rangePos)} ({fmt(r.rangePos, 0)}%)
+                      </span>
+                    ) : '—'}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
