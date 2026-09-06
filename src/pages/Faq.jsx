@@ -27,10 +27,24 @@ const FAQS = [
   },
 ]
 
+const FAQ_JSON_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQS.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+}
+
 export default function Faq() {
   return (
     <section className="faq-page">
-      <Seo title="FAQ — MetalCalc" description="Answers about live metal prices, purities, currencies and how MetalCalc works." />
+      <Seo
+        title="FAQ — MetalCalc"
+        description="Answers about live metal prices, purities, currencies and how MetalCalc works."
+        jsonLd={FAQ_JSON_LD}
+      />
       <div className="container">
         <p className="eyebrow">Support</p>
         <h1>Frequently asked questions</h1>
