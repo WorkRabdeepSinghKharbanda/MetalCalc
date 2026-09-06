@@ -4,6 +4,7 @@ import { CURRENCY_SYMBOLS } from '../utils/currency.js'
 import { loadHoldings } from '../utils/holdings.js'
 import { loadPortfolio } from '../utils/stockPortfolio.js'
 import { loadCryptoPortfolio } from '../utils/cryptoPortfolio.js'
+import { computeDiversificationScore } from '../utils/diversification.js'
 import { useQuotes } from '../hooks/useQuotes.js'
 import { useCryptoQuotes } from '../hooks/useCryptoQuotes.js'
 import Seo from '../components/Seo.jsx'
@@ -50,6 +51,7 @@ export default function NetWorth() {
     { label: 'Stocks', value: stocksValue, empty: stockPortfolio.length === 0, updatedAt: stocksUpdatedAt },
     { label: 'Crypto', value: cryptoValue, empty: cryptoPortfolio.length === 0, updatedAt: cryptoUpdatedAt },
   ]
+  const diversification = computeDiversificationScore([metalsValue, stocksValue, cryptoValue])
 
   return (
     <section className="zakat-page">
@@ -84,6 +86,17 @@ export default function NetWorth() {
             </div>
           ))}
         </div>
+
+        {diversification && (
+          <div className="result-box no-print" style={{ marginBottom: '1.5rem' }}>
+            <span className="result-label">Diversification score</span>
+            <span className="result-value">{diversification.score}/100</span>
+            <span className="muted small-note">
+              {diversification.label} — across {diversification.categoriesUsed} of 3 asset classes. Based on how
+              evenly your value is spread across metals/stocks/crypto, not risk-adjusted or investment advice.
+            </span>
+          </div>
+        )}
 
         {holdings.length === 0 && stockPortfolio.length === 0 && cryptoPortfolio.length === 0 && (
           <p className="muted">

@@ -21,6 +21,8 @@ import Tabs from '../components/Tabs.jsx'
 import LastUpdated from '../components/LastUpdated.jsx'
 import Seo from '../components/Seo.jsx'
 import { useToast } from '../context/ToastContext.jsx'
+import { useMarket } from '../context/MarketContext.jsx'
+import { CURRENCY_SYMBOLS } from '../utils/currency.js'
 
 function fmt(n, decimals = 2) {
   return n == null || Number.isNaN(n) ? '—' : n.toLocaleString(undefined, { maximumFractionDigits: decimals })
@@ -28,6 +30,11 @@ function fmt(n, decimals = 2) {
 
 export default function Stocks() {
   const showToast = useToast()
+  const { currency, rates } = useMarket()
+  const rate = rates[currency] ?? 1
+  const cSymbol = CURRENCY_SYMBOLS[currency] ?? '$'
+  const conv = (usd) => (usd == null || Number.isNaN(usd) ? null : usd * rate)
+  const fmtC = (usd, decimals = 2) => (usd == null || Number.isNaN(usd) ? '—' : `${cSymbol}${fmt(conv(usd), decimals)}`)
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState(null)
   const [qty, setQty] = useState(1)
@@ -217,7 +224,7 @@ export default function Stocks() {
                     <p className="muted">{data.profile.exchange} · {data.profile.industry ?? '—'}</p>
                   </div>
                   <div className="stock-price-block">
-                    <span className="result-value">${fmt(data.quote?.c)}</span>
+                    <span className="result-value">{fmtC(data.quote?.c)}</span>
                     {data.quote?.dp != null && (
                       <span className={data.quote.dp >= 0 ? 'arrow up' : 'arrow down'}>
                         {data.quote.dp >= 0 ? '▲' : '▼'} {fmt(Math.abs(data.quote.dp))}%
@@ -236,17 +243,17 @@ export default function Stocks() {
                   <div className="stock-metric"><span className="stock-metric-label">EPS growth YoY</span><span>{fmt(data.metrics.epsGrowthYoy)}%</span></div>
                   <div className="stock-metric"><span className="stock-metric-label">Revenue growth YoY</span><span>{fmt(data.metrics.revenueGrowthYoy)}%</span></div>
                   <div className="stock-metric"><span className="stock-metric-label">Dividend yield</span><span>{fmt(data.metrics.dividendYield)}%</span></div>
-                  <div className="stock-metric"><span className="stock-metric-label">Market cap</span><span>${fmt(data.metrics.marketCap, 0)}M</span></div>
-                  <div className="stock-metric"><span className="stock-metric-label">52w range</span><span>{fmt(data.metrics.week52Low)} – {fmt(data.metrics.week52High)}</span></div>
+                  <div className="stock-metric"><span className="stock-metric-label">Market cap</span><span>{fmtC(data.metrics.marketCap, 0)}M</span></div>
+                  <div className="stock-metric"><span className="stock-metric-label">52w range</span><span>{fmtC(data.metrics.week52Low)} – {fmtC(data.metrics.week52High)}</span></div>
                 </div>
 
                 {data.metrics.dividendYield > 0 && (
                   <div className="stock-forward">
                     <h3>Dividend income estimate</h3>
                     <p>
-                      At {fmt(data.metrics.dividendYield)}% yield and ${fmt(data.quote?.c)}/share,{' '}
+                      At {fmt(data.metrics.dividendYield)}% yield and {fmtC(data.quote?.c)}/share,{' '}
                       {qty || 0} share{Number(qty) === 1 ? '' : 's'} would pay an estimated{' '}
-                      <strong>${fmt((data.quote?.c ?? 0) * (data.metrics.dividendYield / 100) * (Number(qty) || 0))}/year</strong>.
+                      <strong>{fmtC((data.quote?.c ?? 0) * (data.metrics.dividendYield / 100) * (Number(qty) || 0))}/year</strong>.
                     </p>
                   </div>
                 )}
@@ -265,7 +272,7 @@ export default function Stocks() {
                     <p className="muted">No analyst data available.</p>
                   )}
                   {data.forward.priceTargetMean != null && (
-                    <p>Price target: ${fmt(data.forward.priceTargetLow)} – ${fmt(data.forward.priceTargetHigh)} (mean ${fmt(data.forward.priceTargetMean)})</p>
+                    <p>Price target: {fmtC(data.forward.priceTargetLow)} – {fmtC(data.forward.priceTargetHigh)} (mean {fmtC(data.forward.priceTargetMean)})</p>
                   )}
                   {data.upcomingEarnings ? (
                     <p>Next earnings report: <strong>{data.upcomingEarnings.date}</strong> (Q{data.upcomingEarnings.quarter} {data.upcomingEarnings.year}, est. EPS {fmt(data.upcomingEarnings.epsEstimate)})</p>
@@ -288,7 +295,7 @@ export default function Stocks() {
                     <input type="number" min="0" value={qty} onChange={(e) => setQty(e.target.value)} />
                   </label>
                   <label>
-                    Avg buy price ($)
+                    Avg buy price ($ — stored in USD)
                     <input type="number" min="0" value={avgBuy} onChange={(e) => setAvgBuy(e.target.value)} />
                   </label>
                   <button className="btn btn-primary" onClick={addToPortfolio}>+ Add to portfolio</button>
@@ -345,7 +352,7 @@ export default function Stocks() {
                             <tr key={w.symbol}>
                               <td><strong>{w.symbol}</strong></td>
                               <td>{w.name}</td>
-                              <td>{w.price != null ? `$${fmt(w.price)}` : '—'}</td>
+                              <td>{fmtC(w.price)}</td>
                               <td className={w.changePct >= 0 ? 'arrow up' : w.changePct < 0 ? 'arrow down' : ''}>
                                 {w.changePct != null ? `${w.changePct >= 0 ? '+' : ''}${fmt(w.changePct)}%` : '—'}
                               </td>
@@ -407,12 +414,12 @@ export default function Stocks() {
                               <td><strong>{p.symbol}</strong></td>
                               <td>{p.name}</td>
                               <td>{p.qty}</td>
-                              <td>${fmt(p.avgBuy)}</td>
-                              <td>{p.ltp != null ? `$${fmt(p.ltp)}` : '—'}</td>
-                              <td>${fmt(p.buyValue)}</td>
-                              <td>${fmt(p.presentValue)}</td>
+                              <td>{fmtC(p.avgBuy)}</td>
+                              <td>{p.ltp != null ? fmtC(p.ltp) : '—'}</td>
+                              <td>{fmtC(p.buyValue)}</td>
+                              <td>{fmtC(p.presentValue)}</td>
                               <td className={p.pnl >= 0 ? 'arrow up' : 'arrow down'}>
-                                {p.pnl >= 0 ? '+' : ''}${fmt(p.pnl)} ({p.pnlPct >= 0 ? '+' : ''}{fmt(p.pnlPct)}%)
+                                {p.pnl >= 0 ? '+' : ''}{fmtC(p.pnl)} ({p.pnlPct >= 0 ? '+' : ''}{fmt(p.pnlPct)}%)
                               </td>
                               <td>{fmt(p.allocation)}%</td>
                               <td>
@@ -427,7 +434,7 @@ export default function Stocks() {
                                 />
                               </td>
                               <td className={p.delta == null ? 'muted' : p.delta > 0 ? 'arrow up' : p.delta < 0 ? 'arrow down' : ''}>
-                                {p.delta == null ? '—' : `${p.delta >= 0 ? 'Buy ' : 'Sell '}$${fmt(Math.abs(p.delta))}`}
+                                {p.delta == null ? '—' : `${p.delta >= 0 ? 'Buy ' : 'Sell '}${fmtC(Math.abs(p.delta))}`}
                               </td>
                               <td>
                                 <button className="btn btn-ghost icon-btn" onClick={() => removeFromPortfolio(p.id)} aria-label={`Remove ${p.symbol}`}>✕</button>

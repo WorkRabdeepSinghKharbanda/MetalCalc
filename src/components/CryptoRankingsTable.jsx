@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { RANKING_CATEGORIES } from '../crypto/rankingList.js'
 import { useSortableTable } from '../hooks/useSortableTable.js'
+import { useMarket } from '../context/MarketContext.jsx'
+import { CURRENCY_SYMBOLS } from '../utils/currency.js'
 import SortableTh from './SortableTh.jsx'
 
 function fmt(n, decimals = 2) {
@@ -18,6 +20,10 @@ function rangePosition(price, low, high) {
 
 export default function CryptoRankingsTable({ rows, loading, error }) {
   const [category, setCategory] = useState('All')
+  const { currency, rates } = useMarket()
+  const rate = rates[currency] ?? 1
+  const cSymbol = CURRENCY_SYMBOLS[currency] ?? '$'
+  const fmtC = (usd, decimals = 2) => (usd == null || Number.isNaN(usd) ? '—' : `${cSymbol}${fmt(usd * rate, decimals)}`)
 
   const filtered = rows
     .filter((r) => category === 'All' || r.category === category)
@@ -68,11 +74,11 @@ export default function CryptoRankingsTable({ rows, loading, error }) {
                   <td><strong>{r.symbol}</strong></td>
                   <td>{r.name}</td>
                   <td>{r.category}</td>
-                  <td>{r.price != null ? `$${fmt(r.price)}` : '—'}</td>
+                  <td>{fmtC(r.price)}</td>
                   <td className={r.changePct >= 0 ? 'arrow up' : r.changePct < 0 ? 'arrow down' : ''}>
                     {r.changePct != null ? `${r.changePct >= 0 ? '+' : ''}${fmt(r.changePct)}%` : '—'}
                   </td>
-                  <td>{r.marketCap != null ? `$${fmt(r.marketCap / 1e9, 1)}B` : '—'}</td>
+                  <td>{r.marketCap != null ? `${fmtC(r.marketCap / 1e9, 1)}B` : '—'}</td>
                   <td className={r.athChangePct != null && r.athChangePct >= -10 ? 'arrow up' : ''}>
                     {r.athChangePct != null ? `${fmt(r.athChangePct)}%` : '—'}
                   </td>

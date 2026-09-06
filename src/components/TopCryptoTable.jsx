@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useSortableTable } from '../hooks/useSortableTable.js'
+import { useMarket } from '../context/MarketContext.jsx'
+import { CURRENCY_SYMBOLS } from '../utils/currency.js'
 import SortableTh from './SortableTh.jsx'
 
 function fmt(n, decimals = 2) {
@@ -14,6 +16,10 @@ const TIERS = [
 
 export default function TopCryptoTable({ rows, loading, error }) {
   const [tier, setTier] = useState(10)
+  const { currency, rates } = useMarket()
+  const rate = rates[currency] ?? 1
+  const cSymbol = CURRENCY_SYMBOLS[currency] ?? '$'
+  const fmtC = (usd, decimals = 2) => (usd == null || Number.isNaN(usd) ? '—' : `${cSymbol}${fmt(usd * rate, decimals)}`)
 
   const filtered = rows.filter((r) => r.rank == null || r.rank <= tier)
   const { sorted, sortKey, sortDir, toggleSort } = useSortableTable(filtered, 'rank', 'asc')
@@ -55,11 +61,11 @@ export default function TopCryptoTable({ rows, loading, error }) {
                   <td>{r.rank ?? '—'}</td>
                   <td><strong>{r.symbol}</strong></td>
                   <td>{r.name}</td>
-                  <td>{r.price != null ? `$${fmt(r.price)}` : '—'}</td>
+                  <td>{fmtC(r.price)}</td>
                   <td className={r.changePct >= 0 ? 'arrow up' : r.changePct < 0 ? 'arrow down' : ''}>
                     {r.changePct != null ? `${r.changePct >= 0 ? '+' : ''}${fmt(r.changePct)}%` : '—'}
                   </td>
-                  <td>{r.marketCap != null ? `$${fmt(r.marketCap / 1e9, 1)}B` : '—'}</td>
+                  <td>{r.marketCap != null ? `${fmtC(r.marketCap / 1e9, 1)}B` : '—'}</td>
                   <td>{r.athChangePct != null ? `${fmt(r.athChangePct)}%` : '—'}</td>
                 </tr>
               ))}

@@ -4,4 +4,4 @@
 - **Entry point:** `src/pages/Stocks.jsx`
 - **Category:** Markets
 
-Search US stocks, view fundamentals (PE, PEG, EPS, growth), curated AI/Semi/Tech rankings, trade signals, watchlist and portfolio tracking with rebalancing. Needs VITE_FINNHUB_API_KEY.
+Search US stocks, view fundamentals (PE, PEG, EPS, growth), curated AI/Semi/Tech rankings, trade signals, watchlist and portfolio tracking with rebalancing, all prices shown in your selected currency (avg-buy price is still entered/stored in USD). Needs VITE_FINNHUB_API_KEY.

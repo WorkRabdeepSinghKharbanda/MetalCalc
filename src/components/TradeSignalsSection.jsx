@@ -1,10 +1,16 @@
 import { computeSignal } from '../utils/tradeSignal.js'
+import { useMarket } from '../context/MarketContext.jsx'
+import { CURRENCY_SYMBOLS } from '../utils/currency.js'
 
 function fmt(n, decimals = 2) {
   return n == null || Number.isNaN(n) ? '—' : n.toLocaleString(undefined, { maximumFractionDigits: decimals })
 }
 
 export default function TradeSignalsSection({ rows, loading }) {
+  const { currency, rates } = useMarket()
+  const rate = rates[currency] ?? 1
+  const cSymbol = CURRENCY_SYMBOLS[currency] ?? '$'
+  const fmtC = (usd) => (usd == null || Number.isNaN(usd) ? '—' : `${cSymbol}${fmt(usd * rate)}`)
   const signaled = rows.map((r) => ({ ...r, ...computeSignal(r) }))
   const buys = signaled.filter((r) => r.signal === 'buy').slice(0, 5)
   const sells = signaled.filter((r) => r.signal === 'sell').slice(0, 5)
@@ -30,7 +36,7 @@ export default function TradeSignalsSection({ rows, loading }) {
                 {buys.map((r) => (
                   <li key={r.id}>
                     <strong>{r.symbol}</strong> <span className="muted">{r.name}</span>
-                    <span className="signal-price">${fmt(r.price)}</span>
+                    <span className="signal-price">{fmtC(r.price)}</span>
                     <span className="signal-reason">{r.reason}</span>
                   </li>
                 ))}
@@ -47,7 +53,7 @@ export default function TradeSignalsSection({ rows, loading }) {
                 {sells.map((r) => (
                   <li key={r.id}>
                     <strong>{r.symbol}</strong> <span className="muted">{r.name}</span>
-                    <span className="signal-price">${fmt(r.price)}</span>
+                    <span className="signal-price">{fmtC(r.price)}</span>
                     <span className="signal-reason">{r.reason}</span>
                   </li>
                 ))}

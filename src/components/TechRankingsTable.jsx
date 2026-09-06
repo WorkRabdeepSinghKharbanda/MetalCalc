@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { RANKING_CATEGORIES, RANKING_STOCKS } from '../finnhub/rankingList.js'
 import { useSortableTable } from '../hooks/useSortableTable.js'
+import { useMarket } from '../context/MarketContext.jsx'
+import { CURRENCY_SYMBOLS } from '../utils/currency.js'
 import SortableTh from './SortableTh.jsx'
 
 const RANKING_STOCKS_COUNT = RANKING_STOCKS.length
@@ -26,6 +28,10 @@ function rangeLabel(pct) {
 
 export default function TechRankingsTable({ rows, loading, progress, error }) {
   const [category, setCategory] = useState('All')
+  const { currency, rates } = useMarket()
+  const rate = rates[currency] ?? 1
+  const cSymbol = CURRENCY_SYMBOLS[currency] ?? '$'
+  const fmtC = (usd, decimals = 2) => (usd == null || Number.isNaN(usd) ? '—' : `${cSymbol}${fmt(usd * rate, decimals)}`)
 
   const filtered = rows
     .filter((r) => category === 'All' || r.category === category)
@@ -88,7 +94,7 @@ export default function TechRankingsTable({ rows, loading, progress, error }) {
                   <td><strong>{r.symbol}</strong></td>
                   <td>{r.name}</td>
                   <td>{r.category}</td>
-                  <td>{r.price != null ? `$${fmt(r.price)}` : '—'}</td>
+                  <td>{fmtC(r.price)}</td>
                   <td className={r.changePct >= 0 ? 'arrow up' : r.changePct < 0 ? 'arrow down' : ''}>
                     {r.changePct != null ? `${r.changePct >= 0 ? '+' : ''}${fmt(r.changePct)}%` : '—'}
                   </td>

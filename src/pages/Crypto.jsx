@@ -17,8 +17,11 @@ import DropdownMenu from '../components/DropdownMenu.jsx'
 import SortableTh from '../components/SortableTh.jsx'
 import Tabs from '../components/Tabs.jsx'
 import LastUpdated from '../components/LastUpdated.jsx'
+import WatchlistSignalAlerts from '../components/WatchlistSignalAlerts.jsx'
 import Seo from '../components/Seo.jsx'
 import { useToast } from '../context/ToastContext.jsx'
+import { useMarket } from '../context/MarketContext.jsx'
+import { CURRENCY_SYMBOLS } from '../utils/currency.js'
 
 function fmt(n, decimals = 2) {
   return n == null || Number.isNaN(n) ? '—' : n.toLocaleString(undefined, { maximumFractionDigits: decimals })
@@ -26,6 +29,11 @@ function fmt(n, decimals = 2) {
 
 export default function Crypto() {
   const showToast = useToast()
+  const { currency, rates } = useMarket()
+  const rate = rates[currency] ?? 1
+  const cSymbol = CURRENCY_SYMBOLS[currency] ?? '$'
+  const conv = (usd) => (usd == null || Number.isNaN(usd) ? null : usd * rate)
+  const fmtC = (usd, decimals = 2) => (usd == null || Number.isNaN(usd) ? '—' : `${cSymbol}${fmt(conv(usd), decimals)}`)
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState(null)
   const [qty, setQty] = useState(1)
@@ -195,7 +203,7 @@ export default function Crypto() {
                     <p className="muted">Rank #{data.market_cap_rank ?? '—'} by market cap</p>
                   </div>
                   <div className="stock-price-block">
-                    <span className="result-value">${fmt(data.current_price)}</span>
+                    <span className="result-value">{fmtC(data.current_price)}</span>
                     {data.price_change_percentage_24h != null && (
                       <span className={data.price_change_percentage_24h >= 0 ? 'arrow up' : 'arrow down'}>
                         {data.price_change_percentage_24h >= 0 ? '▲' : '▼'} {fmt(Math.abs(data.price_change_percentage_24h))}%
@@ -206,12 +214,12 @@ export default function Crypto() {
                 </div>
 
                 <div className="stock-metrics-grid">
-                  <div className="stock-metric"><span className="stock-metric-label">Market cap</span><span>${fmt(data.market_cap / 1e9, 2)}B</span></div>
-                  <div className="stock-metric"><span className="stock-metric-label">24h range</span><span>${fmt(data.low_24h)} – ${fmt(data.high_24h)}</span></div>
-                  <div className="stock-metric"><span className="stock-metric-label">All-time high</span><span>${fmt(data.ath)}</span></div>
+                  <div className="stock-metric"><span className="stock-metric-label">Market cap</span><span>{fmtC(data.market_cap / 1e9, 2)}B</span></div>
+                  <div className="stock-metric"><span className="stock-metric-label">24h range</span><span>{fmtC(data.low_24h)} – {fmtC(data.high_24h)}</span></div>
+                  <div className="stock-metric"><span className="stock-metric-label">All-time high</span><span>{fmtC(data.ath)}</span></div>
                   <div className="stock-metric"><span className="stock-metric-label">From ATH</span><span>{fmt(data.ath_change_percentage)}%</span></div>
                   <div className="stock-metric"><span className="stock-metric-label">Circulating supply</span><span>{fmt(data.circulating_supply, 0)}</span></div>
-                  <div className="stock-metric"><span className="stock-metric-label">Fully diluted valuation</span><span>${fmt(data.fully_diluted_valuation / 1e9, 2)}B</span></div>
+                  <div className="stock-metric"><span className="stock-metric-label">Fully diluted valuation</span><span>{fmtC(data.fully_diluted_valuation / 1e9, 2)}B</span></div>
                 </div>
 
                 <TimeframeSignals coinId={selected.id} />
@@ -222,7 +230,7 @@ export default function Crypto() {
                     <input type="number" min="0" step="any" value={qty} onChange={(e) => setQty(e.target.value)} />
                   </label>
                   <label>
-                    Avg buy price ($)
+                    Avg buy price ($ — stored in USD)
                     <input type="number" min="0" value={avgBuy} onChange={(e) => setAvgBuy(e.target.value)} />
                   </label>
                   <button className="btn btn-primary" onClick={addToPortfolio}>+ Add to portfolio</button>
@@ -275,7 +283,7 @@ export default function Crypto() {
                             <tr key={w.coinId}>
                               <td><strong>{w.symbol}</strong></td>
                               <td>{w.name}</td>
-                              <td>{w.price != null ? `$${fmt(w.price)}` : '—'}</td>
+                              <td>{fmtC(w.price)}</td>
                               <td>
                                 <button className="btn btn-ghost icon-btn" onClick={() => removeFromWatchlist(w.coinId)} aria-label={`Remove ${w.symbol}`}>✕</button>
                               </td>
@@ -284,6 +292,7 @@ export default function Crypto() {
                         </tbody>
                       </table>
                     </div>
+                    <WatchlistSignalAlerts watchlist={watchlist} />
                   </div>
                 ),
             },
@@ -334,12 +343,12 @@ export default function Crypto() {
                               <td><strong>{p.symbol}</strong></td>
                               <td>{p.name}</td>
                               <td>{p.qty}</td>
-                              <td>${fmt(p.avgBuy)}</td>
-                              <td>{p.ltp != null ? `$${fmt(p.ltp)}` : '—'}</td>
-                              <td>${fmt(p.buyValue)}</td>
-                              <td>${fmt(p.presentValue)}</td>
+                              <td>{fmtC(p.avgBuy)}</td>
+                              <td>{p.ltp != null ? fmtC(p.ltp) : '—'}</td>
+                              <td>{fmtC(p.buyValue)}</td>
+                              <td>{fmtC(p.presentValue)}</td>
                               <td className={p.pnl >= 0 ? 'arrow up' : 'arrow down'}>
-                                {p.pnl >= 0 ? '+' : ''}${fmt(p.pnl)} ({p.pnlPct >= 0 ? '+' : ''}{fmt(p.pnlPct)}%)
+                                {p.pnl >= 0 ? '+' : ''}{fmtC(p.pnl)} ({p.pnlPct >= 0 ? '+' : ''}{fmt(p.pnlPct)}%)
                               </td>
                               <td>{fmt(p.allocation)}%</td>
                               <td>
@@ -354,7 +363,7 @@ export default function Crypto() {
                                 />
                               </td>
                               <td className={p.delta == null ? 'muted' : p.delta > 0 ? 'arrow up' : p.delta < 0 ? 'arrow down' : ''}>
-                                {p.delta == null ? '—' : `${p.delta >= 0 ? 'Buy ' : 'Sell '}$${fmt(Math.abs(p.delta))}`}
+                                {p.delta == null ? '—' : `${p.delta >= 0 ? 'Buy ' : 'Sell '}${fmtC(Math.abs(p.delta))}`}
                               </td>
                               <td>
                                 <button className="btn btn-ghost icon-btn" onClick={() => removeFromPortfolio(p.id)} aria-label={`Remove ${p.symbol}`}>✕</button>
