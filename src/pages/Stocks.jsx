@@ -15,6 +15,7 @@ import StockPriceChart from '../components/StockPriceChart.jsx'
 import TechRankingsTable from '../components/TechRankingsTable.jsx'
 import StockTradeSignalsSection from '../components/StockTradeSignalsSection.jsx'
 import WhatsAppAlerts from '../components/WhatsAppAlerts.jsx'
+import TelegramAlerts from '../components/TelegramAlerts.jsx'
 import DropdownMenu from '../components/DropdownMenu.jsx'
 import SortableTh from '../components/SortableTh.jsx'
 import Tabs from '../components/Tabs.jsx'
@@ -395,6 +396,7 @@ export default function Stocks() {
                     historical candle data. Available on the <Link to="/crypto">Crypto</Link> page.
                   </p>
                   <WhatsAppAlerts topPick={topPick} loading={rankingsLoading} />
+                  <TelegramAlerts topPick={topPick} loading={rankingsLoading} />
                 </>
               ),
             },

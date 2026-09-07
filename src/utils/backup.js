@@ -10,6 +10,8 @@ const KEYS = [
   'metalcalc:recipes',
   'metalcalc:whatsappSettings',
   'metalcalc:whatsappLog',
+  'metalcalc:telegramSettings',
+  'metalcalc:telegramLog',
   'metalcalc:stockRealizedGains',
   'metalcalc:cryptoRealizedGains',
   'metalcalc:signalAlertState',

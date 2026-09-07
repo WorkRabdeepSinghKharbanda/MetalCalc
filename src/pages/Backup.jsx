@@ -63,7 +63,7 @@ export default function Backup() {
             <h3 style={{ margin: '0 0 0.4rem' }}>Export</h3>
             <p className="muted small-note" style={{ margin: '0 0 0.75rem' }}>
               Downloads Holdings, saved batches &amp; recipes, price alerts, Stocks/Crypto portfolios, watchlists &amp;
-              realized gains, and WhatsApp alert settings/log as one JSON file.
+              realized gains, and WhatsApp/Telegram alert settings/logs as one JSON file.
             </p>
             <button className="btn btn-primary" onClick={handleExport}>⬇ Download backup</button>
           </div>
