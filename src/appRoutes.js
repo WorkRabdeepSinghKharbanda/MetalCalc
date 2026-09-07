@@ -8,6 +8,7 @@ export const APP_ROUTES = [
   { label: 'Price Alerts', path: '/alerts', group: 'Metals' },
   { label: 'US Stocks', path: '/stocks', group: 'Markets' },
   { label: 'Crypto', path: '/crypto', group: 'Markets' },
+  { label: 'Crude Oil', path: '/crude-oil', group: 'Markets' },
   { label: 'Net Worth', path: '/net-worth', group: 'Markets' },
   { label: 'Position Sizing', path: '/position-size', group: 'Markets' },
   { label: 'Purity Converter', path: '/convert', group: 'Tools' },

@@ -9,6 +9,7 @@ import Holdings from './pages/Holdings.jsx'
 import CompareBatches from './pages/CompareBatches.jsx'
 import Stocks from './pages/Stocks.jsx'
 import Crypto from './pages/Crypto.jsx'
+import CrudeOil from './pages/CrudeOil.jsx'
 import NetWorth from './pages/NetWorth.jsx'
 import PositionSize from './pages/PositionSize.jsx'
 import Convert from './pages/Convert.jsx'
@@ -58,6 +59,7 @@ export default function App() {
                   <Route path="/holdings" element={<Holdings />} />
                   <Route path="/compare" element={<CompareBatches />} />
                   <Route path="/stocks" element={<Stocks />} />
+                  <Route path="/crude-oil" element={<CrudeOil />} />
                   <Route path="/crypto" element={<Crypto />} />
                   <Route path="/net-worth" element={<NetWorth />} />
                   <Route path="/position-size" element={<PositionSize />} />

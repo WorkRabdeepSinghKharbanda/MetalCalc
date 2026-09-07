@@ -16,6 +16,7 @@ Source of truth: `src/appRoutes.js` (command palette registry) + `src/App.jsx` (
 - [Crypto](007-crypto.md) — `/crypto`
 - [Net Worth Dashboard](008-net-worth.md) — `/net-worth`
 - [Position Sizing / Risk Calculator](009-position-sizing.md) — `/position-size`
+- [Crude Oil](025-crude-oil.md) — `/crude-oil`
 
 ## Tools
 

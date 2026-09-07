@@ -44,3 +44,7 @@ export function getPriceTarget(symbol) {
 export function getCandles(symbol, fromUnix, toUnix, resolution = 'D') {
   return get('/stock/candle', { symbol, resolution, from: fromUnix, to: toUnix })
 }
+
+export function getMarketNews(category = 'general') {
+  return get('/news', { category })
+}

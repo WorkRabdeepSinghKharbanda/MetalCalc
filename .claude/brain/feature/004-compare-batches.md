@@ -1,7 +1,7 @@
-# Compare Batches
-
-- **Route:** `/compare`
-- **Entry point:** `src/pages/CompareBatches.jsx`
-- **Category:** Metals
+---
+route: /compare
+entry_point: src/pages/CompareBatches.jsx
+category: Metals
+---
 
 Compare two saved metal batches side by side.

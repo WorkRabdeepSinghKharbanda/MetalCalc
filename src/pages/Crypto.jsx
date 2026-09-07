@@ -18,6 +18,8 @@ import SortableTh from '../components/SortableTh.jsx'
 import Tabs from '../components/Tabs.jsx'
 import LastUpdated from '../components/LastUpdated.jsx'
 import WatchlistSignalAlerts from '../components/WatchlistSignalAlerts.jsx'
+import MoveAlertsSection from '../components/MoveAlertsSection.jsx'
+import CorrelationSection from '../components/CorrelationSection.jsx'
 import Seo from '../components/Seo.jsx'
 import { useToast } from '../context/ToastContext.jsx'
 import { useMarket } from '../context/MarketContext.jsx'
@@ -54,6 +56,10 @@ export default function Crypto() {
   const { results } = useCoinSearch(query)
   const { data, loading, error, updatedAt: dataUpdatedAt } = useCryptoData(selected?.id)
   const ids = [...new Set([...portfolio.map((p) => p.coinId), ...watchlist.map((w) => w.coinId)])]
+  const correlationCoins = [...portfolio, ...watchlist].reduce((acc, p) => {
+    if (!acc.some((c) => c.id === p.coinId)) acc.push({ id: p.coinId, symbol: p.symbol })
+    return acc
+  }, [])
   const { quotes, updatedAt: quotesUpdatedAt } = useCryptoQuotes(ids)
   const { rows: rankingRows, loading: rankingsLoading, error: rankingsError, updatedAt: rankingsUpdatedAt } = useCryptoRankings()
   const { rows: topRows, loading: topLoading, error: topError, updatedAt: topUpdatedAt } = useTopCrypto(50)
@@ -370,6 +376,8 @@ export default function Crypto() {
                     </div>
                     <CompareSection title="Compare watchlist" items={compareItems} />
                     <WatchlistSignalAlerts watchlist={watchlist} />
+                    <MoveAlertsSection watchlist={watchlist} />
+                    <CorrelationSection coins={correlationCoins} />
                   </div>
                 ),
             },

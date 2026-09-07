@@ -1,7 +1,7 @@
-# Exchange Rate Margin Checker
-
-- **Route:** `/rate-check`
-- **Entry point:** `src/pages/RateCheck.jsx`
-- **Category:** Tools
+---
+route: /rate-check
+entry_point: src/pages/RateCheck.jsx
+category: Tools
+---
 
 Compare a dealer quoted FX rate against live mid-market rate to see the hidden spread.
