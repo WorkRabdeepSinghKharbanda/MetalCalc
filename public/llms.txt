@@ -45,6 +45,16 @@ browser's localStorage only; nothing is sent to a server except optional WhatsAp
 - [Gold Rate Today](https://metal-calc-two.vercel.app/gold-rate-today): Live gold rate per gram/10g/oz in multiple currencies, updated in real time.
 - [How to Calculate Gold Purity](https://metal-calc-two.vercel.app/how-to-calculate-gold-purity): Step-by-step guide to karat, fineness and hallmark purity, with a linked calculator.
 - [Gold vs Silver: Which Should You Invest In](https://metal-calc-two.vercel.app/gold-vs-silver-investment): Comparison guide covering volatility, liquidity, and historical gold-silver ratio.
+- [Gold Price Per Gram](https://metal-calc-two.vercel.app/gold-price-per-gram): How spot gold converts to a price per gram and per karat.
+- [24k vs 22k Gold Difference](https://metal-calc-two.vercel.app/24k-vs-22k-gold-difference): Purity, durability, color and value differences, with the exact math.
+- [Best Time to Buy Gold](https://metal-calc-two.vercel.app/best-time-to-buy-gold): Why timing is hard, and two practical frameworks that don't rely on predicting price.
+- [Gold Investment for Beginners](https://metal-calc-two.vercel.app/gold-investment-for-beginners): Practical basics — forms, purity, storage, tracking.
+- [Silver Investment Guide](https://metal-calc-two.vercel.app/silver-investment-guide): What makes silver structurally different from gold as an investment.
+- [Crypto Portfolio Diversification Guide](https://metal-calc-two.vercel.app/crypto-portfolio-diversification-guide): Why holding many coins doesn't automatically mean you're diversified.
+- [Understanding Stock Trade Signals](https://metal-calc-two.vercel.app/understanding-stock-trade-signals): How rule-based buy/sell signals are built, and their limits.
+- [Savings Goal vs Lump Sum](https://metal-calc-two.vercel.app/savings-goal-vs-lump-sum-gold): Two ways to build a gold position, and which fits which situation.
+- [Jewelry Making Charges Explained](https://metal-calc-two.vercel.app/jewelry-making-charges-explained): What making charges cover and how to check if a quote is fair.
+- [Net Worth Tracking Guide](https://metal-calc-two.vercel.app/net-worth-tracking-guide): Why fragmented net worth tracking hides real risk.
 
 ## Blog
 
@@ -54,6 +64,16 @@ browser's localStorage only; nothing is sent to a server except optional WhatsAp
 - [Gold Loan vs Personal Loan](https://metal-calc-two.vercel.app/blog/gold-loan-vs-personal-loan): Rate, speed and risk comparison, including the LTV squeeze.
 - [Dollar-Cost Averaging Into Crypto](https://metal-calc-two.vercel.app/blog/dollar-cost-averaging-crypto-does-it-work): What DCA mathematically does, when it helps vs a lump sum.
 - [PEG Ratio Explained](https://metal-calc-two.vercel.app/blog/peg-ratio-explained): What PEG corrects for that P/E alone misses, and its limits.
+- [Position Sizing 101](https://metal-calc-two.vercel.app/blog/position-sizing-101): Fixed-fractional position sizing and why it keeps one bad trade from wrecking an account.
+- [RSI Explained](https://metal-calc-two.vercel.app/blog/rsi-explained-overbought-oversold): What overbought/oversold mean, and the trend trap.
+- [Melt Value vs Retail Price](https://metal-calc-two.vercel.app/blog/melt-value-vs-retail-price): Why jewelry costs more than its metal, and how to check the markup.
+- [Currency Exchange Margins Explained](https://metal-calc-two.vercel.app/blog/currency-exchange-margins-explained): How FX margins hide inside a quoted rate.
+- [Reverse-Calculating Tax](https://metal-calc-two.vercel.app/blog/reverse-calculating-tax): The formula for backing out base price from a tax-inclusive total.
+- [What a Diversification Score Measures](https://metal-calc-two.vercel.app/blog/what-diversification-score-measures): The HHI math and its blind spot (correlation).
+- [Correlation vs Diversification](https://metal-calc-two.vercel.app/blog/correlation-vs-diversification): Why allocation-diversified assets can still crash together.
+- [Storage and Insurance Hidden Cost](https://metal-calc-two.vercel.app/blog/storage-and-insurance-hidden-cost): The real carrying cost of holding physical metal.
+- [Alloy Mixing Math Explained](https://metal-calc-two.vercel.app/blog/alloy-mixing-math-explained): The weighted-average formula for melting two purities together.
+- [The 52-Week Range as a Demand/Supply Proxy](https://metal-calc-two.vercel.app/blog/52-week-range-demand-supply-proxy): What it can and can't tell you.
 
 ## Other
 

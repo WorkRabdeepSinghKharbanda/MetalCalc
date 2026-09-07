@@ -31,6 +31,7 @@ import HowToCalculateGoldPurity from './pages/HowToCalculateGoldPurity.jsx'
 import GoldVsSilverInvestment from './pages/GoldVsSilverInvestment.jsx'
 import Blog from './pages/Blog.jsx'
 import BlogPost from './pages/BlogPost.jsx'
+import LandingPage from './pages/LandingPage.jsx'
 import NotFound from './pages/NotFound.jsx'
 import OfflineBanner from './components/OfflineBanner.jsx'
 import CommandPalette from './components/CommandPalette.jsx'
@@ -88,6 +89,7 @@ export default function App() {
                   <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                   <Route path="/alerts" element={<Alerts />} />
                   <Route path="/faq" element={<Faq />} />
+                  <Route path="/:landingSlug" element={<LandingPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>
