@@ -126,6 +126,30 @@ client-side per alert channel (`utils/whatsappSettings.js`/`whatsappLog.js`, `ut
 and are included in Backup & Restore. Both alert channels only fire while the Stocks page is open — no
 background/push delivery, no cron behind this.
 
+## SEO / AI-crawler visibility — a real limitation, not a solved problem
+
+This is a 100%-client-rendered Vite/React SPA — `index.html`'s only static content is one generic set of
+meta tags + 2 JSON-LD blocks. Everything route-specific (`<title>`, meta description, JSON-LD, and the actual
+page content itself) is injected by React **after** JS executes (`Seo.jsx`'s `useEffect`, plus each page's own
+render). Googlebot renders JS and sees all of this fine. Most AI/LLM crawlers (GPTBot, ClaudeBot,
+PerplexityBot, CCBot) do **not** execute JavaScript — they only ever see the static `index.html` shell,
+regardless of route.
+
+What's actually done about this:
+- `public/llms.txt` — a static, always-crawlable plain-text summary of every route + one-line description,
+  specifically for LLM crawlers that don't render JS. **Keep this in sync with the brain index** when routes
+  change — same source-of-truth discipline as the brain.
+- `public/robots.txt` — explicit `Allow` entries per named AI crawler (redundant with the wildcard `Allow: /`,
+  but unambiguous for crawlers that check by name).
+- New landing pages (`gold-rate-today`, `how-to-calculate-gold-purity`, `gold-vs-silver-investment`) follow the
+  same architecture as every other page — real content for Googlebot, same JS-rendering limitation for AI
+  crawlers as the rest of the site.
+
+What's **not** done, and would be the real fix: pre-rendering/SSG (render each route to static HTML at build
+time) so non-JS crawlers see actual page content, not just `llms.txt` + the generic shell. That's a real
+infra project (react-dom/server + a build script, or a framework migration), not a quick addition — don't
+claim AI-crawler content visibility is "solved" without it.
+
 ## Conventions to keep following
 
 - Every currency symbol/list: `utils/currency.js` — don't reintroduce a local `SYMBOLS_CURRENCY` map in a new file, it was duplicated in 5 files before and got centralized once already.

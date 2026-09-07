@@ -1,0 +1,52 @@
+# MetalCalc
+
+> Free, client-only web app for live precious metal (gold, silver, platinum, palladium), US stock, and
+> cryptocurrency tracking, plus 20+ financial calculators. No account, no backend database — everything runs
+> in the browser and is stored locally on the user's device. Free to use, ad-supported.
+
+MetalCalc pulls live prices from gold-api.com and frankfurter.dev (metals/FX), Finnhub (US stocks), and
+CoinGecko (crypto) — no paid data feed, no login required. All portfolio/holdings/alert data is stored in the
+browser's localStorage only; nothing is sent to a server except optional WhatsApp/Telegram trade-alert delivery
+(user opt-in) and live price API calls.
+
+## Metals
+
+- [Home](https://metal-calc-two.vercel.app/): Live gold/silver/platinum/palladium ticker, purity calculator, gold-silver ratio, local price history.
+- [Batch Calculator](https://metal-calc-two.vercel.app/batch): Value multiple gold/silver/platinum items at once; save/share/export batches.
+- [My Holdings](https://metal-calc-two.vercel.app/holdings): Persistent metals portfolio with live value, gain/loss, break-even price, CSV import/export, diversification score.
+- [Compare Batches](https://metal-calc-two.vercel.app/compare): Compare two saved metal batches side by side.
+- [Price Alerts](https://metal-calc-two.vercel.app/alerts): Browser notification alerts when a metal crosses a target price.
+
+## Markets
+
+- [US Stocks](https://metal-calc-two.vercel.app/stocks): Search US stocks, fundamentals (PE, PEG, EPS, growth), curated AI/Semi/Tech rankings, trade signals, portfolio tracking with cost-basis/realized-gains, WhatsApp/Telegram trade alerts.
+- [Crypto](https://metal-calc-two.vercel.app/crypto): Search crypto, Top 10/25/50 by market cap, curated rankings, per-timeframe (15min-3month) technical trade signals, DCA backtest simulator, portfolio tracking, correlation check, move alerts.
+- [Crude Oil](https://metal-calc-two.vercel.app/crude-oil): WTI/Brent crude oil price proxy and oil-market news.
+- [Net Worth Dashboard](https://metal-calc-two.vercel.app/net-worth): Combined net worth across metals, stocks and crypto, with a diversification score and combined P&L.
+- [Position Sizing / Risk Calculator](https://metal-calc-two.vercel.app/position-size): Fixed-fractional position sizing for stocks or crypto trades.
+
+## Tools
+
+- [Purity Converter](https://metal-calc-two.vercel.app/convert): Convert gold purity between karat, fineness and percent.
+- [Weight Converter](https://metal-calc-two.vercel.app/weight-converter): Convert precious metal weight between grams, troy ounces, kilograms, tola, dwt.
+- [Alloy Mixing Calculator](https://metal-calc-two.vercel.app/alloy-mix): Melt two different-purity gold/silver pieces together, compute blended purity.
+- [Zakat Calculator](https://metal-calc-two.vercel.app/zakat): Calculate zakat due on gold, silver and cash using live prices and the silver nisab threshold.
+- [Loan Against Gold](https://metal-calc-two.vercel.app/loan-against-gold): Estimate max loan amount a lender might offer against gold/silver.
+- [Savings Goal Projector](https://metal-calc-two.vercel.app/savings-goal): See how long it takes to reach a gold/silver weight goal at a fixed monthly savings amount.
+- [Storage & Insurance Cost Calculator](https://metal-calc-two.vercel.app/storage-cost): Estimate storage/insurance carrying cost and break-even price appreciation.
+- [Melt vs Retail Markup Checker](https://metal-calc-two.vercel.app/melt-check): Check markup of a jewelry/coin asking price over its pure melt value.
+- [Jewelry Bill Breakdown](https://metal-calc-two.vercel.app/bill-breakdown): Reveal implied making-charge + tax hidden in a lump-sum jewelry bill.
+- [Exchange Rate Margin Checker](https://metal-calc-two.vercel.app/rate-check): Compare a dealer quoted FX rate against live mid-market rate.
+- [Tax / GST Reverse Calculator](https://metal-calc-two.vercel.app/tax-reverse): Back out base price and tax amount from a final tax-inclusive price.
+- [Backup & Restore](https://metal-calc-two.vercel.app/backup): Export/import all saved data as one JSON file.
+
+## Guides
+
+- [Gold Rate Today](https://metal-calc-two.vercel.app/gold-rate-today): Live gold rate per gram/10g/oz in multiple currencies, updated in real time.
+- [How to Calculate Gold Purity](https://metal-calc-two.vercel.app/how-to-calculate-gold-purity): Step-by-step guide to karat, fineness and hallmark purity, with a linked calculator.
+- [Gold vs Silver: Which Should You Invest In](https://metal-calc-two.vercel.app/gold-vs-silver-investment): Comparison guide covering volatility, liquidity, and historical gold-silver ratio.
+
+## Other
+
+- [FAQ](https://metal-calc-two.vercel.app/faq): Answers about live metal prices, purities, currencies and how MetalCalc works.
+- [Privacy Policy](https://metal-calc-two.vercel.app/privacy-policy): What MetalCalc stores (all client-side), third-party requests, ad-cookie disclosure.

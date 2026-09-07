@@ -6,6 +6,7 @@ export const APP_ROUTES = [
   { label: 'My Holdings', path: '/holdings', group: 'Metals' },
   { label: 'Compare Batches', path: '/compare', group: 'Metals' },
   { label: 'Price Alerts', path: '/alerts', group: 'Metals' },
+  { label: 'Gold Rate Today', path: '/gold-rate-today', group: 'Metals' },
   { label: 'US Stocks', path: '/stocks', group: 'Markets' },
   { label: 'Crypto', path: '/crypto', group: 'Markets' },
   { label: 'Crude Oil', path: '/crude-oil', group: 'Markets' },
@@ -23,6 +24,8 @@ export const APP_ROUTES = [
   { label: 'Rate Margin Check', path: '/rate-check', group: 'Tools' },
   { label: 'Tax Reverse Calc', path: '/tax-reverse', group: 'Tools' },
   { label: 'Backup & Restore', path: '/backup', group: 'Tools' },
+  { label: 'How to Calculate Gold Purity', path: '/how-to-calculate-gold-purity', group: 'Other' },
+  { label: 'Gold vs Silver Investment', path: '/gold-vs-silver-investment', group: 'Other' },
   { label: 'FAQ', path: '/faq', group: 'Other' },
   { label: 'Privacy Policy', path: '/privacy-policy', group: 'Other' },
 ]

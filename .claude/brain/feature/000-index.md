@@ -9,6 +9,7 @@ Source of truth: `src/appRoutes.js` (command palette registry) + `src/App.jsx` (
 - [My Holdings](003-my-holdings.md) — `/holdings`
 - [Compare Batches](004-compare-batches.md) — `/compare`
 - [Price Alerts](005-price-alerts.md) — `/alerts`
+- [Gold Rate Today](026-gold-rate-today.md) — `/gold-rate-today`
 
 ## Markets
 
@@ -38,3 +39,5 @@ Source of truth: `src/appRoutes.js` (command palette registry) + `src/App.jsx` (
 - [FAQ](022-faq.md) — `/faq`
 - [Embeddable Widget](023-widget.md) — `/widget`
 - [Privacy Policy](024-privacy-policy.md) — `/privacy-policy`
+- [How to Calculate Gold Purity](027-how-to-calculate-gold-purity.md) — `/how-to-calculate-gold-purity`
+- [Gold vs Silver Investment](028-gold-vs-silver-investment.md) — `/gold-vs-silver-investment`

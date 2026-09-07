@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import Hero from '../components/Hero.jsx'
 import Calculator from '../components/Calculator.jsx'
 import Features from '../components/Features.jsx'
@@ -50,6 +51,13 @@ export default function Home() {
       <Features />
       <AdSlot slot="home-mid" />
       <PriceHistorySection />
+      <div className="container">
+        <p className="muted small-note" style={{ margin: '1.5rem 0' }}>
+          Guides: <Link to="/gold-rate-today">Today's gold rate</Link> ·{' '}
+          <Link to="/how-to-calculate-gold-purity">How to calculate gold purity</Link> ·{' '}
+          <Link to="/gold-vs-silver-investment">Gold vs silver investment</Link>
+        </p>
+      </div>
     </>
   )
 }
