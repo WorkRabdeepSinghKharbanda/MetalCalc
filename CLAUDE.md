@@ -1,13 +1,14 @@
 # CLAUDE.md — Agent Entry Point
 
-Read before touching code, in order:
+**New session in this repo — read in this order before doing anything else:**
 
-1. [README.md](README.md) — setup, dev/build/deploy commands.
-2. [.claude/brain/feature/000-index.md](.claude/brain/feature/000-index.md) — full feature/route inventory, one file per tool. Source of truth is `src/appRoutes.js` + `src/App.jsx`'s `<Routes>` — regenerate the brain from those if they disagree with what's listed there.
-3. This file — architecture + control flow, per feature.
-4. [src/calc.js](src/calc.js) — pure metal pricing math (source of truth for units/purity).
-5. Whichever feature section below matches the task.
-6. [.claude/rules/branching.md](.claude/rules/branching.md) — this is a solo repo: push straight to master, no branches/PRs, and always run the deploy CLI after pushing.
+1. This file (CLAUDE.md).
+2. Everything in [.claude/rules/](.claude/rules/) — [branching.md](.claude/rules/branching.md) (solo repo: push straight to master, no branches/PRs, always run the deploy CLI after pushing) and [brain-sync.md](.claude/rules/brain-sync.md) (every route ships its brain entry in the same commit — read this before adding/removing any route).
+3. [.claude/brain/feature/000-index.md](.claude/brain/feature/000-index.md) — full feature/route inventory, one file per tool. Source of truth is `src/appRoutes.js` + `src/App.jsx`'s `<Routes>` — regenerate the brain from those if they disagree with what's listed there.
+4. Only then start the task. Also useful along the way:
+   - [README.md](README.md) — setup, dev/build/deploy commands.
+   - [src/calc.js](src/calc.js) — pure metal pricing math (source of truth for units/purity).
+   - Whichever feature section below matches the task.
 
 ## What this is
 
