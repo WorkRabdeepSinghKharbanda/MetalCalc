@@ -86,7 +86,7 @@ Reads two saved batches (`utils/savedBatches.js`) side by side. Off the main nav
 
 ## Feature: US Stocks (`pages/Stocks.jsx`)
 
-Separate data source from the metals side — **Finnhub**, needs `VITE_FINNHUB_API_KEY` (set in Vercel as **Config**, not Secret — it's a client-side `VITE_` var, it's in the public JS bundle regardless, Vercel will refuse `secret` type for a `VITE_`-prefixed name for exactly this reason). No backend proxy exists to hide it; if that's ever wanted, it means adding a Vercel serverless function under `api/`.
+Separate data source from the metals side — **Finnhub**, needs `VITE_FINNHUB_API_KEY` (set in Vercel as **Config**, not Secret — it's a client-side `VITE_` var, it's in the public JS bundle regardless, Vercel will refuse `secret` type for a `VITE_`-prefixed name for exactly this reason). No backend proxy exists to hide the Finnhub key specifically — but this app is **not** purely client-only anymore, see below.
 
 ```
 finnhub/
@@ -106,6 +106,25 @@ hooks/
 - No formal "guidance" field exists on free tier — analyst recommendation counts + price target (when available) are the forward-looking proxy, labeled as such in the UI.
 
 Portfolio: `utils/stockPortfolio.js`, same manual-entry model as Holdings (qty + avg buy price, live P&L/allocation computed client-side, no brokerage connection).
+
+### Trade alerts (WhatsApp + Telegram) — the one real backend this app has
+
+`WhatsAppAlerts.jsx` / `TelegramAlerts.jsx` (rendered in the Markets tab) auto-fire when the #1 PEG-ranked pick
+changes. Both go through a **Vercel serverless function** under `api/` — the only server-side code in this repo:
+
+```
+api/
+  send-whatsapp.js   holds TWILIO_ACCOUNT_SID / TWILIO_API_KEY_SID+SECRET (or TWILIO_AUTH_TOKEN) / TWILIO_WHATSAPP_FROM
+  send-telegram.js   holds TELEGRAM_BOT_TOKEN
+```
+
+Both env vars are **server-only, no `VITE_` prefix** — unlike `VITE_FINNHUB_API_KEY`, these must never reach the
+browser bundle, and Vercel accepts `secret` type for them for exactly that reason. The client only ever sends the
+user's own destination (phone number / Telegram Chat ID) and message text — `utils/sendWhatsApp.js` /
+`utils/sendTelegram.js` POST to the API route, never call Twilio/Telegram directly. Settings + send log persist
+client-side per alert channel (`utils/whatsappSettings.js`/`whatsappLog.js`, `utils/telegramSettings.js`/`telegramLog.js`)
+and are included in Backup & Restore. Both alert channels only fire while the Stocks page is open — no
+background/push delivery, no cron behind this.
 
 ## Conventions to keep following
 
