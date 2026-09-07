@@ -29,6 +29,8 @@ import Widget from './pages/Widget.jsx'
 import GoldRateToday from './pages/GoldRateToday.jsx'
 import HowToCalculateGoldPurity from './pages/HowToCalculateGoldPurity.jsx'
 import GoldVsSilverInvestment from './pages/GoldVsSilverInvestment.jsx'
+import Blog from './pages/Blog.jsx'
+import BlogPost from './pages/BlogPost.jsx'
 import NotFound from './pages/NotFound.jsx'
 import OfflineBanner from './components/OfflineBanner.jsx'
 import CommandPalette from './components/CommandPalette.jsx'
@@ -62,6 +64,8 @@ export default function App() {
                   <Route path="/gold-rate-today" element={<GoldRateToday />} />
                   <Route path="/how-to-calculate-gold-purity" element={<HowToCalculateGoldPurity />} />
                   <Route path="/gold-vs-silver-investment" element={<GoldVsSilverInvestment />} />
+                  <Route path="/blog" element={<Blog />} />
+                  <Route path="/blog/:slug" element={<BlogPost />} />
                   <Route path="/holdings" element={<Holdings />} />
                   <Route path="/compare" element={<CompareBatches />} />
                   <Route path="/stocks" element={<Stocks />} />

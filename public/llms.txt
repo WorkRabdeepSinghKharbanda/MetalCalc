@@ -46,6 +46,15 @@ browser's localStorage only; nothing is sent to a server except optional WhatsAp
 - [How to Calculate Gold Purity](https://metal-calc-two.vercel.app/how-to-calculate-gold-purity): Step-by-step guide to karat, fineness and hallmark purity, with a linked calculator.
 - [Gold vs Silver: Which Should You Invest In](https://metal-calc-two.vercel.app/gold-vs-silver-investment): Comparison guide covering volatility, liquidity, and historical gold-silver ratio.
 
+## Blog
+
+- [Blog index](https://metal-calc-two.vercel.app/blog): Guides and explainers on precious metals, stocks and crypto.
+- [The Gold-Silver Ratio Explained](https://metal-calc-two.vercel.app/blog/gold-silver-ratio-explained): What the ratio measures, why it swings, how to read it.
+- [How Zakat on Gold Is Calculated](https://metal-calc-two.vercel.app/blog/zakat-on-gold-with-examples): Nisab threshold, the 2.5% rate, worked examples.
+- [Gold Loan vs Personal Loan](https://metal-calc-two.vercel.app/blog/gold-loan-vs-personal-loan): Rate, speed and risk comparison, including the LTV squeeze.
+- [Dollar-Cost Averaging Into Crypto](https://metal-calc-two.vercel.app/blog/dollar-cost-averaging-crypto-does-it-work): What DCA mathematically does, when it helps vs a lump sum.
+- [PEG Ratio Explained](https://metal-calc-two.vercel.app/blog/peg-ratio-explained): What PEG corrects for that P/E alone misses, and its limits.
+
 ## Other
 
 - [FAQ](https://metal-calc-two.vercel.app/faq): Answers about live metal prices, purities, currencies and how MetalCalc works.

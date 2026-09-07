@@ -36,6 +36,7 @@ Source of truth: `src/appRoutes.js` (command palette registry) + `src/App.jsx` (
 
 ## Other
 
+- [Blog](029-blog.md) — `/blog`
 - [FAQ](022-faq.md) — `/faq`
 - [Embeddable Widget](023-widget.md) — `/widget`
 - [Privacy Policy](024-privacy-policy.md) — `/privacy-policy`

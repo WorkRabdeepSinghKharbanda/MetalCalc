@@ -26,6 +26,7 @@ export const APP_ROUTES = [
   { label: 'Backup & Restore', path: '/backup', group: 'Tools' },
   { label: 'How to Calculate Gold Purity', path: '/how-to-calculate-gold-purity', group: 'Other' },
   { label: 'Gold vs Silver Investment', path: '/gold-vs-silver-investment', group: 'Other' },
+  { label: 'Blog', path: '/blog', group: 'Other' },
   { label: 'FAQ', path: '/faq', group: 'Other' },
   { label: 'Privacy Policy', path: '/privacy-policy', group: 'Other' },
 ]

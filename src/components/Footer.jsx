@@ -18,7 +18,8 @@ export default function Footer() {
       <div className="container footer-inner">
         <span>© {new Date().getFullYear()} MetalCalc</span>
         <span className="muted">
-          Prices via gold-api.com &amp; frankfurter.dev · {t('footerTagline')} · <Link to="/faq">FAQ</Link> ·{' '}
+          Prices via gold-api.com &amp; frankfurter.dev · {t('footerTagline')} · <Link to="/blog">Blog</Link> ·{' '}
+          <Link to="/faq">FAQ</Link> ·{' '}
           <Link to="/privacy-policy">Privacy Policy</Link> ·{' '}
           <button className="link-btn" onClick={copyEmbedCode}>📋 Embed widget</button>
         </span>

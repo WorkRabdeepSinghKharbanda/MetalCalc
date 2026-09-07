@@ -442,6 +442,19 @@
   background: var(--bg-alt);
 }
 
+.blog-content {
+  line-height: 1.7;
+}
+
+.blog-content p {
+  margin: 0 0 1.25rem;
+}
+
+.blog-content h2 {
+  font-size: 1.3rem;
+  margin: 2rem 0 0.75rem;
+}
+
 .faq-item summary {
   cursor: pointer;
   font-weight: 600;
