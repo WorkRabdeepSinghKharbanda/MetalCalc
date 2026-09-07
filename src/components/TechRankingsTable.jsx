@@ -26,7 +26,7 @@ function rangeLabel(pct) {
   return 'mid-range'
 }
 
-export default function TechRankingsTable({ rows, loading, progress, error }) {
+export default function TechRankingsTable({ rows, loading, progress, error, onQuickAdd }) {
   const [category, setCategory] = useState('All')
   const { currency, rates } = useMarket()
   const rate = rates[currency] ?? 1
@@ -85,6 +85,7 @@ export default function TechRankingsTable({ rows, loading, progress, error }) {
                   onSort={toggleSort}
                   title="Position in 52-week range — a proxy for demand/supply zones. Real zones need OHLC price-action history, unavailable on this Finnhub plan."
                 />
+                {onQuickAdd && <th></th>}
               </tr>
             </thead>
             <tbody>
@@ -109,6 +110,11 @@ export default function TechRankingsTable({ rows, loading, progress, error }) {
                       </span>
                     ) : '—'}
                   </td>
+                  {onQuickAdd && (
+                    <td>
+                      <button className="btn btn-ghost icon-btn" onClick={() => onQuickAdd(r)} aria-label={`Add ${r.symbol} to portfolio`} title="Add 1 share to portfolio">+</button>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>

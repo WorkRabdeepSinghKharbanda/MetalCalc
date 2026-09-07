@@ -10,6 +10,10 @@ const KEYS = [
   'metalcalc:recipes',
   'metalcalc:whatsappSettings',
   'metalcalc:whatsappLog',
+  'metalcalc:stockRealizedGains',
+  'metalcalc:cryptoRealizedGains',
+  'metalcalc:signalAlertState',
+  'metalcalc:moveAlertState',
 ]
 
 export function exportBackup() {

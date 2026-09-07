@@ -6,6 +6,7 @@ import CompositionBar from '../components/CompositionBar.jsx'
 import PortfolioChart from '../components/PortfolioChart.jsx'
 import DropdownMenu from '../components/DropdownMenu.jsx'
 import { loadHoldings, saveHoldings } from '../utils/holdings.js'
+import { computeDiversificationScore } from '../utils/diversification.js'
 import { downloadCsv } from '../utils/downloadCsv.js'
 import { parseCsv } from '../utils/parseCsv.js'
 import { useToast } from '../context/ToastContext.jsx'
@@ -69,6 +70,7 @@ export default function Holdings() {
     acc[it.metal] = (acc[it.metal] ?? 0) + (currentValue(it) ?? 0)
     return acc
   }, {})
+  const diversification = computeDiversificationScore(Object.values(byMetal))
 
   function valueAtHistoryPoint(historyEntry) {
     return items.reduce((sum, it) => {
@@ -312,6 +314,15 @@ export default function Holdings() {
                   <span className="result-label">Gain / Loss</span>
                   <span className={`result-value ${gain >= 0 ? 'arrow up' : 'arrow down'}`}>
                     {gain >= 0 ? '+' : ''}{currencySymbol}{gain.toFixed(2)}
+                  </span>
+                </div>
+              )}
+              {diversification && (
+                <div className="result-box no-print">
+                  <span className="result-label">Diversification score</span>
+                  <span className="result-value">{diversification.score}/100</span>
+                  <span className="muted small-note">
+                    {diversification.label} — across {diversification.categoriesUsed} metal(s).
                   </span>
                 </div>
               )}

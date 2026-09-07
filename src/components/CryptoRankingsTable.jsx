@@ -18,7 +18,7 @@ function rangePosition(price, low, high) {
   return Math.min(100, Math.max(0, pct))
 }
 
-export default function CryptoRankingsTable({ rows, loading, error }) {
+export default function CryptoRankingsTable({ rows, loading, error, onQuickAdd }) {
   const [category, setCategory] = useState('All')
   const { currency, rates } = useMarket()
   const rate = rates[currency] ?? 1
@@ -65,6 +65,7 @@ export default function CryptoRankingsTable({ rows, loading, error }) {
                 <SortableTh label="Market Cap" sortKey="marketCap" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
                 <SortableTh label="From ATH" sortKey="athChangePct" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
                 <SortableTh label="24h Zone" sortKey="rangePos" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} title="Position in today's 24h range" />
+                {onQuickAdd && <th></th>}
               </tr>
             </thead>
             <tbody>
@@ -89,6 +90,11 @@ export default function CryptoRankingsTable({ rows, loading, error }) {
                       </span>
                     ) : '—'}
                   </td>
+                  {onQuickAdd && (
+                    <td>
+                      <button className="btn btn-ghost icon-btn" onClick={() => onQuickAdd(r)} aria-label={`Add ${r.symbol} to portfolio`} title="Add 1 unit to portfolio">+</button>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>

@@ -14,7 +14,7 @@ const TIERS = [
   { label: 'Top 50', max: 50 },
 ]
 
-export default function TopCryptoTable({ rows, loading, error }) {
+export default function TopCryptoTable({ rows, loading, error, onQuickAdd }) {
   const [tier, setTier] = useState(10)
   const { currency, rates } = useMarket()
   const rate = rates[currency] ?? 1
@@ -53,6 +53,7 @@ export default function TopCryptoTable({ rows, loading, error }) {
                 <SortableTh label="24h %" sortKey="changePct" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
                 <SortableTh label="Market Cap" sortKey="marketCap" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
                 <SortableTh label="From ATH" sortKey="athChangePct" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                {onQuickAdd && <th></th>}
               </tr>
             </thead>
             <tbody>
@@ -67,6 +68,11 @@ export default function TopCryptoTable({ rows, loading, error }) {
                   </td>
                   <td>{r.marketCap != null ? `${fmtC(r.marketCap / 1e9, 1)}B` : '—'}</td>
                   <td>{r.athChangePct != null ? `${fmt(r.athChangePct)}%` : '—'}</td>
+                  {onQuickAdd && (
+                    <td>
+                      <button className="btn btn-ghost icon-btn" onClick={() => onQuickAdd(r)} aria-label={`Add ${r.symbol} to portfolio`} title="Add 1 unit to portfolio">+</button>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>

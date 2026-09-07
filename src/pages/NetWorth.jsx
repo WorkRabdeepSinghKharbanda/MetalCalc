@@ -5,6 +5,8 @@ import { loadHoldings } from '../utils/holdings.js'
 import { loadPortfolio } from '../utils/stockPortfolio.js'
 import { loadCryptoPortfolio } from '../utils/cryptoPortfolio.js'
 import { computeDiversificationScore } from '../utils/diversification.js'
+import { loadStockRealizedGains } from '../utils/stockRealizedGains.js'
+import { loadCryptoRealizedGains } from '../utils/cryptoRealizedGains.js'
 import { useQuotes } from '../hooks/useQuotes.js'
 import { useCryptoQuotes } from '../hooks/useCryptoQuotes.js'
 import Seo from '../components/Seo.jsx'
@@ -44,6 +46,26 @@ export default function NetWorth() {
     const ltpUsd = cryptoQuotes[p.coinId] ?? p.avgBuy
     return sum + p.qty * ltpUsd * rate
   }, 0)
+
+  const metalsCost = holdings.reduce((sum, it) => sum + (Number(it.costBasis) || 0), 0)
+  const metalsUnrealized = metalsCost > 0 ? metalsValue - metalsCost : 0
+
+  const stocksUnrealized = stockPortfolio.reduce((sum, p) => {
+    const ltpUsd = stockQuotes[p.symbol]?.c ?? p.avgBuy
+    return sum + p.qty * (ltpUsd - p.avgBuy) * rate
+  }, 0)
+
+  const cryptoUnrealized = cryptoPortfolio.reduce((sum, p) => {
+    const ltpUsd = cryptoQuotes[p.coinId] ?? p.avgBuy
+    return sum + p.qty * (ltpUsd - p.avgBuy) * rate
+  }, 0)
+
+  const stockRealized = loadStockRealizedGains().reduce((sum, g) => sum + g.gain, 0) * rate
+  const cryptoRealized = loadCryptoRealizedGains().reduce((sum, g) => sum + g.gain, 0) * rate
+
+  const totalUnrealized = metalsUnrealized + stocksUnrealized + cryptoUnrealized
+  const totalRealized = stockRealized + cryptoRealized
+  const totalPnl = totalUnrealized + totalRealized
 
   const total = metalsValue + stocksValue + cryptoValue
   const rows = [
@@ -86,6 +108,19 @@ export default function NetWorth() {
             </div>
           ))}
         </div>
+
+        {(totalUnrealized !== 0 || totalRealized !== 0) && (
+          <div className="result-box no-print" style={{ marginBottom: '1.5rem' }}>
+            <span className="result-label">Total P&amp;L (realized + unrealized)</span>
+            <span className={`result-value ${totalPnl >= 0 ? 'arrow up' : 'arrow down'}`}>
+              {totalPnl >= 0 ? '+' : ''}{symbol}{fmt(totalPnl)}
+            </span>
+            <span className="muted small-note">
+              Unrealized {symbol}{fmt(totalUnrealized)} across open positions + realized {symbol}{fmt(totalRealized)} from
+              recorded sales. Metals gain only counts holdings with a cost paid entered.
+            </span>
+          </div>
+        )}
 
         {diversification && (
           <div className="result-box no-print" style={{ marginBottom: '1.5rem' }}>

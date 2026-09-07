@@ -26,6 +26,7 @@ import { CURRENCY_SYMBOLS } from '../utils/currency.js'
 import { sellLot } from '../utils/costBasis.js'
 import { loadStockRealizedGains, saveStockRealizedGains } from '../utils/stockRealizedGains.js'
 import RealizedGainsSection from '../components/RealizedGainsSection.jsx'
+import CompareSection from '../components/CompareSection.jsx'
 
 function fmt(n, decimals = 2) {
   return n == null || Number.isNaN(n) ? '—' : n.toLocaleString(undefined, { maximumFractionDigits: decimals })
@@ -72,6 +73,16 @@ export default function Stocks() {
     showToast(`Added ${selected.symbol} to portfolio`)
     setAvgBuy('')
     setQty(1)
+  }
+
+  function quickAddToPortfolio(r) {
+    if (r.price == null || r.price <= 0) {
+      showToast('No live price yet for that row')
+      return
+    }
+    const next = [...portfolio, { id: crypto.randomUUID(), symbol: r.symbol, name: r.name, qty: 1, avgBuy: r.price }]
+    setPortfolio(savePortfolio(next))
+    showToast(`Added ${r.symbol} to portfolio (1 share @ ${fmtC(r.price)})`)
   }
 
   function removeFromPortfolio(id) {
@@ -136,6 +147,15 @@ export default function Stocks() {
     showToast('CSV downloaded')
   }
 
+  function handleExportGainsCsv() {
+    const headers = ['Symbol', 'Qty Sold', 'Avg Buy', 'Sell Price', 'Proceeds', 'Cost Basis', 'Gain/Loss', 'Date']
+    const rows = realizedGains.map((g) => [
+      g.symbol, g.qty, g.avgBuy, g.sellPrice, g.proceeds, g.costBasis, g.gain, new Date(g.soldAt).toISOString().slice(0, 10),
+    ])
+    downloadCsv('my-stock-realized-gains.csv', headers, rows)
+    showToast('CSV downloaded')
+  }
+
   function handleImportClick() {
     fileInputRef.current?.click()
   }
@@ -191,6 +211,21 @@ export default function Stocks() {
   }))
   const { sorted: sortedWatchlist, sortKey: watchSortKey, sortDir: watchSortDir, toggleSort: toggleWatchSort } =
     useSortableTable(watchlistRows, 'symbol', 'asc')
+
+  const compareItems = watchlistRows.map((w) => {
+    const r = rankingRows.find((x) => x.symbol === w.symbol)
+    return {
+      symbol: w.symbol,
+      metrics: [
+        { label: 'Price', value: fmtC(w.price) },
+        { label: 'Chg %', value: w.changePct != null ? `${w.changePct >= 0 ? '+' : ''}${fmt(w.changePct)}%` : '—' },
+        { label: 'P/E', value: r ? fmt(r.peTTM) : '—' },
+        { label: 'PEG', value: r ? fmt(r.peg) : '—' },
+        { label: 'EPS Gr. YoY', value: r?.epsGrowthYoy != null ? `${fmt(r.epsGrowthYoy)}%` : '—' },
+        { label: 'Rev Gr. YoY', value: r?.revenueGrowthYoy != null ? `${fmt(r.revenueGrowthYoy)}%` : '—' },
+      ],
+    }
+  })
 
   const portfolioRows = portfolio.map((p) => {
     const ltp = quotes[p.symbol]?.c ?? null
@@ -353,7 +388,7 @@ export default function Stocks() {
               content: (
                 <>
                   <LastUpdated timestamp={rankingsUpdatedAt} />
-                  <TechRankingsTable rows={rankingRows} loading={rankingsLoading} progress={rankingsProgress} error={rankingsError} />
+                  <TechRankingsTable rows={rankingRows} loading={rankingsLoading} progress={rankingsProgress} error={rankingsError} onQuickAdd={quickAddToPortfolio} />
                   <StockTradeSignalsSection rows={rankingRows} loading={rankingsLoading} />
                   <p className="muted small-note">
                     Per-timeframe signals (15min–3month) aren't available for stocks — Finnhub's free tier blocks
@@ -402,6 +437,7 @@ export default function Stocks() {
                         </tbody>
                       </table>
                     </div>
+                    <CompareSection title="Compare watchlist" items={compareItems} />
                   </>
                 ),
             },
@@ -417,6 +453,7 @@ export default function Stocks() {
                       items={[
                         { label: '⬇ Export CSV', onClick: handleExportCsv, disabled: portfolio.length === 0 },
                         { label: '⬆ Import CSV', onClick: handleImportClick },
+                        { label: '⬇ Export Realized Gains CSV', onClick: handleExportGainsCsv, disabled: realizedGains.length === 0 },
                       ]}
                     />
                     <input ref={fileInputRef} type="file" accept=".csv,text/csv" hidden onChange={handleImportFile} />
