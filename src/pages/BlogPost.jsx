@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { getPostBySlug } from '../blog/posts.js'
 import NotFound from './NotFound.jsx'
 import Seo from '../components/Seo.jsx'
+import AdSlot from '../components/AdSlot.jsx'
 
 const SITE_URL = 'https://metal-calc-two.vercel.app'
 
@@ -38,6 +39,8 @@ export default function BlogPost() {
             s.h2 ? <h2 key={i}>{s.h2}</h2> : <p key={i}>{s.p}</p>
           )}
         </div>
+
+        <AdSlot slot="blog-post-bottom" />
 
         {post.relatedPath && (
           <p className="card" style={{ marginTop: '2rem', padding: '1.25rem' }}>

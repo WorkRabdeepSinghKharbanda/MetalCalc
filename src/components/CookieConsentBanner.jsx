@@ -1,20 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { loadAdConsent, saveAdConsent } from '../utils/adConsent.js'
-import { loadAdsenseScript, isAdsConfigured } from '../utils/adsense.js'
+import { isAdsConfigured } from '../utils/adsense.js'
 
+// Note: the AdSense script loads unconditionally from index.html regardless
+// of the choice made here (Google's Auto Ads snippet doesn't support a
+// consent gate). This banner only records the visitor's preference for the
+// Privacy Policy's disclosure — it no longer controls whether ads load.
 export default function CookieConsentBanner() {
   const [choice, setChoice] = useState(() => loadAdConsent())
-
-  useEffect(() => {
-    if (choice === 'accepted') loadAdsenseScript()
-  }, [choice])
 
   if (choice != null || !isAdsConfigured()) return null
 
   function accept() {
     saveAdConsent('accepted')
-    loadAdsenseScript()
     setChoice('accepted')
   }
 

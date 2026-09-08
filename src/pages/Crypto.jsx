@@ -29,6 +29,7 @@ import { loadCryptoRealizedGains, saveCryptoRealizedGains } from '../utils/crypt
 import RealizedGainsSection from '../components/RealizedGainsSection.jsx'
 import DcaSimulator from '../components/DcaSimulator.jsx'
 import CompareSection from '../components/CompareSection.jsx'
+import AdSlot from '../components/AdSlot.jsx'
 
 function fmt(n, decimals = 2) {
   return n == null || Number.isNaN(n) ? '—' : n.toLocaleString(undefined, { maximumFractionDigits: decimals })
@@ -333,6 +334,7 @@ export default function Crypto() {
                 <>
                   <LastUpdated timestamp={topUpdatedAt} />
                   <TopCryptoTable rows={topRows} loading={topLoading} error={topError} onQuickAdd={quickAddToPortfolio} />
+                  <AdSlot slot="crypto-markets-mid" />
                   <TradeSignalsSection rows={topRows} loading={topLoading} />
                   <LastUpdated timestamp={rankingsUpdatedAt} />
                   <CryptoRankingsTable rows={rankingRows} loading={rankingsLoading} error={rankingsError} onQuickAdd={quickAddToPortfolio} />

@@ -28,6 +28,7 @@ import { sellLot } from '../utils/costBasis.js'
 import { loadStockRealizedGains, saveStockRealizedGains } from '../utils/stockRealizedGains.js'
 import RealizedGainsSection from '../components/RealizedGainsSection.jsx'
 import CompareSection from '../components/CompareSection.jsx'
+import AdSlot from '../components/AdSlot.jsx'
 
 function fmt(n, decimals = 2) {
   return n == null || Number.isNaN(n) ? '—' : n.toLocaleString(undefined, { maximumFractionDigits: decimals })
@@ -390,6 +391,7 @@ export default function Stocks() {
                 <>
                   <LastUpdated timestamp={rankingsUpdatedAt} />
                   <TechRankingsTable rows={rankingRows} loading={rankingsLoading} progress={rankingsProgress} error={rankingsError} onQuickAdd={quickAddToPortfolio} />
+                  <AdSlot slot="stocks-markets-mid" />
                   <StockTradeSignalsSection rows={rankingRows} loading={rankingsLoading} />
                   <p className="muted small-note">
                     Per-timeframe signals (15min–3month) aren't available for stocks — Finnhub's free tier blocks

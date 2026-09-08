@@ -39,9 +39,10 @@ export default function PrivacyPolicy() {
           <div>
             <h3 style={{ margin: '0 0 0.4rem' }}>Advertising cookies</h3>
             <p className="muted small-note" style={{ margin: 0 }}>
-              If you accept the cookie banner, we load Google AdSense, which may set cookies to show personalized
-              ads based on your visits to this and other sites. If you decline, no ad script loads and no ad cookies
-              are set. You can opt out of personalized advertising at any time at{' '}
+              This site loads Google AdSense, which may set cookies to show ads based on your visits to this and
+              other sites. The cookie banner records your preference for this disclosure, but the ad script itself
+              loads on every visit regardless of that choice. You can opt out of personalized advertising at any
+              time at{' '}
               <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">
                 adssettings.google.com
               </a>

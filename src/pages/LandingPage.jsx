@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { getLandingPageBySlug } from '../content/landingPages.js'
 import NotFound from './NotFound.jsx'
 import Seo from '../components/Seo.jsx'
+import AdSlot from '../components/AdSlot.jsx'
 
 export default function LandingPage() {
   const { landingSlug } = useParams()
@@ -22,6 +23,8 @@ export default function LandingPage() {
             s.h2 ? <h2 key={i}>{s.h2}</h2> : <p key={i}>{s.p}</p>
           )}
         </div>
+
+        <AdSlot slot="guide-page-bottom" />
 
         {page.relatedLinks?.length > 0 && (
           <div className="card" style={{ marginTop: '2rem', padding: '1.25rem' }}>

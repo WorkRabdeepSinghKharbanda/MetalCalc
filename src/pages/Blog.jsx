@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { POSTS } from '../blog/posts.js'
 import Seo from '../components/Seo.jsx'
+import AdSlot from '../components/AdSlot.jsx'
 
 export default function Blog() {
   return (
@@ -15,6 +16,8 @@ export default function Blog() {
         <p className="hero-sub" style={{ marginBottom: '2rem' }}>
           Longer reads on how the numbers behind MetalCalc's calculators actually work.
         </p>
+
+        <AdSlot slot="blog-index-top" />
 
         <div className="batch-list">
           {POSTS.slice().reverse().map((post) => (
