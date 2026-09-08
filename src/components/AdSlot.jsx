@@ -6,11 +6,11 @@ import { ADSENSE_CLIENT_ID, isAdsConfigured } from '../utils/adsense.js'
 // pageview (see utils/adsense.js), so this doesn't gate on consent.
 // Falls back to a reserved placeholder box so layout never shifts.
 //
-// PLACEHOLDER SLOT IDs: every `slot` prop passed to <AdSlot> at call sites
-// (e.g. "home-mid", "blog-index-top") is an internal label, not a real
-// Google ad-unit ID — no ad units have been created in the AdSense dashboard
-// yet. Once real ad units exist, swap each call site's `slot` string for the
-// real numeric data-ad-slot ID AdSense assigns it.
+// Every call site currently passes the same real ad unit ("CommonAd",
+// slot 3418754801) — the only one created in the AdSense dashboard so far.
+// Adding a second ad unit there means creating it, then swapping the
+// relevant call sites' `slot` prop to its own numeric ID instead of reusing
+// this one everywhere.
 export default function AdSlot({ slot, height = 90 }) {
   const live = isAdsConfigured()
 

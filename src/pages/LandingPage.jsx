@@ -3,6 +3,7 @@ import { getLandingPageBySlug } from '../content/landingPages.js'
 import NotFound from './NotFound.jsx'
 import Seo from '../components/Seo.jsx'
 import AdSlot from '../components/AdSlot.jsx'
+import RelatedPosts from '../components/RelatedPosts.jsx'
 
 export default function LandingPage() {
   const { landingSlug } = useParams()
@@ -24,8 +25,6 @@ export default function LandingPage() {
           )}
         </div>
 
-        <AdSlot slot="guide-page-bottom" />
-
         {page.relatedLinks?.length > 0 && (
           <div className="card" style={{ marginTop: '2rem', padding: '1.25rem' }}>
             <h3 style={{ marginTop: 0 }}>Related tools</h3>
@@ -36,6 +35,10 @@ export default function LandingPage() {
             </ul>
           </div>
         )}
+
+        <RelatedPosts currentPath={`/${page.slug}`} />
+
+        <AdSlot slot="3418754801" />
       </div>
     </section>
   )

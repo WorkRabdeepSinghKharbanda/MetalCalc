@@ -334,7 +334,7 @@ export default function Crypto() {
                 <>
                   <LastUpdated timestamp={topUpdatedAt} />
                   <TopCryptoTable rows={topRows} loading={topLoading} error={topError} onQuickAdd={quickAddToPortfolio} />
-                  <AdSlot slot="crypto-markets-mid" />
+                  <AdSlot slot="3418754801" />
                   <TradeSignalsSection rows={topRows} loading={topLoading} />
                   <LastUpdated timestamp={rankingsUpdatedAt} />
                   <CryptoRankingsTable rows={rankingRows} loading={rankingsLoading} error={rankingsError} onQuickAdd={quickAddToPortfolio} />

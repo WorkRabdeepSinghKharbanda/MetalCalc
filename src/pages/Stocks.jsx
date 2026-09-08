@@ -391,7 +391,7 @@ export default function Stocks() {
                 <>
                   <LastUpdated timestamp={rankingsUpdatedAt} />
                   <TechRankingsTable rows={rankingRows} loading={rankingsLoading} progress={rankingsProgress} error={rankingsError} onQuickAdd={quickAddToPortfolio} />
-                  <AdSlot slot="stocks-markets-mid" />
+                  <AdSlot slot="3418754801" />
                   <StockTradeSignalsSection rows={rankingRows} loading={rankingsLoading} />
                   <p className="muted small-note">
                     Per-timeframe signals (15min–3month) aren't available for stocks — Finnhub's free tier blocks

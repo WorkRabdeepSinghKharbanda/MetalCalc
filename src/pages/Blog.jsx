@@ -17,7 +17,7 @@ export default function Blog() {
           Longer reads on how the numbers behind MetalCalc's calculators actually work.
         </p>
 
-        <AdSlot slot="blog-index-top" />
+        <AdSlot slot="3418754801" />
 
         <div className="batch-list">
           {POSTS.slice().reverse().map((post) => (

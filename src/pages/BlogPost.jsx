@@ -3,6 +3,7 @@ import { getPostBySlug } from '../blog/posts.js'
 import NotFound from './NotFound.jsx'
 import Seo from '../components/Seo.jsx'
 import AdSlot from '../components/AdSlot.jsx'
+import RelatedPosts from '../components/RelatedPosts.jsx'
 
 const SITE_URL = 'https://metal-calc-two.vercel.app'
 
@@ -40,13 +41,15 @@ export default function BlogPost() {
           )}
         </div>
 
-        <AdSlot slot="blog-post-bottom" />
-
         {post.relatedPath && (
           <p className="card" style={{ marginTop: '2rem', padding: '1.25rem' }}>
             <Link to={post.relatedPath}>→ {post.relatedLabel}</Link>
           </p>
         )}
+
+        <RelatedPosts currentPath={`/blog/${post.slug}`} />
+
+        <AdSlot slot="3418754801" />
 
         <p className="muted small-note" style={{ marginTop: '2rem' }}>
           <Link to="/blog">← Back to all posts</Link>

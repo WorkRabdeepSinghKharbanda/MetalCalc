@@ -49,7 +49,7 @@ export default function Home() {
         onRefresh={refresh}
       />
       <Features />
-      <AdSlot slot="home-mid" />
+      <AdSlot slot="3418754801" />
       <PriceHistorySection />
       <div className="container">
         <p className="muted small-note" style={{ margin: '1.5rem 0' }}>
