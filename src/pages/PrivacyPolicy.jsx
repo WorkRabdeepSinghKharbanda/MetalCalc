@@ -32,7 +32,8 @@ export default function PrivacyPolicy() {
               Live prices are fetched directly from your browser to gold-api.com, frankfurter.dev, Finnhub (US
               stocks) and CoinGecko (crypto) — each request includes only the ticker/symbol/coin you're looking up,
               no personal data. If you use WhatsApp trade alerts, the phone number you enter is sent to our Twilio
-              account solely to deliver that alert.
+              account solely to deliver that alert. If you use Telegram trade alerts, the Chat ID you enter is sent
+              to our Telegram bot solely to deliver that alert.
             </p>
           </div>
 
@@ -49,6 +50,19 @@ export default function PrivacyPolicy() {
               , and see how Google uses data from sites that use its services at{' '}
               <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">
                 policies.google.com/technologies/partner-sites
+              </a>
+              .
+            </p>
+          </div>
+
+          <div>
+            <h3 style={{ margin: '0 0 0.4rem' }}>Analytics</h3>
+            <p className="muted small-note" style={{ margin: 0 }}>
+              This site uses Google Analytics (gtag.js) to see aggregate usage — pages visited, general location,
+              device type — via cookies, loaded on every visit. It doesn't identify you personally. Opt out with
+              the{' '}
+              <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">
+                Google Analytics Opt-out Browser Add-on
               </a>
               .
             </p>
