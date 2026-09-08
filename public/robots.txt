@@ -4,46 +4,63 @@ Disallow: /widget
 
 # Explicit allow for AI/LLM crawlers — the wildcard rule above already permits them,
 # this just makes the intent unambiguous for crawlers that check by name.
+# robots.txt groups don't inherit rules from each other, so Disallow: /widget is
+# repeated in every group below — relying on the wildcard group above for it would
+# silently let every named bot crawl /widget.
 User-agent: GPTBot
 Allow: /
+Disallow: /widget
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /widget
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /widget
 
 User-agent: Claude-Web
 Allow: /
+Disallow: /widget
 
 User-agent: anthropic-ai
 Allow: /
+Disallow: /widget
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /widget
 
 User-agent: Perplexity-User
 Allow: /
+Disallow: /widget
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /widget
 
 User-agent: CCBot
 Allow: /
+Disallow: /widget
 
 User-agent: Applebot-Extended
 Allow: /
+Disallow: /widget
 
 User-agent: Bytespider
 Allow: /
+Disallow: /widget
 
 User-agent: cohere-ai
 Allow: /
+Disallow: /widget
 
 User-agent: Diffbot
 Allow: /
+Disallow: /widget
 
 User-agent: meta-externalagent
 Allow: /
+Disallow: /widget
 
 Sitemap: https://metal-calc-two.vercel.app/sitemap.xml
