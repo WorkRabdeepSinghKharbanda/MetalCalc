@@ -42,6 +42,8 @@ src/
 
 **Rule that bit us once:** never use a module-level `let nextId = 1` counter for anything written to `localStorage`. It resets on every reload while storage keeps old ids — a new item collides with an old one and `.map`/`.filter` by id then mutates both. Always `crypto.randomUUID()` for persisted item ids.
 
+**Rule that bit us once (favicon/branding):** an SVG-only favicon + SVG `og:image` looks fine in a browser tab but breaks in most link-preview crawlers (Slack, iMessage, Google, social cards) — they can't render SVG and silently fall back to a generic platform icon, which is why Google search results once showed a bare "Vercel" globe instead of MetalCalc's logo. Real PNG/ICO favicons (`public/favicon.ico`, `favicon-*.png`, `apple-touch-icon.png`, `og-image.png`, generated once via a temporary `sharp`+`to-ico` install — `npm install --no-save`, generate, `npm uninstall --no-save`, never added to package.json) fixed it. Also: Google's site-name-in-search-results algorithm specifically reads `WebSite` JSON-LD (not `WebApplication`) — see the dedicated block in `index.html`.
+
 **AdSense loads unconditionally, on purpose:** the `adsbygoogle.js` script is a static `<script>` tag in `index.html`'s `<head>` — it loads on every pageview regardless of the cookie-consent banner's choice (explicit user decision, overriding an earlier GDPR-gated design). Don't add a second dynamic loader in `utils/adsense.js` — AdSense flags double-loading the same script. `CookieConsentBanner.jsx` only records a preference for the Privacy Policy's disclosure now; it doesn't gate script loading. `AdSlot.jsx` renders a real `<ins>` once `isAdsConfigured()` is true, no consent check.
 
 ## Control flow — metals side

@@ -15,7 +15,12 @@ export default defineConfig({
         theme_color: '#16140f',
         background_color: '#f7f5f0',
         display: 'standalone',
-        icons: [{ src: '/favicon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' }],
+        icons: [
+          { src: '/favicon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' },
+          { src: '/favicon-192x192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+          { src: '/favicon-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+          { src: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png', purpose: 'maskable' },
+        ],
       },
       workbox: {
         runtimeCaching: [

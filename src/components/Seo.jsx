@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 
 const SITE_URL = 'https://metal-calc-two.vercel.app'
 const SITE_NAME = 'MetalCalc'
-const DEFAULT_OG_IMAGE = `${SITE_URL}/favicon.svg`
+const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`
 
 function setMeta(attr, key, value) {
   if (!value) return null

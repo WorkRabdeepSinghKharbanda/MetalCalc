@@ -10,7 +10,15 @@
       gtag('config', 'G-RN5FC6F5WP');
     </script>
     <meta charset="UTF-8" />
+    <!-- Multiple icon formats: crawlers/link-preview tools and older browsers
+         often can't render SVG favicons and silently fall back to a generic
+         platform icon (this is why the site showed a bare "Vercel" globe
+         instead of its own logo in share previews) — real PNG/ICO fixes it. -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Live gold, silver, platinum and palladium prices, US stocks and crypto tracking, and 20+ free financial calculators — purity, zakat, loan-against-gold, position sizing and more." />
     <meta name="keywords" content="gold price calculator, silver price, platinum price, purity calculator, stock portfolio tracker, crypto portfolio tracker, zakat calculator, gold loan calculator" />
@@ -35,12 +43,28 @@
     <meta property="og:url" content="https://metal-calc-two.vercel.app/" />
     <meta property="og:title" content="MetalCalc — Live Metal Prices, Stocks, Crypto & Financial Calculators" />
     <meta property="og:description" content="Live gold, silver, platinum and palladium prices, US stocks and crypto tracking, and 20+ free financial calculators." />
-    <meta property="og:image" content="https://metal-calc-two.vercel.app/favicon.svg" />
+    <meta property="og:image" content="https://metal-calc-two.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:type" content="image/png" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="MetalCalc — Live Metal Prices, Stocks, Crypto & Financial Calculators" />
     <meta name="twitter:description" content="Live gold, silver, platinum and palladium prices, US stocks and crypto tracking, and 20+ free financial calculators." />
-    <meta name="twitter:image" content="https://metal-calc-two.vercel.app/favicon.svg" />
+    <meta name="twitter:image" content="https://metal-calc-two.vercel.app/og-image.png" />
 
+    <!-- WebSite schema, distinct from the WebApplication block below — this is
+         specifically what Google's site-name algorithm reads to decide what
+         brand name to show in search results (docs: developers.google.com/
+         search/docs/appearance/site-names). Without it, Google can fall back
+         to inferring a name from the hosting platform's subdomain instead. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "MetalCalc",
+        "url": "https://metal-calc-two.vercel.app/"
+      }
+    </script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -63,7 +87,7 @@
         "@type": "Organization",
         "name": "MetalCalc",
         "url": "https://metal-calc-two.vercel.app/",
-        "logo": "https://metal-calc-two.vercel.app/favicon.svg"
+        "logo": "https://metal-calc-two.vercel.app/og-image.png"
       }
     </script>
   </head>
