@@ -130,29 +130,37 @@ client-side per alert channel (`utils/whatsappSettings.js`/`whatsappLog.js`, `ut
 and are included in Backup & Restore. Both alert channels only fire while the Stocks page is open — no
 background/push delivery, no cron behind this.
 
-## SEO / AI-crawler visibility — a real limitation, not a solved problem
+## SEO / AI-crawler visibility — head is prerendered, body content is not
 
-This is a 100%-client-rendered Vite/React SPA — `index.html`'s only static content is one generic set of
-meta tags + 2 JSON-LD blocks. Everything route-specific (`<title>`, meta description, JSON-LD, and the actual
-page content itself) is injected by React **after** JS executes (`Seo.jsx`'s `useEffect`, plus each page's own
-render). Googlebot renders JS and sees all of this fine. Most AI/LLM crawlers (GPTBot, ClaudeBot,
-PerplexityBot, CCBot) do **not** execute JavaScript — they only ever see the static `index.html` shell,
-regardless of route.
+This is a 100%-client-rendered Vite/React SPA. **`scripts/prerender.mjs` runs after every `vite build`** and
+writes a per-route copy of `dist/index.html` (e.g. `dist/blog/peg-ratio-explained/index.html`) with that
+route's real `<title>`, meta description, canonical, OG/Twitter tags, and BreadcrumbList/SoftwareApplication
+(+BlogPosting/Article/FAQPage/ItemList where applicable) JSON-LD already baked into the static HTML — not
+waiting on `Seo.jsx`'s client-side `useEffect`. Vercel serves these literal static files in preference to the
+`vercel.json` SPA catch-all rewrite, so a non-JS crawler hitting any route gets correct, unique, self-
+referencing `<head>` metadata immediately.
 
-What's actually done about this:
-- `public/llms.txt` — a static, always-crawlable plain-text summary of every route + one-line description,
-  specifically for LLM crawlers that don't render JS. **Keep this in sync with the brain index** when routes
-  change — same source-of-truth discipline as the brain.
-- `public/robots.txt` — explicit `Allow` entries per named AI crawler (redundant with the wildcard `Allow: /`,
-  but unambiguous for crawlers that check by name).
-- New landing pages (`gold-rate-today`, `how-to-calculate-gold-purity`, `gold-vs-silver-investment`) follow the
-  same architecture as every other page — real content for Googlebot, same JS-rendering limitation for AI
-  crawlers as the rest of the site.
+**Why this exists:** before it, `index.html`'s canonical/title/meta were hardcoded to the **homepage** for
+every single route. Any crawler reading raw HTML before executing JS — including Googlebot's first crawl
+pass, before its separate, resource-constrained rendering pass runs later — saw a canonical pointing at `/`
+on every URL. That's a direct "this page is a duplicate of the homepage" signal, and is the most likely cause
+of pages sitting in Search Console as "Crawled - currently not indexed."
 
-What's **not** done, and would be the real fix: pre-rendering/SSG (render each route to static HTML at build
-time) so non-JS crawlers see actual page content, not just `llms.txt` + the generic shell. That's a real
-infra project (react-dom/server + a build script, or a framework migration), not a quick addition — don't
-claim AI-crawler content visibility is "solved" without it.
+**What this does NOT fix:** the actual visible body content (the calculator UI, blog post text, etc.) is
+still only rendered by React after JS executes — this script only fixes `<head>` metadata, not full SSR. A
+crawler that never runs JS at all (most AI/LLM crawlers — GPTBot, ClaudeBot, PerplexityBot, CCBot) still only
+ever sees the `<head>` plus an empty `<div id="root">` for body content; `llms.txt` remains the mitigation for
+that case. Full prerendering of body content would need real SSR/hydration (react-dom/server) — a bigger
+project than this head-only fix, not attempted here.
+
+**Keeping this correct when adding content:** `scripts/prerender.mjs` reads from
+`src/content/staticPageMeta.js` (static routes), `src/blog/posts.js`, and `src/content/landingPages.js` — the
+same source-of-truth files everything else reads from. A new post/page/route that's wired normally (per
+`.claude/rules/brain-sync.md`) gets picked up automatically; only a brand-new *static* route (not blog/landing)
+needs a manual entry added to `staticPageMeta.js`.
+
+Also still true: `public/llms.txt` (plain-text summary for non-JS crawlers) and `public/robots.txt` (explicit
+named AI-crawler `Allow` entries) remain in place as before.
 
 ## Conventions to keep following
 

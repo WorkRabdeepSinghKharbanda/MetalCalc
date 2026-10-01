@@ -1,8 +1,7 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import { SITE_URL, SITE_NAME, buildBreadcrumbJsonLd, buildAppJsonLd } from '../utils/pageJsonLd.js'
 
-const SITE_URL = 'https://metal-calc-two.vercel.app'
-const SITE_NAME = 'MetalCalc'
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`
 
 function setMeta(attr, key, value) {
@@ -17,43 +16,6 @@ function setMeta(attr, key, value) {
   const prev = tag.getAttribute('content')
   tag.setAttribute('content', value)
   return { tag, prev, created }
-}
-
-function segmentToLabel(segment) {
-  return segment
-    .split('-')
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(' ')
-}
-
-function buildBreadcrumbJsonLd(pathname, pageTitle) {
-  const segments = pathname.split('/').filter(Boolean)
-  const items = [{ '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL }]
-  let acc = ''
-  segments.forEach((seg, i) => {
-    acc += `/${seg}`
-    items.push({
-      '@type': 'ListItem',
-      position: i + 2,
-      name: i === segments.length - 1 ? (pageTitle?.split(' — ')[0] ?? segmentToLabel(seg)) : segmentToLabel(seg),
-      item: `${SITE_URL}${acc}`,
-    })
-  })
-  return { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: items }
-}
-
-function buildAppJsonLd(pathname, title, description) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: title?.split(' — ')[0] ?? SITE_NAME,
-    url: `${SITE_URL}${pathname === '/' ? '' : pathname}`,
-    description,
-    applicationCategory: 'FinanceApplication',
-    operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: SITE_URL },
-  }
 }
 
 function injectJsonLd(id, data) {
