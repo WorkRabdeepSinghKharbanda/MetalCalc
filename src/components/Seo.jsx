@@ -105,12 +105,17 @@ export default function Seo({ title, description, noIndex = false, jsonLd = null
     const prevHref = canonical.getAttribute('href')
     canonical.setAttribute('href', url)
 
+    // Remove any leftover per-page JSON-LD scripts from a previous render (e.g. navigating
+    // from a page with 2 extra schema blocks to one with 0 or 1) before adding this page's.
+    document.querySelectorAll('script[data-seo-id^="page-"]').forEach((s) => s.remove())
+    const pageJsonLd = Array.isArray(jsonLd) ? jsonLd.filter(Boolean) : jsonLd ? [jsonLd] : []
+
     const jsonLdEntries = noIndex
       ? []
       : [
           injectJsonLd('breadcrumb', buildBreadcrumbJsonLd(pathname, title)),
           injectJsonLd('app', buildAppJsonLd(pathname, title, description)),
-          ...(jsonLd ? [injectJsonLd('page', jsonLd)] : []),
+          ...pageJsonLd.map((data, i) => injectJsonLd(`page-${i}`, data)),
         ]
 
     return () => {

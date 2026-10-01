@@ -12,8 +12,14 @@ since they need `useMarket()` — this mechanism is for static content only.
 
 Each page shows a "Related reading" widget (`RelatedPosts.jsx`, `src/content/relatedContent.js`) pulling 3
 topically-related posts/guides, plus an AdSlot. New pages get picked up by RelatedPosts automatically.
+`Article` + `FAQPage` JSON-LD per page (via `buildFaqJsonLd` in `src/utils/faqJsonLd.js`) — FAQs also
+render visibly on-page (Google requires FAQ schema content to be visible, not schema-only).
 
-**SEO content compounds over months, not days** — add pages periodically, same as blog posts.
+Page object shape: `slug, title, description, h1, intro, updated, category, keywords[], faqs: [{q,a}],
+sections: [{h2}|{p}], relatedLinks: [{path,label}]`.
+
+**SEO content compounds over months, not days** — add pages periodically, driven by
+`.claude/brain/seo/keywords.json`/`keyword-map.md`, same as blog posts.
 
 Current slugs: `gold-price-per-gram`, `24k-vs-22k-gold-difference`, `best-time-to-buy-gold`,
 `gold-investment-for-beginners`, `silver-investment-guide`, `crypto-portfolio-diversification-guide`,

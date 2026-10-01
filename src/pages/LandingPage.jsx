@@ -4,6 +4,9 @@ import NotFound from './NotFound.jsx'
 import Seo from '../components/Seo.jsx'
 import AdSlot from '../components/AdSlot.jsx'
 import RelatedPosts from '../components/RelatedPosts.jsx'
+import { buildFaqJsonLd } from '../utils/faqJsonLd.js'
+
+const SITE_URL = 'https://metal-calc-two.vercel.app'
 
 export default function LandingPage() {
   const { landingSlug } = useParams()
@@ -11,9 +14,25 @@ export default function LandingPage() {
 
   if (!page) return <NotFound />
 
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: page.title,
+    description: page.description,
+    image: `${SITE_URL}/og-image.png`,
+    dateModified: page.updated,
+    author: { '@type': 'Organization', name: 'MetalCalc' },
+    publisher: { '@type': 'Organization', name: 'MetalCalc' },
+    mainEntityOfPage: `${SITE_URL}/${page.slug}`,
+  }
+
   return (
     <section className="zakat-page">
-      <Seo title={`${page.title} | MetalCalc`} description={page.description} />
+      <Seo
+        title={`${page.title} | MetalCalc`}
+        description={page.description}
+        jsonLd={[articleJsonLd, buildFaqJsonLd(page.faqs)]}
+      />
       <div className="container">
         <p className="eyebrow">Guide</p>
         <h1>{page.h1}</h1>
@@ -24,6 +43,20 @@ export default function LandingPage() {
             s.h2 ? <h2 key={i}>{s.h2}</h2> : <p key={i}>{s.p}</p>
           )}
         </div>
+
+        {page.faqs?.length > 0 && (
+          <>
+            <h2>Frequently asked questions</h2>
+            <div className="faq-list">
+              {page.faqs.map((item) => (
+                <details key={item.q} className="faq-item">
+                  <summary>{item.q}</summary>
+                  <p>{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </>
+        )}
 
         {page.relatedLinks?.length > 0 && (
           <div className="card" style={{ marginTop: '2rem', padding: '1.25rem' }}>

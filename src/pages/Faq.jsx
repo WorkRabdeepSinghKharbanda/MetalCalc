@@ -1,4 +1,5 @@
 import Seo from '../components/Seo.jsx'
+import { buildFaqJsonLd } from '../utils/faqJsonLd.js'
 
 const FAQS = [
   {
@@ -27,15 +28,7 @@ const FAQS = [
   },
 ]
 
-const FAQ_JSON_LD = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: FAQS.map((item) => ({
-    '@type': 'Question',
-    name: item.q,
-    acceptedAnswer: { '@type': 'Answer', text: item.a },
-  })),
-}
+const FAQ_JSON_LD = buildFaqJsonLd(FAQS)
 
 export default function Faq() {
   return (

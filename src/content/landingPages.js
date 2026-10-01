@@ -23,6 +23,16 @@ export const LANDING_PAGES = [
       { path: '/convert', label: 'Convert between karat, fineness and percent' },
       { path: '/bill-breakdown', label: 'Break down a jewelry bill into metal + markup' },
     ],
+    updated: '2026-09-18',
+    category: 'Metals',
+    keywords: ['gold price per gram', 'gold price per gram today', 'gold price per gram in india', 'gold price per gram 22k'],
+    faqs: [
+      { q: 'What is the gold price per gram today?', a: 'It changes with live spot prices — MetalCalc\'s Gold Rate Today page shows it live, already converted from the per-ounce spot quote.' },
+      { q: 'How do I convert gold price per ounce to per gram?', a: 'Divide the price per troy ounce by 31.1034768 — that\'s the exact number of grams in a troy ounce.' },
+      { q: 'Why is gold price per gram different for 22k vs 24k?', a: 'Because 22k contains less pure gold by weight (91.67% vs 99.9%) — multiply the 24k per-gram price by the karat\'s purity fraction to get its value.' },
+      { q: 'Is gold price per gram the same everywhere in the world?', a: 'The underlying international spot price is the same, but local prices can differ slightly due to currency conversion, import duties, and local market premiums.' },
+      { q: 'Does gold price per gram include making charges?', a: 'No — spot price per gram is the raw metal value only. A jeweler\'s quoted price adds making charges and taxes on top.' },
+    ],
   },
   {
     slug: '24k-vs-22k-gold-difference',
@@ -43,6 +53,16 @@ export const LANDING_PAGES = [
     relatedLinks: [
       { path: '/convert', label: 'Convert 24k value to 22k, 18k, 14k or 10k' },
       { path: '/alloy-mix', label: 'See what happens when purities are melted together' },
+    ],
+    updated: '2026-09-18',
+    category: 'Metals',
+    keywords: ['22k vs 24k gold', '22k vs 24k gold difference', '22k vs 24k gold which is best', '22k vs 24k gold resale value'],
+    faqs: [
+      { q: 'Which is better, 22k or 24k gold?', a: "Neither is universally 'better' — 24k is purer but softer, 22k trades some purity for durability, which is why most everyday jewelry is 22k or lower." },
+      { q: 'What is the price difference between 22k and 24k gold?', a: '22k is worth 91.67% of 24k\'s value at the same weight — that\'s the exact gold-content ratio, not a marketing margin.' },
+      { q: 'Does 22k gold look different from 24k?', a: 'Nearly identical in color, with a very slight tone shift depending on the alloy metal used — copper warms the tone, silver cools it.' },
+      { q: 'Which has better resale value, 22k or 24k gold?', a: '24k generally resells closer to its full metal value since it\'s already near-pure; 22k resells at its proportional gold content, plus whatever making charges were already paid are typically not recovered either way.' },
+      { q: 'Why is 24k gold not used for everyday jewelry?', a: 'Pure gold is soft and scratches/deforms easily — alloying with copper or silver (making it 22k or lower) adds hardness and durability for daily wear.' },
     ],
   },
   {
@@ -66,6 +86,16 @@ export const LANDING_PAGES = [
       { path: '/blog/dollar-cost-averaging-crypto-does-it-work', label: 'Read: does DCA actually work?' },
       { path: '/gold-vs-silver-investment', label: 'Check the live gold-silver ratio' },
     ],
+    updated: '2026-09-18',
+    category: 'Metals',
+    keywords: ['best time to buy gold', 'when to buy gold', 'gold investment timing'],
+    faqs: [
+      { q: 'Is there a best month to buy gold?', a: 'Seasonal patterns are weak and inconsistent year to year — not reliable enough to plan a purchase around.' },
+      { q: 'How do I decide when to buy gold without timing the market?', a: 'Two practical options: dollar-cost average a fixed amount on a schedule, or set a weight goal and a monthly plan to reach it — both skip the timing decision entirely.' },
+      { q: 'Does the gold-silver ratio tell me when to buy?', a: "It gives relative-pricing context, not a buy signal on its own — useful alongside a plan, not a replacement for one." },
+      { q: 'Should I wait for a dip to buy gold?', a: 'Waiting for a dip that may not come is a common reason people never actually buy — a scheduled plan avoids that specific trap.' },
+      { q: 'Is gold a good long-term investment regardless of timing?', a: 'That depends on your own goals and risk tolerance — this page is about removing the timing question, not making an investment recommendation.' },
+    ],
   },
   {
     slug: 'gold-investment-for-beginners',
@@ -87,6 +117,16 @@ export const LANDING_PAGES = [
       { path: '/holdings', label: 'Track your holdings with live value' },
       { path: '/storage-cost', label: 'Estimate storage & insurance cost' },
       { path: '/how-to-calculate-gold-purity', label: 'How to calculate gold purity' },
+    ],
+    updated: '2026-09-18',
+    category: 'Metals',
+    keywords: ['gold investment for beginners', 'how to invest in gold', 'buying gold for the first time'],
+    faqs: [
+      { q: 'What form of gold is best for a beginner investor?', a: 'Coins and small bars from recognized mints are the most liquid and easiest to verify/resell — jewelry carries making charges you don\'t recover on resale.' },
+      { q: 'What purity should investment gold be?', a: 'Typically .999 or .9999 fine (24k-equivalent) for coins/bars — lower-karat jewelry gold is fine to own but resells at a discount for both lower content and unrecovered making charges.' },
+      { q: 'Does gold cost money to hold?', a: 'Yes — storage and insurance are real ongoing costs for a serious physical holding, unlike a number in a brokerage app.' },
+      { q: 'How do I track my gold investment over time?', a: "Log the weight, purity and price paid per item so you can see real gain/loss — a vague sense of 'gold went up' isn't the same as knowing your actual return." },
+      { q: 'How much gold should a beginner buy?', a: 'That depends on your own goals and risk tolerance — this guide covers the practical mechanics of buying/holding, not a specific allocation recommendation.' },
     ],
   },
   {
@@ -110,6 +150,16 @@ export const LANDING_PAGES = [
       { path: '/holdings', label: 'Track a mixed metals portfolio' },
       { path: '/blog/gold-silver-ratio-explained', label: 'Read: the gold-silver ratio explained' },
     ],
+    updated: '2026-09-18',
+    category: 'Metals',
+    keywords: ['how to invest in silver', 'silver investment guide', 'silver vs gold investment'],
+    faqs: [
+      { q: 'Why is silver more volatile than gold?', a: 'Silver has real industrial demand (electronics, solar) on top of investment demand, which is an extra demand driver gold mostly lacks — that extra driver adds volatility in both directions.' },
+      { q: 'Is silver harder to store than gold?', a: "Yes in practical terms — silver is worth far less per gram than gold, so the same dollar amount takes up much more physical space and weight." },
+      { q: 'Is silver less liquid than gold?', a: 'Generally yes — gold has tighter buy/sell spreads and wider resale acceptance; silver dealer spreads can be wider, especially for smaller or less-recognized formats.' },
+      { q: 'How much silver should I hold vs gold?', a: 'The gold-silver ratio gives pricing context, but your own volatility tolerance and liquidity needs matter just as much — there\'s no single correct split.' },
+      { q: 'Can I track silver alongside gold in one place?', a: 'Yes — MetalCalc\'s Holdings page tracks both together with live value and a diversification score across your metals.' },
+    ],
   },
   {
     slug: 'crypto-portfolio-diversification-guide',
@@ -128,6 +178,16 @@ export const LANDING_PAGES = [
     relatedLinks: [
       { path: '/net-worth', label: 'See your cross-asset diversification score' },
       { path: '/crypto', label: 'Check correlation across your watchlist' },
+    ],
+    updated: '2026-09-18',
+    category: 'Markets',
+    keywords: ['crypto portfolio tracker', 'crypto portfolio diversification', 'crypto diversification app'],
+    faqs: [
+      { q: 'Does holding more coins mean I am more diversified?', a: 'Not necessarily — an allocation score can look spread-out while the coins themselves move together most days, which is not real diversification.' },
+      { q: 'How correlated are most crypto assets?', a: 'Often highly — many altcoins track Bitcoin\'s overall mood on risk-on/risk-off days, sometimes moving the same direction 70%+ of days.' },
+      { q: 'What two numbers should I check for real crypto diversification?', a: 'An allocation-based diversification score (how spread your capital is) and a same-direction correlation percentage across your specific coins (whether they actually move independently).' },
+      { q: 'Can I check correlation between my crypto holdings for free?', a: "Yes — MetalCalc's Crypto page includes a same-direction correlation check across your watchlist, no account needed." },
+      { q: 'Is a high correlation between my coins always a problem?', a: 'Not necessarily a problem, but it is a flag worth knowing about — it means those coins are not protecting you from each other in a downturn, which matters if that was the goal.' },
     ],
   },
   {
@@ -150,6 +210,16 @@ export const LANDING_PAGES = [
       { path: '/stocks', label: 'See live trade signals with reasoning' },
       { path: '/blog/peg-ratio-explained', label: 'Read: PEG ratio explained' },
     ],
+    updated: '2026-09-18',
+    category: 'Markets',
+    keywords: ['stock trade signal', 'automated buy sell signal', 'stock screener signal'],
+    faqs: [
+      { q: 'How do automated stock trade signals actually work?', a: 'They combine several factors — like PEG ratio, growth rates, and 52-week range position — into one weighted score, then convert that score into a Buy/Sell/Hold label.' },
+      { q: 'Can I trust an automated Buy/Sell signal?', a: "Treat it as a starting point for research, not a substitute for it — it can't see news that hasn't happened yet and can flip quickly if the underlying data changes." },
+      { q: 'What is the 52-week range position in a trade signal?', a: "A rough proxy for demand/supply — where a stock sits between its yearly low and high — used when real price-action data isn't available." },
+      { q: 'Why does MetalCalc show a reason with each trade signal?', a: "So the label isn't a black box — you can see exactly which factors (PEG, growth, momentum) drove the Buy/Sell/Hold call." },
+      { q: 'Are stock trade signals the same as financial advice?', a: 'No — they are a transparent, rule-based scorecard from public data, not personalized financial advice.' },
+    ],
   },
   {
     slug: 'savings-goal-vs-lump-sum-gold',
@@ -171,6 +241,16 @@ export const LANDING_PAGES = [
       { path: '/savings-goal', label: 'Project your own savings goal timeline' },
       { path: '/blog/dollar-cost-averaging-crypto-does-it-work', label: 'Read: does DCA actually work?' },
     ],
+    updated: '2026-09-18',
+    category: 'Metals',
+    keywords: ['savings goal calculator', 'savings goal calculator monthly', 'gold savings plan'],
+    faqs: [
+      { q: 'Is it better to buy gold as a lump sum or save monthly toward it?', a: 'Lump sum is simpler and fully exposed to gains/losses from day one; a monthly savings plan spreads entries over time and doesn\'t need the full capital upfront — the right one depends on whether you have the capital now or are building from income.' },
+      { q: 'How do I plan monthly savings toward a gold weight goal?', a: "Set a target weight and date, then MetalCalc's Savings Goal Projector calculates the monthly amount needed at current prices." },
+      { q: 'Does a savings goal plan guarantee I reach my target weight?', a: 'It projects the required contribution at today\'s prices — if prices rise, the same monthly amount buys less weight than projected, and vice versa if prices fall.' },
+      { q: 'Can I switch from a savings plan to a lump sum later?', a: 'Yes — planning with a savings goal doesn\'t lock you in; it\'s a useful reference point even if you end up buying some of it in a lump sum later.' },
+      { q: 'Does this work for silver too?', a: 'Yes — the Savings Goal Projector works for any supported metal, not just gold.' },
+    ],
   },
   {
     slug: 'jewelry-making-charges-explained',
@@ -189,6 +269,16 @@ export const LANDING_PAGES = [
     relatedLinks: [
       { path: '/bill-breakdown', label: 'Break down a jewelry bill into metal + markup' },
       { path: '/melt-check', label: 'Check markup over pure melt value' },
+    ],
+    updated: '2026-09-18',
+    category: 'Tools',
+    keywords: ['jewelry making charges', 'jewellery making charges per gram', 'jewellery making charges gst rate'],
+    faqs: [
+      { q: 'What are jewelry making charges?', a: "The labor, design complexity and wastage cost added on top of a piece's pure metal value — plus the retailer's margin." },
+      { q: 'Are jewelry making charges a flat fee or a percentage?', a: 'Both structures exist — some jewelers charge a flat amount per gram, others a percentage of the metal value; a percentage-based charge costs more in absolute terms on an expensive-metal day.' },
+      { q: 'How much are typical making charges in India?', a: 'It varies widely by jeweler, design complexity and city — there is no single standard percentage, which is exactly why checking the actual breakdown matters.' },
+      { q: 'How do I check if my jewelry making charge is fair?', a: "Back out the pure metal value at today's spot price and purity, then see what percentage the making charge + tax represents of the total bill — compare that number across jewelers." },
+      { q: 'Do making charges apply to GST too?', a: 'Making charges are typically taxed, often at a different GST rate than the metal value itself — check your specific bill\'s breakdown rather than assuming one combined rate.' },
     ],
   },
   {
@@ -210,6 +300,16 @@ export const LANDING_PAGES = [
     relatedLinks: [
       { path: '/net-worth', label: 'See your combined net worth + P&L' },
       { path: '/backup', label: 'Back up your data' },
+    ],
+    updated: '2026-09-18',
+    category: 'Markets',
+    keywords: ['net worth tracker', 'net worth tracker app', 'net worth tracker spreadsheet'],
+    faqs: [
+      { q: 'Why track net worth across metals, stocks and crypto together?', a: 'Seeing each asset class separately hides whether your total is actually flat and whether one asset class dominates your risk more than you realize — a combined number is the honest picture.' },
+      { q: 'Do I need a spreadsheet to track net worth?', a: "No — MetalCalc tracks it from your manually-entered Holdings, Stock and Crypto portfolios automatically, no spreadsheet or bank-level account linking required." },
+      { q: 'Does net worth tracking include realized gains from things I already sold?', a: "Yes — both unrealized gains on open positions and realized gains from past sales count toward your actual financial position." },
+      { q: 'Is my net worth data stored on a server?', a: 'No — everything is stored only in your browser; back it up regularly using the Backup & Restore tool.' },
+      { q: 'Can I see a diversification score alongside my net worth?', a: 'Yes — the Net Worth page shows a diversification score alongside the combined total, based on how evenly value is spread across asset classes.' },
     ],
   },
 ]
