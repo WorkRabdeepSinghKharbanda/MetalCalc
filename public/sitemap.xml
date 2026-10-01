@@ -1,320 +1,324 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is overwritten at build time by scripts/prerender.mjs, generated
+     from src/content/staticPageMeta.js + src/blog/posts.js + src/content/landingPages.js.
+     Editing it by hand (as this file used to be) is exactly how its lastmod dates
+     went stale before — don't hand-edit; this copy only matters for local dev/preview. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://metal-calc-two.vercel.app/</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/batch</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/gold-rate-today</loc>
-    <lastmod>2026-09-08</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/how-to-calculate-gold-purity</loc>
-    <lastmod>2026-09-08</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/gold-vs-silver-investment</loc>
-    <lastmod>2026-09-08</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/gold-price-per-gram</loc>
-    <lastmod>2026-09-18</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/24k-vs-22k-gold-difference</loc>
-    <lastmod>2026-09-18</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/best-time-to-buy-gold</loc>
-    <lastmod>2026-09-18</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/gold-investment-for-beginners</loc>
-    <lastmod>2026-09-18</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/silver-investment-guide</loc>
-    <lastmod>2026-09-18</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/crypto-portfolio-diversification-guide</loc>
-    <lastmod>2026-09-18</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/understanding-stock-trade-signals</loc>
-    <lastmod>2026-09-18</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/savings-goal-vs-lump-sum-gold</loc>
-    <lastmod>2026-09-18</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/jewelry-making-charges-explained</loc>
-    <lastmod>2026-09-18</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/net-worth-tracking-guide</loc>
-    <lastmod>2026-09-18</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/holdings</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/alerts</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/compare</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/stocks</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/convert</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/zakat</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/weight-converter</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/loan-against-gold</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/savings-goal</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/melt-check</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/rate-check</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/storage-cost</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/alloy-mix</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/tax-reverse</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/bill-breakdown</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/crypto</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/crude-oil</loc>
-    <lastmod>2026-09-07</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/net-worth</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/position-size</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/backup</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/blog</loc>
-    <lastmod>2026-09-08</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/blog/gold-silver-ratio-explained</loc>
-    <lastmod>2026-08-15</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/blog/zakat-on-gold-with-examples</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/blog/gold-loan-vs-personal-loan</loc>
-    <lastmod>2026-08-29</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/blog/dollar-cost-averaging-crypto-does-it-work</loc>
-    <lastmod>2026-09-02</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/blog/peg-ratio-explained</loc>
-    <lastmod>2026-09-05</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/blog/position-sizing-101</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/blog/rsi-explained-overbought-oversold</loc>
-    <lastmod>2026-09-10</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/blog/melt-value-vs-retail-price</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/blog/currency-exchange-margins-explained</loc>
-    <lastmod>2026-09-12</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/blog/reverse-calculating-tax</loc>
-    <lastmod>2026-09-13</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/blog/what-diversification-score-measures</loc>
-    <lastmod>2026-09-14</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/blog/correlation-vs-diversification</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/blog/storage-and-insurance-hidden-cost</loc>
-    <lastmod>2026-09-16</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/blog/alloy-mixing-math-explained</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/blog/52-week-range-demand-supply-proxy</loc>
-    <lastmod>2026-09-18</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/faq</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://metal-calc-two.vercel.app/privacy-policy</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

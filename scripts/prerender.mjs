@@ -150,3 +150,30 @@ for (const page of LANDING_PAGES) {
 }
 
 console.log(`prerender: wrote ${count + 1} static head-only pages (+ /blog index) into dist/`)
+
+// --- sitemap.xml, generated from the same route data above ---------------
+// Previously hand-maintained in public/sitemap.xml, which is exactly how its
+// <lastmod> dates went stale (weeks old) while pages kept changing — a stale
+// lastmod tells Google "nothing changed, no need to recrawl", the opposite
+// of what you want right after a real content/metadata fix. Generating it
+// here from the same source-of-truth data this script already reads means
+// it can't drift out of sync with the real route list or real update dates.
+const today = new Date().toISOString().slice(0, 10)
+
+function sitemapEntry(routePath, { lastmod = today, changefreq = 'monthly', priority = '0.6' } = {}) {
+  const url = `${SITE_URL}${routePath === '/' ? '/' : routePath}`
+  return `  <url>\n    <loc>${url}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`
+}
+
+const sitemapEntries = [
+  sitemapEntry('/', { changefreq: 'daily', priority: '1.0' }),
+  ...Object.keys(STATIC_PAGE_META)
+    .filter((p) => p !== '/')
+    .map((p) => sitemapEntry(p, p === '/blog' ? { changefreq: 'weekly', priority: '0.7' } : { priority: '0.7' })),
+  ...POSTS.map((post) => sitemapEntry(`/blog/${post.slug}`, { lastmod: post.updated ?? post.date, priority: '0.6' })),
+  ...LANDING_PAGES.map((page) => sitemapEntry(`/${page.slug}`, { lastmod: page.updated ?? today, priority: '0.6' })),
+]
+
+const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapEntries.join('\n')}\n</urlset>\n`
+fs.writeFileSync(path.join(DIST, 'sitemap.xml'), sitemapXml)
+console.log(`prerender: wrote sitemap.xml with ${sitemapEntries.length} URLs`)
