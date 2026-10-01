@@ -11,7 +11,7 @@ export const POSTS = [
     readTime: '6 min read',
     relatedPath: '/gold-vs-silver-investment',
     relatedLabel: 'Compare gold vs silver as an investment',
-    updated: '2026-08-15',
+    updated: '2026-10-02',
     category: 'Metals',
     keywords: ['gold silver ratio', 'gold silver ratio today', 'gold silver ratio meaning', 'gold silver ratio calculator'],
     faqs: [
@@ -55,7 +55,7 @@ export const POSTS = [
     readTime: '5 min read',
     relatedPath: '/zakat',
     relatedLabel: 'Use the Zakat Calculator',
-    updated: '2026-08-22',
+    updated: '2026-10-02',
     category: 'Metals',
     keywords: ['zakat calculator', 'zakat calculator on gold', 'zakat calculator for gold in indian rupees', 'zakat calculator on silver'],
     faqs: [
@@ -95,7 +95,7 @@ export const POSTS = [
     readTime: '5 min read',
     relatedPath: '/loan-against-gold',
     relatedLabel: 'Estimate your gold loan amount',
-    updated: '2026-08-29',
+    updated: '2026-10-02',
     category: 'Metals',
     keywords: ['gold loan interest rate', 'gold loan interest rate calculator', 'gold loan interest rates in sbi', 'gold loan interest rates in hdfc'],
     faqs: [
@@ -129,7 +129,7 @@ export const POSTS = [
     readTime: '6 min read',
     relatedPath: '/crypto',
     relatedLabel: 'Try the DCA simulator on a real coin',
-    updated: '2026-09-02',
+    updated: '2026-10-02',
     category: 'Markets',
     keywords: ['dollar cost averaging', 'dollar cost averaging calculator', 'dollar cost averaging vs lump sum', 'dollar cost averaging crypto'],
     faqs: [
@@ -161,7 +161,7 @@ export const POSTS = [
     readTime: '5 min read',
     relatedPath: '/stocks',
     relatedLabel: 'See PEG-ranked stocks',
-    updated: '2026-09-05',
+    updated: '2026-10-02',
     category: 'Markets',
     keywords: ['peg ratio', 'peg ratio meaning', 'peg ratio formula', 'peg ratio less than 1'],
     faqs: [
@@ -193,7 +193,7 @@ export const POSTS = [
     readTime: '5 min read',
     relatedPath: '/position-size',
     relatedLabel: 'Calculate your own position size',
-    updated: '2026-09-09',
+    updated: '2026-10-02',
     category: 'Markets',
     keywords: ['position sizing calculator', 'position sizing formula', 'position sizing and risk management', 'position sizing calculator for stocks'],
     faqs: [
@@ -227,7 +227,7 @@ export const POSTS = [
     readTime: '5 min read',
     relatedPath: '/crypto',
     relatedLabel: 'See live RSI on any coin\'s timeframe signals',
-    updated: '2026-09-10',
+    updated: '2026-10-02',
     category: 'Markets',
     keywords: ['rsi indicator', 'rsi indicator meaning', 'rsi indicator buy and sell signals', 'rsi indicator strategy'],
     faqs: [
@@ -259,7 +259,7 @@ export const POSTS = [
     readTime: '4 min read',
     relatedPath: '/melt-check',
     relatedLabel: 'Check the markup on a specific piece',
-    updated: '2026-09-11',
+    updated: '2026-10-02',
     category: 'Metals',
     keywords: ['melt value calculator', 'melt value calculator gold', 'melt value calculator silver', 'melt price calculator'],
     faqs: [
@@ -293,7 +293,7 @@ export const POSTS = [
     readTime: '4 min read',
     relatedPath: '/rate-check',
     relatedLabel: 'Check a quoted rate against mid-market',
-    updated: '2026-09-12',
+    updated: '2026-10-02',
     category: 'Tools',
     keywords: ['currency exchange margin', 'mid-market exchange rate', 'fx margin calculator', 'exchange rate spread'],
     faqs: [
@@ -327,7 +327,7 @@ export const POSTS = [
     readTime: '3 min read',
     relatedPath: '/tax-reverse',
     relatedLabel: 'Reverse-calculate a tax-inclusive price',
-    updated: '2026-09-13',
+    updated: '2026-10-02',
     category: 'Tools',
     keywords: ['gst reverse calculator', 'gst reverse calculator formula', 'reverse tax calculator', 'tax inclusive price calculator'],
     faqs: [
@@ -359,7 +359,7 @@ export const POSTS = [
     readTime: '4 min read',
     relatedPath: '/net-worth',
     relatedLabel: 'See your own diversification score',
-    updated: '2026-09-14',
+    updated: '2026-10-02',
     category: 'Markets',
     keywords: ['portfolio diversification calculator', 'portfolio diversification meaning', 'diversification score', 'portfolio diversification formula'],
     faqs: [
@@ -391,7 +391,7 @@ export const POSTS = [
     readTime: '4 min read',
     relatedPath: '/crypto',
     relatedLabel: 'Check correlation across your crypto watchlist',
-    updated: '2026-09-15',
+    updated: '2026-10-02',
     category: 'Markets',
     keywords: ['portfolio diversification vs correlation', 'asset correlation meaning', 'crypto correlation', 'diversification mistake'],
     faqs: [
@@ -423,7 +423,7 @@ export const POSTS = [
     readTime: '4 min read',
     relatedPath: '/storage-cost',
     relatedLabel: 'Estimate your own carrying cost',
-    updated: '2026-09-16',
+    updated: '2026-10-02',
     category: 'Metals',
     keywords: ['gold storage insurance', 'gold storage costs', 'storage insurance cost', 'cost of storing gold'],
     faqs: [
@@ -455,7 +455,7 @@ export const POSTS = [
     readTime: '3 min read',
     relatedPath: '/alloy-mix',
     relatedLabel: 'Calculate your own blended purity',
-    updated: '2026-09-17',
+    updated: '2026-10-02',
     category: 'Metals',
     keywords: ['alloy mixing calculator gold', 'gold alloy mixing ratio calculator', 'what alloys are mixed with gold', 'blended gold purity'],
     faqs: [
@@ -487,7 +487,7 @@ export const POSTS = [
     readTime: '4 min read',
     relatedPath: '/stocks',
     relatedLabel: "See 52-week range position on ranked stocks",
-    updated: '2026-09-18',
+    updated: '2026-10-02',
     category: 'Markets',
     keywords: ['52 week high low', '52 week high low stocks', '52 week high low indicator', '52 week range'],
     faqs: [

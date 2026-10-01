@@ -28,7 +28,7 @@ export const LANDING_PAGES = [
       { path: '/convert', label: 'Convert between karat, fineness and percent' },
       { path: '/bill-breakdown', label: 'Break down a jewelry bill into metal + markup' },
     ],
-    updated: '2026-09-18',
+    updated: '2026-10-02',
     category: 'Metals',
     keywords: ['gold price per gram', 'gold price per gram today', 'gold price per gram in india', 'gold price per gram 22k'],
     faqs: [
@@ -64,7 +64,7 @@ export const LANDING_PAGES = [
       { path: '/convert', label: 'Convert 24k value to 22k, 18k, 14k or 10k' },
       { path: '/alloy-mix', label: 'See what happens when purities are melted together' },
     ],
-    updated: '2026-09-18',
+    updated: '2026-10-02',
     category: 'Metals',
     keywords: ['22k vs 24k gold', '22k vs 24k gold difference', '22k vs 24k gold which is best', '22k vs 24k gold resale value'],
     faqs: [
@@ -99,7 +99,7 @@ export const LANDING_PAGES = [
       { path: '/blog/dollar-cost-averaging-crypto-does-it-work', label: 'Read: does DCA actually work?' },
       { path: '/gold-vs-silver-investment', label: 'Check the live gold-silver ratio' },
     ],
-    updated: '2026-09-18',
+    updated: '2026-10-02',
     category: 'Metals',
     keywords: ['best time to buy gold', 'when to buy gold', 'gold investment timing'],
     faqs: [
@@ -134,7 +134,7 @@ export const LANDING_PAGES = [
       { path: '/storage-cost', label: 'Estimate storage & insurance cost' },
       { path: '/how-to-calculate-gold-purity', label: 'How to calculate gold purity' },
     ],
-    updated: '2026-09-18',
+    updated: '2026-10-02',
     category: 'Metals',
     keywords: ['gold investment for beginners', 'how to invest in gold', 'buying gold for the first time'],
     faqs: [
@@ -169,7 +169,7 @@ export const LANDING_PAGES = [
       { path: '/holdings', label: 'Track a mixed metals portfolio' },
       { path: '/blog/gold-silver-ratio-explained', label: 'Read: the gold-silver ratio explained' },
     ],
-    updated: '2026-09-18',
+    updated: '2026-10-02',
     category: 'Metals',
     keywords: ['how to invest in silver', 'silver investment guide', 'silver vs gold investment'],
     faqs: [
@@ -201,7 +201,7 @@ export const LANDING_PAGES = [
       { path: '/net-worth', label: 'See your cross-asset diversification score' },
       { path: '/crypto', label: 'Check correlation across your watchlist' },
     ],
-    updated: '2026-09-18',
+    updated: '2026-10-02',
     category: 'Markets',
     keywords: ['crypto portfolio tracker', 'crypto portfolio diversification', 'crypto diversification app'],
     faqs: [
@@ -235,7 +235,7 @@ export const LANDING_PAGES = [
       { path: '/stocks', label: 'See live trade signals with reasoning' },
       { path: '/blog/peg-ratio-explained', label: 'Read: PEG ratio explained' },
     ],
-    updated: '2026-09-18',
+    updated: '2026-10-02',
     category: 'Markets',
     keywords: ['stock trade signal', 'automated buy sell signal', 'stock screener signal'],
     faqs: [
@@ -269,7 +269,7 @@ export const LANDING_PAGES = [
       { path: '/savings-goal', label: 'Project your own savings goal timeline' },
       { path: '/blog/dollar-cost-averaging-crypto-does-it-work', label: 'Read: does DCA actually work?' },
     ],
-    updated: '2026-09-18',
+    updated: '2026-10-02',
     category: 'Metals',
     keywords: ['savings goal calculator', 'savings goal calculator monthly', 'gold savings plan'],
     faqs: [
@@ -303,7 +303,7 @@ export const LANDING_PAGES = [
       { path: '/bill-breakdown', label: 'Break down a jewelry bill into metal + markup' },
       { path: '/melt-check', label: 'Check markup over pure melt value' },
     ],
-    updated: '2026-09-18',
+    updated: '2026-10-02',
     category: 'Tools',
     keywords: ['jewelry making charges', 'jewellery making charges per gram', 'jewellery making charges gst rate'],
     faqs: [
@@ -341,7 +341,7 @@ export const LANDING_PAGES = [
       { path: '/net-worth', label: 'See your combined net worth + P&L' },
       { path: '/backup', label: 'Back up your data' },
     ],
-    updated: '2026-09-18',
+    updated: '2026-10-02',
     category: 'Markets',
     keywords: ['net worth tracker', 'net worth tracker app', 'net worth tracker spreadsheet'],
     faqs: [
