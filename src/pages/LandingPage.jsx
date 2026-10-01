@@ -5,6 +5,7 @@ import Seo from '../components/Seo.jsx'
 import AdSlot from '../components/AdSlot.jsx'
 import RelatedPosts from '../components/RelatedPosts.jsx'
 import { buildFaqJsonLd } from '../utils/faqJsonLd.js'
+import { CATEGORY_IMAGES } from '../content/categoryImages.js'
 
 const SITE_URL = 'https://metal-calc-two.vercel.app'
 
@@ -13,6 +14,8 @@ export default function LandingPage() {
   const page = getLandingPageBySlug(landingSlug)
 
   if (!page) return <NotFound />
+
+  const image = CATEGORY_IMAGES[page.category]
 
   const articleJsonLd = {
     '@context': 'https://schema.org',
@@ -37,6 +40,13 @@ export default function LandingPage() {
         <p className="eyebrow">Guide</p>
         <h1>{page.h1}</h1>
         <p className="hero-sub" style={{ marginBottom: '2rem' }}>{page.intro}</p>
+
+        {image && (
+          <figure style={{ margin: '0 0 1.5rem' }}>
+            <img src={image.src} alt={image.alt} style={{ width: '100%', borderRadius: '12px', display: 'block' }} />
+            {image.credit && <figcaption className="muted small-note" style={{ marginTop: '0.4rem' }}>{image.credit}</figcaption>}
+          </figure>
+        )}
 
         <div className="blog-content">
           {page.sections.map((s, i) =>

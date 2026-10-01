@@ -5,6 +5,7 @@ import Seo from '../components/Seo.jsx'
 import AdSlot from '../components/AdSlot.jsx'
 import RelatedPosts from '../components/RelatedPosts.jsx'
 import { buildFaqJsonLd } from '../utils/faqJsonLd.js'
+import { CATEGORY_IMAGES } from '../content/categoryImages.js'
 
 const SITE_URL = 'https://metal-calc-two.vercel.app'
 
@@ -17,6 +18,8 @@ export default function BlogPost() {
   const post = getPostBySlug(slug)
 
   if (!post) return <NotFound />
+
+  const image = CATEGORY_IMAGES[post.category]
 
   const jsonLd = [
     {
@@ -46,6 +49,13 @@ export default function BlogPost() {
           {new Date(post.date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })} · {post.readTime}
           {post.updated && post.updated !== post.date && ` · updated ${new Date(post.updated).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}`}
         </p>
+
+        {image && (
+          <figure style={{ margin: '0 0 1.5rem' }}>
+            <img src={image.src} alt={image.alt} style={{ width: '100%', borderRadius: '12px', display: 'block' }} />
+            {image.credit && <figcaption className="muted small-note" style={{ marginTop: '0.4rem' }}>{image.credit}</figcaption>}
+          </figure>
+        )}
 
         <div className="blog-content">
           {post.sections.map((s, i) =>
