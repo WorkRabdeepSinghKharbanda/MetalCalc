@@ -29,6 +29,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { SITE_URL, SITE_NAME, buildBreadcrumbJsonLd, buildAppJsonLd } from '../src/utils/pageJsonLd.js'
 import { buildFaqJsonLd } from '../src/utils/faqJsonLd.js'
+import { seoTitle } from '../src/utils/seoTitle.js'
 import { STATIC_PAGE_META, NOINDEX_PATHS } from '../src/content/staticPageMeta.js'
 import { POSTS } from '../src/blog/posts.js'
 import { LANDING_PAGES } from '../src/content/landingPages.js'
@@ -113,7 +114,7 @@ for (const post of POSTS) {
     },
     buildFaqJsonLd(post.faqs),
   ]
-  writeRoute(routePath, renderHtml({ routePath, title: `${post.title} — MetalCalc Blog`, description: post.description, jsonLdExtra }))
+  writeRoute(routePath, renderHtml({ routePath, title: seoTitle(post.title, '— MetalCalc Blog'), description: post.description, jsonLdExtra }))
   count++
 }
 
@@ -145,7 +146,7 @@ for (const page of LANDING_PAGES) {
     },
     buildFaqJsonLd(page.faqs),
   ]
-  writeRoute(routePath, renderHtml({ routePath, title: `${page.title} | MetalCalc`, description: page.description, jsonLdExtra }))
+  writeRoute(routePath, renderHtml({ routePath, title: seoTitle(page.title, '| MetalCalc'), description: page.description, jsonLdExtra }))
   count++
 }
 

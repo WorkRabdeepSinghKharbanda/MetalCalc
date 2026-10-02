@@ -214,7 +214,7 @@ export const LANDING_PAGES = [
   },
   {
     slug: 'understanding-stock-trade-signals',
-    title: 'Understanding Automated Stock Trade Signals (What They Can\'t Tell You)',
+    title: 'Understanding Automated Stock Trade Signals',
     description: 'How rule-based buy/sell signals are actually built, what factors go in, and their honest limitations.',
     h1: 'Understanding automated stock trade signals',
     intro: 'A "Buy" or "Sell" label feels authoritative. Here\'s what\'s actually behind one.',
@@ -282,7 +282,7 @@ export const LANDING_PAGES = [
   },
   {
     slug: 'jewelry-making-charges-explained',
-    title: 'Jewelry Making Charges Explained: What You\'re Actually Paying For',
+    title: 'Jewelry Making Charges Explained',
     description: 'What making charges cover, typical structures (flat vs percentage), and how to check if a quoted price is fair.',
     h1: 'Jewelry making charges explained',
     intro: 'The gap between a piece\'s metal value and its price tag has a name — here\'s what it actually covers.',
@@ -316,7 +316,7 @@ export const LANDING_PAGES = [
   },
   {
     slug: 'net-worth-tracking-guide',
-    title: 'Tracking Net Worth Across Metals, Stocks and Crypto in One Place',
+    title: 'Tracking Net Worth Across Metals, Stocks, Crypto',
     description: 'Why fragmented net worth tracking hides your real risk, and how to see a combined number without a brokerage aggregator.',
     h1: 'Tracking net worth across metals, stocks and crypto',
     intro: 'Most people\'s wealth is scattered across a jewelry box, a brokerage app, and a crypto exchange — each showing a number in isolation.',

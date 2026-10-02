@@ -6,6 +6,7 @@ import AdSlot from '../components/AdSlot.jsx'
 import RelatedPosts from '../components/RelatedPosts.jsx'
 import { buildFaqJsonLd } from '../utils/faqJsonLd.js'
 import { CATEGORY_IMAGES } from '../content/categoryImages.js'
+import { seoTitle } from '../utils/seoTitle.js'
 
 const SITE_URL = 'https://metal-calc-two.vercel.app'
 
@@ -32,7 +33,7 @@ export default function LandingPage() {
   return (
     <section className="zakat-page">
       <Seo
-        title={`${page.title} | MetalCalc`}
+        title={seoTitle(page.title, '| MetalCalc')}
         description={page.description}
         jsonLd={[articleJsonLd, buildFaqJsonLd(page.faqs)]}
       />

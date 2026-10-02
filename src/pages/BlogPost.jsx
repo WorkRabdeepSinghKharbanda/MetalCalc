@@ -6,6 +6,7 @@ import AdSlot from '../components/AdSlot.jsx'
 import RelatedPosts from '../components/RelatedPosts.jsx'
 import { buildFaqJsonLd } from '../utils/faqJsonLd.js'
 import { CATEGORY_IMAGES } from '../content/categoryImages.js'
+import { seoTitle } from '../utils/seoTitle.js'
 
 const SITE_URL = 'https://metal-calc-two.vercel.app'
 
@@ -41,7 +42,7 @@ export default function BlogPost() {
 
   return (
     <section className="faq-page">
-      <Seo title={`${post.title} — MetalCalc Blog`} description={post.description} jsonLd={jsonLd} />
+      <Seo title={seoTitle(post.title, '— MetalCalc Blog')} description={post.description} jsonLd={jsonLd} />
       <div className="container" style={{ maxWidth: '48rem' }}>
         <p className="eyebrow"><Link to="/blog">Blog</Link></p>
         <h1>{post.title}</h1>

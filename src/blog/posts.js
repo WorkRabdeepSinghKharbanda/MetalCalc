@@ -49,7 +49,7 @@ export const POSTS = [
   },
   {
     slug: 'zakat-on-gold-with-examples',
-    title: 'How Zakat on Gold Is Actually Calculated (With Worked Examples)',
+    title: 'How Zakat on Gold Is Calculated (With Examples)',
     description: 'A plain-language walkthrough of the nisab threshold, the 2.5% rate, and two full worked examples for gold and mixed metal holdings.',
     date: '2026-08-22',
     readTime: '5 min read',
@@ -187,7 +187,7 @@ export const POSTS = [
   },
   {
     slug: 'position-sizing-101',
-    title: 'Position Sizing 101: The Math That Keeps One Bad Trade From Wrecking Your Account',
+    title: 'Position Sizing 101: Protecting Your Account Size',
     description: 'Fixed-fractional position sizing explained — how risking a set % per trade, not a set dollar amount, protects an account over many trades.',
     date: '2026-09-09',
     readTime: '5 min read',
@@ -253,7 +253,7 @@ export const POSTS = [
   },
   {
     slug: 'melt-value-vs-retail-price',
-    title: 'Melt Value vs Retail Price: Why a Gold Chain Costs More Than Its Weight in Gold',
+    title: 'Melt Value vs Retail Price: Why a Chain Costs More',
     description: 'What melt value actually measures, why retail price is always higher, and how to check the markup on a specific piece.',
     date: '2026-09-11',
     readTime: '4 min read',
@@ -321,7 +321,7 @@ export const POSTS = [
   },
   {
     slug: 'reverse-calculating-tax',
-    title: 'Reverse-Calculating Tax: Finding the Base Price Hidden in a Tax-Inclusive Total',
+    title: 'Reverse-Calculating Tax From a Tax-Inclusive Price',
     description: 'The formula for backing out base price and tax amount from a final tax-inclusive price, and where people get it wrong.',
     date: '2026-09-13',
     readTime: '3 min read',
@@ -353,7 +353,7 @@ export const POSTS = [
   },
   {
     slug: 'what-diversification-score-measures',
-    title: 'What a Diversification Score Actually Measures (and What It Doesn\'t)',
+    title: 'What a Diversification Score Actually Measures',
     description: 'The math behind an allocation-based diversification score, what a high or low number means, and its real blind spot.',
     date: '2026-09-14',
     readTime: '4 min read',
@@ -385,7 +385,7 @@ export const POSTS = [
   },
   {
     slug: 'correlation-vs-diversification',
-    title: "Correlation vs Diversification: Why Two Assets Can Both \"Diversify\" You and Still Crash Together",
+    title: 'Correlation vs Diversification: Why Both Can Crash',
     description: 'The difference between allocation-based diversification and correlation, and why you need both to actually reduce risk.',
     date: '2026-09-15',
     readTime: '4 min read',
@@ -417,7 +417,7 @@ export const POSTS = [
   },
   {
     slug: 'storage-and-insurance-hidden-cost',
-    title: 'Storage and Insurance: The Hidden Carrying Cost of Holding Physical Metal',
+    title: 'Storage and Insurance: The Hidden Cost of Metal',
     description: 'Why physical gold/silver isn\'t "free" to hold, what storage and insurance actually cost over time, and the break-even math.',
     date: '2026-09-16',
     readTime: '4 min read',
@@ -449,7 +449,7 @@ export const POSTS = [
   },
   {
     slug: 'alloy-mixing-math-explained',
-    title: 'Alloy Mixing Math: What Happens When You Melt Two Different Purities Together',
+    title: 'Alloy Mixing Math: Melting Two Purities Together',
     description: 'The weighted-average formula behind melting two gold/silver purities together, with a worked example.',
     date: '2026-09-17',
     readTime: '3 min read',
@@ -481,7 +481,7 @@ export const POSTS = [
   },
   {
     slug: '52-week-range-demand-supply-proxy',
-    title: "The 52-Week Range as a Demand/Supply Proxy: What It Can and Can't Tell You",
+    title: 'The 52-Week Range as a Demand/Supply Proxy',
     description: 'Why position within the 52-week range is used as a stand-in for real support/resistance, and where that substitution breaks down.',
     date: '2026-09-18',
     readTime: '4 min read',
